@@ -1,6 +1,10 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
+import Color exposing (rgb)
+import AFrame exposing (..)
+import AFrame.Primitives exposing (..)
+import AFrame.Primitives.Attributes exposing (..)
 
 
 type alias Model =
@@ -18,7 +22,13 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div [] [ text model ]
+    scene []
+        [ box
+            [ position 0 0.6 -3
+            , color (rgb 240 173 0)
+            ]
+            []
+        ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
