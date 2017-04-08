@@ -4,5 +4,9 @@ elm-stuff
 # Node packages
 node_modules
 
-# Build files
-dist
+# Build file
+public/app.js
+
+# Crystal packages
+.shards
+lib
