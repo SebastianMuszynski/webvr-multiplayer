@@ -8,12 +8,14 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --port 3000"
+    "watch": "webpack --watch",
+    "start": "nf start"
   },
   "dependencies": {
     "css-loader": "^0.28.0",
     "elm-webpack-loader": "^4.3.0",
     "file-loader": "^0.11.1",
+    "foreman": "^2.0.0",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.3",
