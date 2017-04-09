@@ -1,6 +1,8 @@
 module Commands exposing (..)
 
 import Config exposing (websocketUrl, jsonIndentation)
+import Json.Decode as Decode
+import Json.Decode.Pipeline exposing (decode, required)
 import Json.Encode as Encode
 import Models exposing (Player, Position)
 import Msgs exposing (Msg)
@@ -11,7 +13,7 @@ joinRoom : Cmd Msg
 joinRoom =
     let
         player =
-            Player "player_1" (Position 0 0 0)
+            Player "player_1" (Position 0 0 -3)
     in
         let
             data =
@@ -41,3 +43,23 @@ encodePosition position =
             ]
     in
         Encode.object attributes
+
+
+playersDecoder : Decode.Decoder (List Player)
+playersDecoder =
+    Decode.list playerDecoder
+
+
+playerDecoder : Decode.Decoder Player
+playerDecoder =
+    decode Player
+        |> required "id" Decode.string
+        |> required "position" positionDecoder
+
+
+positionDecoder : Decode.Decoder Position
+positionDecoder =
+    decode Position
+        |> required "x" Decode.float
+        |> required "y" Decode.float
+        |> required "z" Decode.float

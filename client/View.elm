@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import AFrame exposing (scene)
+import AFrame exposing (scene, entity)
 import AFrame.Primitives exposing (box, plane)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
@@ -22,19 +22,21 @@ view model =
             , color (rgb 92 171 125)
             ]
             []
-        , showPlayers model.players
+        , renderPlayers model.players
         ]
 
 
-showPlayers : List Player -> Html Msg
-showPlayers players =
-    div [] (List.map showPlayer players)
+renderPlayers : List Player -> Html Msg
+renderPlayers players =
+    entity [] (List.map renderPlayer players)
 
 
-showPlayer : Player -> Html Msg
-showPlayer player =
+renderPlayer : Player -> Html Msg
+renderPlayer player =
     box
         [ position player.position.x player.position.y player.position.z
+        , width 1
+        , height 1
         , color (rgb 240 173 0)
         ]
         []

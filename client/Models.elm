@@ -7,7 +7,10 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { players = [] }
+    { players =
+        [ Player "current_player" (Position 0 0.6 -3)
+        ]
+    }
 
 
 type alias PlayerId =

@@ -1,9 +1,11 @@
 module Subs exposing (..)
 
+import Config exposing (websocketUrl)
 import Models exposing (Model)
-import Msgs exposing (Msg)
+import Msgs exposing (Msg(..))
+import WebSocket
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    WebSocket.listen websocketUrl OnSceneChanged
