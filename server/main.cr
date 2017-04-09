@@ -8,7 +8,7 @@ ws "/room" do |socket|
   SOCKETS << socket
 
   socket.on_message do |message|
-    SOCKETS.each { |socket| socket.send message}
+    SOCKETS.each { |socket| socket.send message }
   end
 
   socket.on_close do
