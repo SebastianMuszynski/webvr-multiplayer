@@ -6,8 +6,8 @@ import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor)
 import Color exposing (rgb)
-import Html exposing (Html)
-import Models exposing (Model)
+import Html exposing (Html, div)
+import Models exposing (Model, Player)
 import Msgs exposing (Msg)
 
 
@@ -22,9 +22,19 @@ view model =
             , color (rgb 92 171 125)
             ]
             []
-        , box
-            [ position 0 0.6 -3
-            , color (rgb 240 173 0)
-            ]
-            []
+        , showPlayers model.players
         ]
+
+
+showPlayers : List Player -> Html Msg
+showPlayers players =
+    div [] (List.map showPlayer players)
+
+
+showPlayer : Player -> Html Msg
+showPlayer player =
+    box
+        [ position player.position.x player.position.y player.position.z
+        , color (rgb 240 173 0)
+        ]
+        []
