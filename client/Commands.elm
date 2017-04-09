@@ -1,7 +1,7 @@
 module Commands exposing (..)
 
-import Config exposing (websocketUrl)
-import Json.Encode
+import Config exposing (websocketUrl, jsonIndentation)
+import Json.Encode as Encode
 import Models exposing (Player, Position)
 import Msgs exposing (Msg)
 import WebSocket
@@ -24,14 +24,20 @@ encodePlayer : Player -> String
 encodePlayer player =
     let
         attributes =
-            [ ( "id", Json.Encode.string player.id )
-            , ( "x", Json.Encode.float player.position.x )
-            , ( "y", Json.Encode.float player.position.y )
-            , ( "z", Json.Encode.float player.position.z )
+            [ ( "id", Encode.string player.id )
+            , ( "position", encodePosition player.position )
             ]
     in
-        let
-            jsonIndent =
-                4
-        in
-            Json.Encode.encode jsonIndent (Json.Encode.object attributes)
+        Encode.encode jsonIndentation (Encode.object attributes)
+
+
+encodePosition : Position -> Encode.Value
+encodePosition position =
+    let
+        attributes =
+            [ ( "x", Encode.float position.x )
+            , ( "y", Encode.float position.y )
+            , ( "z", Encode.float position.z )
+            ]
+    in
+        Encode.object attributes
