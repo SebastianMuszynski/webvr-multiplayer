@@ -5,6 +5,8 @@ import Color exposing (rgb)
 import AFrame exposing (..)
 import AFrame.Primitives exposing (..)
 import AFrame.Primitives.Attributes exposing (..)
+import AFrame.Primitives.Camera exposing (..)
+import AFrame.Primitives.Cursor exposing (..)
 
 
 type alias Model =
@@ -23,7 +25,15 @@ type Msg
 view : Model -> Html Msg
 view model =
     scene []
-        [ box
+        [ camera [] [ cursor [] [] ]
+        , plane
+            [ rotation -90 0 0
+            , width 30
+            , height 30
+            , color (rgb 92 171 125)
+            ]
+            []
+        , box
             [ position 0 0.6 -3
             , color (rgb 240 173 0)
             ]
