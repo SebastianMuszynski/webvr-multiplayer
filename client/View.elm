@@ -6,24 +6,27 @@ import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor)
 import Color exposing (rgb)
-import Html exposing (Html, div)
+import Html exposing (Html, div, text)
 import Models exposing (Model, Player)
 import Msgs exposing (Msg)
 
 
 view : Model -> Html Msg
 view model =
-    scene []
-        [ camera [] [ cursor [] [] ]
-        , plane
-            [ rotation -90 0 0
-            , width 30
-            , height 30
-            , color (rgb 92 171 125)
+    if model.error == "" then
+        scene []
+            [ camera [] [ cursor [] [] ]
+            , plane
+                [ rotation -90 0 0
+                , width 30
+                , height 30
+                , color (rgb 92 171 125)
+                ]
+                []
+            , renderPlayers model.players
             ]
-            []
-        , renderPlayers model.players
-        ]
+    else
+        div [] [ text model.error ]
 
 
 renderPlayers : List Player -> Html Msg

@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Commands exposing (joinRoom)
+import Commands exposing (generateNewPosition)
 import Html exposing (program)
 import Models exposing (Model, initialModel)
 import Msgs exposing (Msg)
@@ -11,7 +11,7 @@ import View exposing (view)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, joinRoom )
+    ( initialModel, generateNewPosition )
 
 
 main : Program Never Model Msg

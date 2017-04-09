@@ -1,8 +1,8 @@
 module Update exposing (..)
 
-import Commands exposing (playersDecoder)
+import Commands exposing (playersDecoder, joinRoom)
 import Json.Decode as Decode
-import Models exposing (Model, Player)
+import Models exposing (Model, Player, Position)
 import Msgs exposing (Msg(..))
 
 
@@ -16,10 +16,17 @@ update msg model =
             in
                 case decodedPlayers of
                     Err msg ->
-                        ( model, Cmd.none )
+                        ( { model | error = msg }, Cmd.none )
 
                     Ok newPlayers ->
                         ( { model | players = newPlayers }, Cmd.none )
+
+        NewRandomPosition position ->
+            let
+                newPlayer =
+                    Player model.newPlayer.id position
+            in
+                ( { model | newPlayer = newPlayer }, joinRoom newPlayer )
 
 
 decodePlayers : String -> Result String (List Player)

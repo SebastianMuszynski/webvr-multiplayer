@@ -1,25 +1,33 @@
 module Commands exposing (..)
 
 import Config exposing (websocketUrl, jsonIndentation)
-import Json.Decode as Decode
-import Json.Decode.Pipeline exposing (decode, required)
+import Json.Decode as Decode exposing (Decoder)
+import Json.Decode.Pipeline exposing (decode, required, requiredAt)
 import Json.Encode as Encode
 import Models exposing (Player, Position)
-import Msgs exposing (Msg)
+import Msgs exposing (Msg(..))
+import Random exposing (Generator, float)
 import WebSocket
 
 
-joinRoom : Cmd Msg
-joinRoom =
-    let
-        player =
-            Player "player_1" (Position 0 0 -3)
-    in
-        let
-            data =
-                { type_ = "NEW_PLAYER", payload = player }
-        in
-            WebSocket.send websocketUrl (encodePlayer player)
+generateNewPosition : Cmd Msg
+generateNewPosition =
+    Random.generate NewRandomPosition randomPosition
+
+
+randomFloat : Generator Float
+randomFloat =
+    float 0 10
+
+
+randomPosition : Generator Position
+randomPosition =
+    Random.map3 Position randomFloat randomFloat randomFloat
+
+
+joinRoom : Player -> Cmd Msg
+joinRoom player =
+    WebSocket.send websocketUrl (encodePlayer player)
 
 
 encodePlayer : Player -> String
@@ -45,19 +53,19 @@ encodePosition position =
         Encode.object attributes
 
 
-playersDecoder : Decode.Decoder (List Player)
+playersDecoder : Decoder (List Player)
 playersDecoder =
     Decode.list playerDecoder
 
 
-playerDecoder : Decode.Decoder Player
+playerDecoder : Decoder Player
 playerDecoder =
     decode Player
         |> required "id" Decode.string
-        |> required "position" positionDecoder
+        |> requiredAt [ "position" ] positionDecoder
 
 
-positionDecoder : Decode.Decoder Position
+positionDecoder : Decoder Position
 positionDecoder =
     decode Position
         |> required "x" Decode.float
