@@ -7,6 +7,7 @@ import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor)
 import Color exposing (rgb)
 import Html exposing (Html, div, text)
+import Html.Attributes exposing (attribute)
 import Models exposing (Model, Player, Enemy)
 import Msgs exposing (Msg)
 
@@ -57,5 +58,6 @@ renderEnemy enemy =
         [ position enemy.position.x enemy.position.y enemy.position.z
         , radius 0.5
         , color (rgb 255 0 0)
+        , attribute "enemy-hover-listener" (toString True)
         ]
         []
