@@ -12,7 +12,14 @@ type alias Model =
 initialModel : Model
 initialModel =
     { players = []
-    , enemies = []
+    , enemies =
+        [ Enemy (Position -5 1.6 -5)
+        , Enemy (Position -3 1.6 -5)
+        , Enemy (Position -1 1.6 -5)
+        , Enemy (Position 1 1.6 -5)
+        , Enemy (Position 3 1.6 -5)
+        , Enemy (Position 5 1.6 -5)
+        ]
     , newPlayer = Player "new_player" (Position 0 0 0)
     , error = ""
     }
