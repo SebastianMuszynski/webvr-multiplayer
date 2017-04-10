@@ -3,6 +3,7 @@ module Models exposing (..)
 
 type alias Model =
     { players : List Player
+    , enemies : List Enemy
     , newPlayer : Player
     , error : String
     }
@@ -11,6 +12,7 @@ type alias Model =
 initialModel : Model
 initialModel =
     { players = []
+    , enemies = []
     , newPlayer = Player "new_player" (Position 0 0 0)
     , error = ""
     }
@@ -30,4 +32,9 @@ type alias Position =
 type alias Player =
     { id : PlayerId
     , position : Position
+    }
+
+
+type alias Enemy =
+    { position : Position
     }
