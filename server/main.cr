@@ -15,11 +15,18 @@ class Player
   )
 end
 
+class Enemy
+  JSON.mapping(
+    position: { type: Position, nilable: false },
+  )
+end
+
 
 # Sockets
 
 SOCKETS = [] of HTTP::WebSocket
 PLAYERS = [] of Player
+ENEMIES = [] of Enemy
 
 ws "/room" do |socket|
   SOCKETS << socket
