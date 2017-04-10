@@ -1,13 +1,13 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (box, plane)
+import AFrame.Primitives exposing (plane, box, sphere)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor)
 import Color exposing (rgb)
 import Html exposing (Html, div, text)
-import Models exposing (Model, Player)
+import Models exposing (Model, Player, Enemy)
 import Msgs exposing (Msg)
 
 
@@ -24,6 +24,7 @@ view model =
                 ]
                 []
             , renderPlayers model.players
+            , renderEnemies model.enemies
             ]
     else
         div [] [ text model.error ]
@@ -41,5 +42,20 @@ renderPlayer player =
         , width 1
         , height 1
         , color (rgb 240 173 0)
+        ]
+        []
+
+
+renderEnemies : List Enemy -> Html Msg
+renderEnemies enemies =
+    entity [] (List.map renderEnemy enemies)
+
+
+renderEnemy : Enemy -> Html Msg
+renderEnemy enemy =
+    sphere
+        [ position enemy.position.x enemy.position.y enemy.position.z
+        , radius 0.5
+        , color (rgb 255 0 0)
         ]
         []
