@@ -1,6 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
+import AFrame.Animations exposing (animation, attribute_, direction, dur, to, repeat)
 import AFrame.Primitives exposing (plane, box, sphere)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
@@ -60,4 +61,16 @@ renderEnemy enemy =
         , color (rgb 255 0 0)
         , attribute "enemy-hover-listener" (toString True)
         ]
-        []
+        [ animation
+            [ attribute_ "position"
+            , dur 2000
+            , direction "alternate"
+            , [ enemy.position.x, enemy.position.y + 1, enemy.position.z ]
+                |> List.map toString
+                |> List.intersperse " "
+                |> String.concat
+                |> to
+            , attribute "repeat" "indefinite"
+            ]
+            []
+        ]
