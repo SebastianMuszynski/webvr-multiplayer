@@ -70,7 +70,7 @@ renderEnemy enemy =
                 |> List.intersperse " "
                 |> String.concat
                 |> to
-            , attribute "repeat" "indefinite"
+            , repeat "indefinite"
             ]
             []
         ]
