@@ -59,7 +59,7 @@ renderEnemy enemy =
         [ position enemy.position.x enemy.position.y enemy.position.z
         , radius 0.5
         , color (rgb 255 0 0)
-        , attribute "enemy-hover-listener" (toString True)
+        , attribute "enemy-hover-listener" "true"
         ]
         [ animation
             [ attribute_ "position"
