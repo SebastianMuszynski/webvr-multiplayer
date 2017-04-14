@@ -10,21 +10,14 @@ import Color exposing (rgb)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (attribute)
 import Models exposing (Model, Player, Enemy)
-import Msgs exposing (Msg)
 
 
-view : Model -> Html Msg
+view : Model -> Html msg
 view model =
     if model.error == "" then
         scene []
             [ camera [] [ cursor [] [] ]
-            , plane
-                [ rotation -90 0 0
-                , width 30
-                , height 30
-                , color (rgb 92 171 125)
-                ]
-                []
+            , renderFloor
             , renderPlayers model.players
             , renderEnemies model.enemies
             ]
@@ -32,12 +25,25 @@ view model =
         div [] [ text model.error ]
 
 
-renderPlayers : List Player -> Html Msg
+renderFloor : Html msg
+renderFloor =
+    entity []
+        [ plane
+            [ rotation -90 0 0
+            , width 30
+            , height 30
+            , color (rgb 92 171 125)
+            ]
+            []
+        ]
+
+
+renderPlayers : List Player -> Html msg
 renderPlayers players =
     entity [] (List.map renderPlayer players)
 
 
-renderPlayer : Player -> Html Msg
+renderPlayer : Player -> Html msg
 renderPlayer player =
     box
         [ position player.position.x player.position.y player.position.z
@@ -48,12 +54,12 @@ renderPlayer player =
         []
 
 
-renderEnemies : List Enemy -> Html Msg
+renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
     entity [] (List.map renderEnemy enemies)
 
 
-renderEnemy : Enemy -> Html Msg
+renderEnemy : Enemy -> Html msg
 renderEnemy enemy =
     sphere
         [ position enemy.position.x enemy.position.y enemy.position.z
