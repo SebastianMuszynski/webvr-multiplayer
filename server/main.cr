@@ -17,12 +17,24 @@ end
 
 class Enemy
   JSON.mapping(
+    id: String,
     position: { type: Position, nilable: false },
   )
 end
 
+class Scene
+  JSON.mapping(
+    players: Array(Player),
+    enemies: Array(Enemy),
+  )
+end
 
-# Sockets
+class Action
+  JSON.mapping(
+    type_: String,
+    payload: String
+  )
+end
 
 SOCKETS = [] of HTTP::WebSocket
 PLAYERS = [] of Player
@@ -32,6 +44,9 @@ ws "/room" do |socket|
   SOCKETS << socket
 
   socket.on_message do |message|
+    # Decode action
+    # action = Action.from_json(message)
+
     # Add player
     PLAYERS << Player.from_json(message)
 

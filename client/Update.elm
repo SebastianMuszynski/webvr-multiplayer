@@ -1,8 +1,8 @@
 module Update exposing (..)
 
-import Commands exposing (playersDecoder, joinRoom)
+import Commands exposing (playersDecoder, enemiesDecoder, joinRoom)
 import Json.Decode as Decode
-import Models exposing (Model, Player, Position)
+import Models exposing (Model, Player, Enemy, Position)
 import Msgs exposing (Msg(..))
 
 
@@ -21,6 +21,18 @@ update msg model =
                     Ok newPlayers ->
                         ( { model | players = newPlayers }, Cmd.none )
 
+        OnEnemiesChanged jsonEnemies ->
+            let
+                decodedEnemies =
+                    decodeEnemies jsonEnemies
+            in
+                case decodedEnemies of
+                    Err msg ->
+                        ( { model | error = msg }, Cmd.none )
+
+                    Ok newEnemies ->
+                        ( { model | enemies = newEnemies }, Cmd.none )
+
         NewRandomPosition position ->
             let
                 newPlayer =
@@ -32,3 +44,8 @@ update msg model =
 decodePlayers : String -> Result String (List Player)
 decodePlayers jsonPlayers =
     Decode.decodeString playersDecoder jsonPlayers
+
+
+decodeEnemies : String -> Result String (List Enemy)
+decodeEnemies jsonEnemies =
+    Decode.decodeString enemiesDecoder jsonEnemies

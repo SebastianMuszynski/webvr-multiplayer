@@ -4,7 +4,7 @@ import Config exposing (websocketUrl, jsonIndentation)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, required, requiredAt)
 import Json.Encode as Encode
-import Models exposing (Player, Position)
+import Models exposing (Player, Enemy, Position, Action)
 import Msgs exposing (Msg(..))
 import Random exposing (Generator, float)
 import WebSocket
@@ -27,7 +27,22 @@ randomPosition =
 
 joinRoom : Player -> Cmd Msg
 joinRoom player =
-    WebSocket.send websocketUrl (encodePlayer player)
+    let
+        action =
+            encodeAction (Action "NEW_PLAYER" (encodePlayer player))
+    in
+        WebSocket.send websocketUrl action
+
+
+encodeAction : Action -> String
+encodeAction action =
+    let
+        attributes =
+            [ ( "type_", Encode.string action.type_ )
+            , ( "payload", Encode.string action.payload )
+            ]
+    in
+        Encode.encode jsonIndentation (Encode.object attributes)
 
 
 encodePlayer : Player -> String
@@ -61,6 +76,18 @@ playersDecoder =
 playerDecoder : Decoder Player
 playerDecoder =
     decode Player
+        |> required "id" Decode.string
+        |> requiredAt [ "position" ] positionDecoder
+
+
+enemiesDecoder : Decoder (List Enemy)
+enemiesDecoder =
+    Decode.list enemyDecoder
+
+
+enemyDecoder : Decoder Enemy
+enemyDecoder =
+    decode Enemy
         |> required "id" Decode.string
         |> requiredAt [ "position" ] positionDecoder
 
