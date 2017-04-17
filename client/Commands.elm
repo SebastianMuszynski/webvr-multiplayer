@@ -12,7 +12,7 @@ import WebSocket
 
 generateNewPosition : Cmd Msg
 generateNewPosition =
-    Random.generate NewRandomPosition randomPosition
+    Random.generate NewPlayer randomPosition
 
 
 randomFloat : Generator Float

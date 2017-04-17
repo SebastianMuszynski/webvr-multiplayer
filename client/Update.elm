@@ -33,7 +33,7 @@ update msg model =
                     Ok newEnemies ->
                         ( { model | enemies = newEnemies }, Cmd.none )
 
-        NewRandomPosition position ->
+        NewPlayer position ->
             let
                 newPlayer =
                     Player model.newPlayer.id position
