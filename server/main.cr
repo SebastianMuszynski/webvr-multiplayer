@@ -1,4 +1,5 @@
 require "kemal"
+require "uuid"
 
 class Position
   JSON.mapping(
@@ -9,16 +10,18 @@ class Position
 end
 
 class Player
+  def generate_id
+    @id ||= SecureRandom.uuid
+  end
+
   JSON.mapping(
-    id: String,
-    position: { type: Position, nilable: false },
+    position: { type: Position, nilable: false }
   )
 end
 
 class Enemy
   JSON.mapping(
-    id: String,
-    position: { type: Position, nilable: false },
+    position: { type: Position, nilable: false }
   )
 end
 
@@ -58,6 +61,10 @@ class Scene
     @@enemies = value
   end
 
+  def self.add_player(player)
+    @@players << player
+  end
+
   JSON.mapping(
     players: Array(Player),
     enemies: Array(Enemy),
@@ -74,7 +81,7 @@ ws "/room" do |socket|
 
     case action.type_
     when "NEW_PLAYER"
-      Scene.players << Player.from_json(action.payload)
+      Scene.add_player(Player.from_json(action.payload))
     else
       p "Unrecognised action type: #{action.type_}"
     end

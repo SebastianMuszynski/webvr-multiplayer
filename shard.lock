@@ -12,3 +12,7 @@ shards:
     github: luislavena/radix
     version: 0.3.8
 
+  uuid:
+    github: raydf/crystal-uuid
+    commit: 1ee077db452e60607baab62f75b4e275e18b483c
+
