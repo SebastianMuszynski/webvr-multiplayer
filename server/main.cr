@@ -45,13 +45,14 @@ ws "/room" do |socket|
 
   socket.on_message do |message|
     # Decode action
-    # action = Action.from_json(message)
+    action = Action.from_json(message)
 
-    # Add player
-    PLAYERS << Player.from_json(message)
-
-    # Display info about the players
-    p PLAYERS
+    case action.type_
+    when "NEW_PLAYER"
+      PLAYERS << Player.from_json(action.payload)
+    else
+      p "Unrecognised action type: #{action.type_}"
+    end
 
     # Broadcast players
     SOCKETS.each do |socket|
