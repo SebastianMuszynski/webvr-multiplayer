@@ -9,20 +9,29 @@ import AFrame.Primitives.Cursor exposing (cursor)
 import Color exposing (rgb)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (attribute)
-import Models exposing (Model, Player, Enemy)
+import Models exposing (Model, Player, Enemy, Position)
 
 
 view : Model -> Html msg
 view model =
     if model.error == "" then
         scene []
-            [ camera [] [ cursor [] [] ]
+            [ renderCamera (Position 0 0 0)
             , renderFloor
             , renderPlayers model.players
             , renderEnemies model.enemies
             ]
     else
         div [] [ text model.error ]
+
+
+renderCamera : Position -> Html msg
+renderCamera cameraPos =
+    entity [ position cameraPos.x cameraPos.y cameraPos.z ]
+        [ camera []
+            [ cursor [] []
+            ]
+        ]
 
 
 renderFloor : Html msg
