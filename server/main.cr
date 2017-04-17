@@ -35,11 +35,11 @@ class Scene
   @@enemies = [] of Enemy
 
   def self.sockets
-    @@players
+    @@sockets
   end
 
   def self.sockets=(value)
-    @@players = value
+    @@sockets = value
   end
 
   def self.players
