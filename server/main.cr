@@ -30,18 +30,43 @@ class Action
 end
 
 class Scene
+  @@sockets = [] of HTTP::WebSocket
+  @@players = [] of Player
+  @@enemies = [] of Enemy
+
+  def self.sockets
+    @@players
+  end
+
+  def self.sockets=(value)
+    @@players = value
+  end
+
+  def self.players
+    @@players
+  end
+
+  def self.players=(value)
+    @@players = value
+  end
+
+  def self.enemies
+    @@enemies
+  end
+
+  def self.enemies=(value)
+    @@enemies = value
+  end
+
   JSON.mapping(
     players: Array(Player),
     enemies: Array(Enemy),
   )
 end
 
-SOCKETS = [] of HTTP::WebSocket
-PLAYERS = [] of Player
-ENEMIES = [] of Enemy
 
 ws "/room" do |socket|
-  SOCKETS << socket
+  Scene.sockets << socket
 
   socket.on_message do |message|
     # Decode action
@@ -49,19 +74,19 @@ ws "/room" do |socket|
 
     case action.type_
     when "NEW_PLAYER"
-      PLAYERS << Player.from_json(action.payload)
+      Scene.players << Player.from_json(action.payload)
     else
       p "Unrecognised action type: #{action.type_}"
     end
 
     # Broadcast players
-    SOCKETS.each do |socket|
-      socket.send PLAYERS.to_json
+    Scene.sockets.each do |socket|
+      socket.send Scene.players.to_json
     end
   end
 
   socket.on_close do
-    SOCKETS.delete socket
+    Scene.sockets.delete socket
   end
 end
 
