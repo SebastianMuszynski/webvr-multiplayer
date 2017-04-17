@@ -22,17 +22,17 @@ class Enemy
   )
 end
 
-class Scene
-  JSON.mapping(
-    players: Array(Player),
-    enemies: Array(Enemy),
-  )
-end
-
 class Action
   JSON.mapping(
     type_: String,
     payload: String
+  )
+end
+
+class Scene
+  JSON.mapping(
+    players: Array(Player),
+    enemies: Array(Enemy),
   )
 end
 
