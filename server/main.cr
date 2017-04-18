@@ -10,7 +10,7 @@ class Position
 end
 
 class Player
-  def generate_id
+  def id
     @id ||= SecureRandom.uuid
   end
 
@@ -81,7 +81,8 @@ ws "/room" do |socket|
 
     case action.type_
     when "NEW_PLAYER"
-      Scene.add_player(Player.from_json(action.payload))
+      player = Player.from_json(action.payload)
+      Scene.add_player(player)
     else
       p "Unrecognised action type: #{action.type_}"
     end
