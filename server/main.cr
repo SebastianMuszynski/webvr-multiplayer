@@ -1,97 +1,10 @@
 require "kemal"
 require "uuid"
-
-class Position
-  def x
-    @x ||= 0
-  end
-
-  def x=(value)
-    @x = value
-  end
-
-  def y
-    @y ||= 0
-  end
-
-  def y=(value)
-    @y = value
-  end
-
-  def z
-    @z ||= 0
-  end
-
-  def z=(value)
-    @z = value
-  end
-
-  JSON.mapping(
-    x: Float32,
-    y: Float32,
-    z: Float32,
-  )
-end
-
-class Player
-  def id
-    @id ||= SecureRandom.uuid
-  end
-
-  JSON.mapping(
-    position: { type: Position, nilable: false }
-  )
-end
-
-class Enemy
-  def id
-    @id ||= SecureRandom.uuid
-  end
-
-  JSON.mapping(
-    position: { type: Position, nilable: false }
-  )
-end
-
-class Action
-  JSON.mapping(
-    type_: String,
-    payload: String
-  )
-end
-
-class Scene
-
-  def initialize(players : Array(Player), enemies : Array(Enemy))
-    @players = players
-    @enemies = enemies
-  end
-
-  def players
-    @players
-  end
-
-  def players=(value)
-    @players = value
-  end
-
-  def enemies
-    @enemies
-  end
-
-  def enemies=(value)
-    @enemies = value
-  end
-
-  def add_player(player)
-    @players << player
-  end
-
-  JSON.mapping(
-    players: Array(Player),
-    enemies: Array(Enemy),
-  )
-end
+require "./Scene"
+require "./Position"
+require "./Player"
+require "./Enemy"
+require "./Action"
 
 SOCKETS = [] of HTTP::WebSocket
 
