@@ -1,11 +1,11 @@
 require "kemal"
 require "uuid"
 
-require "./Action"
-require "./Enemy"
-require "./Player"
-require "./Position"
-require "./Scene"
+require "./app/Action"
+require "./app/Enemy"
+require "./app/Player"
+require "./app/Position"
+require "./app/Scene"
 
 require "./routes"
 require "./websockets"
