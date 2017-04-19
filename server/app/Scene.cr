@@ -1,5 +1,5 @@
 class Scene
-  def initialize()
+  def initialize
     @players = [] of Player
     @enemies = [] of Enemy
   end
@@ -14,6 +14,13 @@ class Scene
 
   def enemies
     @enemies
+  end
+
+  def generate_enemies(enemies_number)
+    while enemies_number > 0
+      @enemies << Enemy.random
+      enemies_number -= 1
+    end
   end
 
   JSON.mapping(

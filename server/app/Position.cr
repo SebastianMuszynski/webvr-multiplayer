@@ -1,4 +1,7 @@
 class Position
+  def initialize(@x : Float64, @y : Float64, @z : Float64)
+  end
+
   def x
     @x ||= 0
   end
@@ -24,8 +27,8 @@ class Position
   end
 
   JSON.mapping(
-    x: Float32,
-    y: Float32,
-    z: Float32,
+    x: Float64,
+    y: Float64,
+    z: Float64,
   )
 end
