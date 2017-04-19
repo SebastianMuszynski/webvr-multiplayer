@@ -45,6 +45,13 @@ encodeAction action =
         Encode.encode jsonIndentation (Encode.object attributes)
 
 
+actionsDecoder : Decoder Action
+actionsDecoder =
+    decode Action
+        |> required "type_" Decode.string
+        |> required "payload" Decode.string
+
+
 encodePlayer : Player -> String
 encodePlayer player =
     let

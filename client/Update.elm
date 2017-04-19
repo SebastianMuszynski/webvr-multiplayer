@@ -1,25 +1,48 @@
 module Update exposing (..)
 
-import Commands exposing (playersDecoder, enemiesDecoder, joinRoom)
+import Commands exposing (playersDecoder, enemiesDecoder, joinRoom, actionsDecoder)
 import Json.Decode as Decode
-import Models exposing (Model, Player, Enemy, Position)
+import Models exposing (Model, Player, Enemy, Position, Action)
 import Msgs exposing (Msg(..))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        OnSceneChanged jsonPlayers ->
+        OnSceneChanged jsonAction ->
             let
-                decodedPlayers =
-                    decodePlayers jsonPlayers
+                decodedAction =
+                    decodeAction jsonAction
             in
-                case decodedPlayers of
+                case decodedAction of
                     Err msg ->
                         ( { model | error = msg }, Cmd.none )
 
-                    Ok newPlayers ->
-                        ( { model | players = newPlayers }, Cmd.none )
+                    Ok action ->
+                        if action.type_ == "PLAYERS" then
+                            let
+                                decodedPlayers =
+                                    decodePlayers action.payload
+                            in
+                                case decodedPlayers of
+                                    Err msg ->
+                                        ( { model | error = msg }, Cmd.none )
+
+                                    Ok newPlayers ->
+                                        ( { model | players = newPlayers }, Cmd.none )
+                        else if action.type_ == "ENEMIES" then
+                            let
+                                decodedEnemies =
+                                    decodeEnemies action.payload
+                            in
+                                case decodedEnemies of
+                                    Err msg ->
+                                        ( { model | error = msg }, Cmd.none )
+
+                                    Ok newEnemies ->
+                                        ( { model | enemies = newEnemies }, Cmd.none )
+                        else
+                            ( model, Cmd.none )
 
         OnEnemiesChanged jsonEnemies ->
             let
@@ -39,6 +62,11 @@ update msg model =
                     Player model.newPlayer.id position
             in
                 ( { model | newPlayer = newPlayer }, joinRoom newPlayer )
+
+
+decodeAction : String -> Result String Action
+decodeAction jsonAction =
+    Decode.decodeString actionsDecoder jsonAction
 
 
 decodePlayers : String -> Result String (List Player)
