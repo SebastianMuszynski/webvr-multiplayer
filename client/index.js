@@ -1,6 +1,6 @@
 'use strict';
 
-require('./components/enemyHoverListener.js');
+require('./aframe-components/enemyHoverListener.js');
 
 var Elm = require('./Main.elm');
 var mountNode = document.getElementById('main');
