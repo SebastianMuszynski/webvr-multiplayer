@@ -1,10 +1,11 @@
 require "kemal"
 require "uuid"
-require "./Scene"
-require "./Position"
-require "./Player"
-require "./Enemy"
+
 require "./Action"
+require "./Enemy"
+require "./Player"
+require "./Position"
+require "./Scene"
 
 SOCKETS = [] of HTTP::WebSocket
 
