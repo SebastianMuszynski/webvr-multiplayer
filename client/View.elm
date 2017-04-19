@@ -7,14 +7,15 @@ import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor)
 import Color exposing (rgb)
-import Html exposing (Html, div, text)
-import Html.Attributes exposing (attribute)
+import Html exposing (Html, div, text, h2)
+import Html.Attributes exposing (attribute, style)
 import Models exposing (Model, Player, Enemy, Position)
+import String exposing (isEmpty)
 
 
 view : Model -> Html msg
 view model =
-    if model.error == "" then
+    if isEmpty model.error then
         scene []
             [ renderCamera (Position 0 0 0)
             , renderFloor
@@ -22,7 +23,22 @@ view model =
             , renderEnemies model.enemies
             ]
     else
-        div [] [ text model.error ]
+        renderErrorMsg model.error
+
+
+renderErrorMsg : String -> Html msg
+renderErrorMsg error =
+    div
+        [ style
+            [ ( "background-color", "#C03546" )
+            , ( "margin", "50px auto" )
+            , ( "padding", "15px" )
+            , ( "width", "960px" )
+            , ( "font-family", "Helvetica, sans-serif" )
+            , ( "color", "#FFF" )
+            ]
+        ]
+        [ text error ]
 
 
 renderCamera : Position -> Html msg
