@@ -19,30 +19,7 @@ update msg model =
                         ( { model | error = msg }, Cmd.none )
 
                     Ok action ->
-                        if action.type_ == "PLAYERS" then
-                            let
-                                decodedPlayers =
-                                    decodePlayers action.payload
-                            in
-                                case decodedPlayers of
-                                    Err msg ->
-                                        ( { model | error = msg }, Cmd.none )
-
-                                    Ok newPlayers ->
-                                        ( { model | players = newPlayers }, Cmd.none )
-                        else if action.type_ == "ENEMIES" then
-                            let
-                                decodedEnemies =
-                                    decodeEnemies action.payload
-                            in
-                                case decodedEnemies of
-                                    Err msg ->
-                                        ( { model | error = msg }, Cmd.none )
-
-                                    Ok newEnemies ->
-                                        ( { model | enemies = newEnemies }, Cmd.none )
-                        else
-                            ( model, Cmd.none )
+                        handleAction action model
 
         OnEnemiesChanged jsonEnemies ->
             let
@@ -62,6 +39,34 @@ update msg model =
                     Player model.newPlayer.id position
             in
                 ( { model | newPlayer = newPlayer }, joinRoom newPlayer )
+
+
+handleAction : Action -> Model -> ( Model, Cmd Msg )
+handleAction action model =
+    if action.type_ == "PLAYERS" then
+        let
+            decodedPlayers =
+                decodePlayers action.payload
+        in
+            case decodedPlayers of
+                Err msg ->
+                    ( { model | error = msg }, Cmd.none )
+
+                Ok newPlayers ->
+                    ( { model | players = newPlayers }, Cmd.none )
+    else if action.type_ == "ENEMIES" then
+        let
+            decodedEnemies =
+                decodeEnemies action.payload
+        in
+            case decodedEnemies of
+                Err msg ->
+                    ( { model | error = msg }, Cmd.none )
+
+                Ok newEnemies ->
+                    ( { model | enemies = newEnemies }, Cmd.none )
+    else
+        ( model, Cmd.none )
 
 
 decodeAction : String -> Result String Action
