@@ -74,7 +74,8 @@ renderPlayers players =
 renderPlayer : Player -> Html msg
 renderPlayer player =
     box
-        [ position player.position.x player.position.y player.position.z
+        [ attribute "data-id" player.id
+        , position player.position.x player.position.y player.position.z
         , width 1
         , height 1
         , color (rgb 240 173 0)
@@ -90,7 +91,8 @@ renderEnemies enemies =
 renderEnemy : Enemy -> Html msg
 renderEnemy enemy =
     sphere
-        [ position enemy.position.x enemy.position.y enemy.position.z
+        [ attribute "data-id" enemy.id
+        , position enemy.position.x enemy.position.y enemy.position.z
         , radius 0.5
         , color (rgb 255 0 0)
         , attribute "enemy-hover-listener" "true"
