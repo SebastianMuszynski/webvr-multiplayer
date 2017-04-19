@@ -13,5 +13,5 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ WebSocket.listen websocketUrl OnSceneChanged
-        , fromJs OnSceneChanged
+        , fromJs OnComponentRequest
         ]

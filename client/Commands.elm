@@ -34,6 +34,11 @@ joinRoom player =
         WebSocket.send websocketUrl action
 
 
+sendAction : Action -> Cmd Msg
+sendAction action =
+    WebSocket.send websocketUrl (encodeAction action)
+
+
 encodeAction : Action -> String
 encodeAction action =
     let

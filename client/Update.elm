@@ -1,7 +1,8 @@
 module Update exposing (..)
 
-import Commands exposing (playersDecoder, enemiesDecoder, joinRoom, actionsDecoder)
+import Commands exposing (playersDecoder, enemiesDecoder, joinRoom, actionsDecoder, sendAction)
 import Json.Decode as Decode
+import List exposing (filter)
 import Models exposing (Model, Player, Enemy, Position, Action)
 import Msgs exposing (Msg(..))
 
@@ -40,6 +41,18 @@ update msg model =
             in
                 ( { model | newPlayer = newPlayer }, joinRoom newPlayer )
 
+        OnComponentRequest jsonAction ->
+            let
+                decodedAction =
+                    decodeAction jsonAction
+            in
+                case decodedAction of
+                    Err msg ->
+                        ( { model | error = msg }, Cmd.none )
+
+                    Ok action ->
+                        ( model, sendAction action )
+
 
 handleAction : Action -> Model -> ( Model, Cmd Msg )
 handleAction action model =
@@ -65,6 +78,16 @@ handleAction action model =
 
                 Ok newEnemies ->
                     ( { model | enemies = newEnemies }, Cmd.none )
+    else if action.type_ == "REMOVE_ENEMY_REQUEST" then
+        let
+            enemyId =
+                action.payload
+        in
+            let
+                newEnemies =
+                    filter (\a -> a.id /= enemyId) model.enemies
+            in
+                ( { model | enemies = newEnemies }, Cmd.none )
     else
         ( { model | error = "Unrecognised action type: " ++ action.type_ }, Cmd.none )
 
