@@ -2,7 +2,12 @@ AFRAME.registerComponent('enemy-hover-listener', {
   init: function () {
     var enemy = this.el;
     enemy.addEventListener('mouseenter', function() {
-      window.elmApp.ports.fromJs.send("[]");
+      var enemyId = enemy.getAttribute("data-id");
+      var action = {
+        type_: "REMOVE_ENEMY",
+        payload: enemyId
+      };
+      window.elmApp.ports.fromJs.send(JSON.stringify(action));
     });
   }
 });

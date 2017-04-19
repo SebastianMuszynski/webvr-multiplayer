@@ -66,7 +66,7 @@ handleAction action model =
                 Ok newEnemies ->
                     ( { model | enemies = newEnemies }, Cmd.none )
     else
-        ( model, Cmd.none )
+        ( { model | error = "Unrecognised action type: " ++ action.type_ }, Cmd.none )
 
 
 decodeAction : String -> Result String Action
