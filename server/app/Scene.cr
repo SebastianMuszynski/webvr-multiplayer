@@ -8,20 +8,12 @@ class Scene
     @players
   end
 
-  def players=(value)
-    @players = value
+  def add_player(player)
+    @players << player
   end
 
   def enemies
     @enemies
-  end
-
-  def enemies=(value)
-    @enemies = value
-  end
-
-  def add_player(player)
-    @players << player
   end
 
   JSON.mapping(
