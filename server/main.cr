@@ -2,6 +2,30 @@ require "kemal"
 require "uuid"
 
 class Position
+  def x
+    @x ||= 0
+  end
+
+  def x=(value)
+    @x = value
+  end
+
+  def y
+    @y ||= 0
+  end
+
+  def y=(value)
+    @y = value
+  end
+
+  def z
+    @z ||= 0
+  end
+
+  def z=(value)
+    @z = value
+  end
+
   JSON.mapping(
     x: Float32,
     y: Float32,
@@ -20,6 +44,10 @@ class Player
 end
 
 class Enemy
+  def id
+    @id ||= SecureRandom.uuid
+  end
+
   JSON.mapping(
     position: { type: Position, nilable: false }
   )
@@ -33,36 +61,30 @@ class Action
 end
 
 class Scene
-  @@sockets = [] of HTTP::WebSocket
-  @@players = [] of Player
-  @@enemies = [] of Enemy
 
-  def self.sockets
-    @@sockets
+  def initialize(players : Array(Player), enemies : Array(Enemy))
+    @players = players
+    @enemies = enemies
   end
 
-  def self.sockets=(value)
-    @@sockets = value
+  def players
+    @players
   end
 
-  def self.players
-    @@players
+  def players=(value)
+    @players = value
   end
 
-  def self.players=(value)
-    @@players = value
+  def enemies
+    @enemies
   end
 
-  def self.enemies
-    @@enemies
+  def enemies=(value)
+    @enemies = value
   end
 
-  def self.enemies=(value)
-    @@enemies = value
-  end
-
-  def self.add_player(player)
-    @@players << player
+  def add_player(player)
+    @players << player
   end
 
   JSON.mapping(
@@ -71,9 +93,13 @@ class Scene
   )
 end
 
+SOCKETS = [] of HTTP::WebSocket
+
+# Init the scene
+SCENE = Scene.new(Array(Player).new, Array(Enemy).new)
 
 ws "/room" do |socket|
-  Scene.sockets << socket
+  SOCKETS << socket
 
   socket.on_message do |message|
     # Decode action
@@ -82,19 +108,19 @@ ws "/room" do |socket|
     case action.type_
     when "NEW_PLAYER"
       player = Player.from_json(action.payload)
-      Scene.add_player(player)
+      SCENE.add_player(player)
     else
       p "Unrecognised action type: #{action.type_}"
     end
 
     # Broadcast players
-    Scene.sockets.each do |socket|
-      socket.send Scene.players.to_json
+    SOCKETS.each do |socket|
+      socket.send SCENE.players.to_json
     end
   end
 
   socket.on_close do
-    Scene.sockets.delete socket
+    SOCKETS.delete socket
   end
 end
 
