@@ -1,7 +1,7 @@
 class Scene
-  def initialize(players : Array(Player), enemies : Array(Enemy))
-    @players = players
-    @enemies = enemies
+  def initialize()
+    @players = [] of Player
+    @enemies = [] of Enemy
   end
 
   def players

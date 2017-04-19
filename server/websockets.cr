@@ -1,7 +1,7 @@
 SOCKETS = [] of HTTP::WebSocket
 
 # Init the scene
-SCENE = Scene.new(Array(Player).new, Array(Enemy).new)
+SCENE = Scene.new
 
 ws "/room" do |socket|
   SOCKETS << socket
