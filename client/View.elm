@@ -31,9 +31,12 @@ renderErrorMsg error =
     div
         [ style
             [ ( "background-color", "#C03546" )
+            , ( "border-left", "5px solid #FF7761" )
+            , ( "border-radius", "3px" )
             , ( "margin", "50px auto" )
             , ( "padding", "15px" )
-            , ( "width", "960px" )
+            , ( "width", "600px" )
+            , ( "line-height", "25px" )
             , ( "font-family", "Helvetica, sans-serif" )
             , ( "color", "#FFF" )
             ]
