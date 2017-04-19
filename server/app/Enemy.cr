@@ -6,7 +6,8 @@ class Enemy
 
   def self.random
     random = Random.new
-    new(random.rand, random.rand, random.rand)
+    range = 1.0..8.0
+    new(random.rand(range), random.rand(range), random.rand(range))
   end
 
   def id

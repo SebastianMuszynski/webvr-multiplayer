@@ -19,9 +19,8 @@ ws "/room" do |socket|
       p "Unrecognised action type: #{action.type_}"
     end
 
-    # Broadcast players
     SOCKETS.each do |socket|
-      socket.send SCENE.players.to_json
+      socket.send SCENE.enemies.to_json
     end
   end
 
