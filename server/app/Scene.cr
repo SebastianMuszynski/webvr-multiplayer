@@ -23,6 +23,10 @@ class Scene
     end
   end
 
+  def remove_enemy_by_id(enemy_id)
+    @enemies = @enemies.reject { |enemy| enemy.id == enemy_id }
+  end
+
   JSON.mapping(
     players: Array(Player),
     enemies: Array(Enemy),
