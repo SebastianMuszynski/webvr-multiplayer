@@ -5,11 +5,18 @@ import Json.Decode.Pipeline exposing (decode, required, requiredAt)
 import Models exposing (Player, Enemy, Position, Action)
 
 
-actionsDecoder : Decoder Action
-actionsDecoder =
+-- Action
+
+
+actionDecoder : Decoder Action
+actionDecoder =
     decode Action
         |> required "type_" Decode.string
         |> required "payload" Decode.string
+
+
+
+-- Player
 
 
 playersDecoder : Decoder (List Player)
@@ -24,6 +31,10 @@ playerDecoder =
         |> requiredAt [ "position" ] positionDecoder
 
 
+
+-- Enemy
+
+
 enemiesDecoder : Decoder (List Enemy)
 enemiesDecoder =
     Decode.list enemyDecoder
@@ -34,6 +45,10 @@ enemyDecoder =
     decode Enemy
         |> required "id" Decode.string
         |> requiredAt [ "position" ] positionDecoder
+
+
+
+-- Position
 
 
 positionDecoder : Decoder Position
