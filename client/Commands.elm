@@ -1,13 +1,13 @@
 module Commands exposing (..)
 
-import Config exposing (websocketUrl, jsonIndentation)
+import Config exposing (websocketUrl)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, required, requiredAt)
-import Json.Encode as Encode
 import Models exposing (Player, Enemy, Position, Action)
 import Msgs exposing (Msg(..))
 import Random exposing (Generator, float)
 import WebSocket
+import Encoders exposing (encodeAction, encodePlayer)
 
 
 generateNewPosition : Cmd Msg
@@ -39,45 +39,11 @@ sendAction action =
     WebSocket.send websocketUrl (encodeAction action)
 
 
-encodeAction : Action -> String
-encodeAction action =
-    let
-        attributes =
-            [ ( "type_", Encode.string action.type_ )
-            , ( "payload", Encode.string action.payload )
-            ]
-    in
-        Encode.encode jsonIndentation (Encode.object attributes)
-
-
 actionsDecoder : Decoder Action
 actionsDecoder =
     decode Action
         |> required "type_" Decode.string
         |> required "payload" Decode.string
-
-
-encodePlayer : Player -> String
-encodePlayer player =
-    let
-        attributes =
-            [ ( "id", Encode.string player.id )
-            , ( "position", encodePosition player.position )
-            ]
-    in
-        Encode.encode jsonIndentation (Encode.object attributes)
-
-
-encodePosition : Position -> Encode.Value
-encodePosition position =
-    let
-        attributes =
-            [ ( "x", Encode.float position.x )
-            , ( "y", Encode.float position.y )
-            , ( "z", Encode.float position.z )
-            ]
-    in
-        Encode.object attributes
 
 
 playersDecoder : Decoder (List Player)
