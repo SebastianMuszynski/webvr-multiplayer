@@ -35,36 +35,27 @@ handleError msg model =
 handleAction : Action -> Model -> ( Model, Cmd Msg )
 handleAction action model =
     if action.type_ == "PLAYERS" then
-        let
-            decodedPlayers =
-                decodePlayers action.payload
-        in
-            case decodedPlayers of
-                Err msg ->
-                    ( { model | error = msg }, Cmd.none )
+        case (decodePlayers action.payload) of
+            Err msg ->
+                handleError msg model
 
-                Ok newPlayers ->
-                    ( { model | players = newPlayers }, Cmd.none )
+            Ok newPlayers ->
+                ( { model | players = newPlayers }, Cmd.none )
     else if action.type_ == "ENEMIES" then
-        let
-            decodedEnemies =
-                decodeEnemies action.payload
-        in
-            case decodedEnemies of
-                Err msg ->
-                    ( { model | error = msg }, Cmd.none )
+        case (decodeEnemies action.payload) of
+            Err msg ->
+                handleError msg model
 
-                Ok newEnemies ->
-                    ( { model | enemies = newEnemies }, Cmd.none )
+            Ok newEnemies ->
+                ( { model | enemies = newEnemies }, Cmd.none )
     else if action.type_ == "REMOVE_ENEMY_REQUEST" then
         let
             enemyId =
                 action.payload
+
+            newEnemies =
+                filter (\a -> a.id /= enemyId) model.enemies
         in
-            let
-                newEnemies =
-                    filter (\a -> a.id /= enemyId) model.enemies
-            in
-                ( { model | enemies = newEnemies }, Cmd.none )
+            ( { model | enemies = newEnemies }, Cmd.none )
     else
         ( { model | error = "Unrecognised action type: " ++ action.type_ }, Cmd.none )
