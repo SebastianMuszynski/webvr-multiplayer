@@ -2,7 +2,7 @@ class Action
   def initialize(@type_ : String, @payload : String)
   end
 
-  def self.players(players : Array(Enemy))
+  def self.players(players : Array(Player))
     new("PLAYERS", players.to_json)
   end
 
