@@ -10,29 +10,21 @@ import Msgs exposing (Msg(..))
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        OnSceneChanged jsonAction ->
-            let
-                decodedAction =
-                    decodeAction jsonAction
-            in
-                case decodedAction of
-                    Err msg ->
-                        handleError msg model
+        OnSceneChanged actionJSON ->
+            case (decodeAction actionJSON) of
+                Err msg ->
+                    handleError msg model
 
-                    Ok action ->
-                        handleAction action model
+                Ok action ->
+                    handleAction action model
 
-        OnComponentRequest jsonAction ->
-            let
-                decodedAction =
-                    decodeAction jsonAction
-            in
-                case decodedAction of
-                    Err msg ->
-                        handleError msg model
+        OnComponentRequest actionJSON ->
+            case (decodeAction actionJSON) of
+                Err msg ->
+                    handleError msg model
 
-                    Ok action ->
-                        ( model, sendAction action )
+                Ok action ->
+                    ( model, sendAction action )
 
 
 handleError : String -> Model -> ( Model, Cmd Msg )
