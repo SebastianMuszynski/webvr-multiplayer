@@ -1,6 +1,6 @@
 module Update exposing (..)
 
-import Commands exposing (joinRoom, sendAction)
+import Commands exposing (startGame, sendAction)
 import Decoders exposing (decodeAction, decodePlayers, decodeEnemies)
 import List exposing (filter)
 import Models exposing (Model, Player, Enemy, Position, Action)
@@ -17,29 +17,10 @@ update msg model =
             in
                 case decodedAction of
                     Err msg ->
-                        ( { model | error = msg }, Cmd.none )
+                        handleError msg model
 
                     Ok action ->
                         handleAction action model
-
-        OnEnemiesChanged jsonEnemies ->
-            let
-                decodedEnemies =
-                    decodeEnemies jsonEnemies
-            in
-                case decodedEnemies of
-                    Err msg ->
-                        ( { model | error = msg }, Cmd.none )
-
-                    Ok newEnemies ->
-                        ( { model | enemies = newEnemies }, Cmd.none )
-
-        NewPlayer position ->
-            let
-                newPlayer =
-                    Player model.newPlayer.id position
-            in
-                ( { model | newPlayer = newPlayer }, joinRoom newPlayer )
 
         OnComponentRequest jsonAction ->
             let
@@ -48,10 +29,15 @@ update msg model =
             in
                 case decodedAction of
                     Err msg ->
-                        ( { model | error = msg }, Cmd.none )
+                        handleError msg model
 
                     Ok action ->
                         ( model, sendAction action )
+
+
+handleError : String -> Model -> ( Model, Cmd Msg )
+handleError msg model =
+    ( { model | error = msg }, Cmd.none )
 
 
 handleAction : Action -> Model -> ( Model, Cmd Msg )
