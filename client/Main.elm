@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Commands exposing (generateNewPosition)
+import Commands exposing (startGame)
 import Html exposing (program)
 import Models exposing (Model, initialModel)
 import Msgs exposing (Msg)
