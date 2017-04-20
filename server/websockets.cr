@@ -13,7 +13,7 @@ ws "/room" do |socket|
 
     case action.type_
     when "NEW_PLAYER"
-      player = Player.from_json(action.payload)
+      player = Player.random
       SCENE.add_player(player)
     when "REMOVE_ENEMY"
       enemy_id = action.payload
