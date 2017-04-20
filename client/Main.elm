@@ -11,7 +11,7 @@ import View exposing (view)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, generateNewPosition )
+    ( initialModel, startGame )
 
 
 main : Program Never Model Msg
