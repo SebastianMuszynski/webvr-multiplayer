@@ -5,6 +5,9 @@ import Json.Encode as Encode
 import Models exposing (Player, Position, Action)
 
 
+-- Action
+
+
 encodeAction : Action -> String
 encodeAction action =
     let
@@ -16,6 +19,10 @@ encodeAction action =
         Encode.encode jsonIndentation (Encode.object attributes)
 
 
+
+-- Player
+
+
 encodePlayer : Player -> String
 encodePlayer player =
     let
@@ -25,6 +32,10 @@ encodePlayer player =
             ]
     in
         Encode.encode jsonIndentation (Encode.object attributes)
+
+
+
+-- Position
 
 
 encodePosition : Position -> Encode.Value
