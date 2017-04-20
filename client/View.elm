@@ -16,12 +16,17 @@ import String exposing (isEmpty)
 view : Model -> Html msg
 view model =
     if isEmpty model.error then
-        scene []
-            [ renderCamera (Position 0 0 0)
-            , renderFloor
-            , renderPlayers model.players
-            , renderEnemies model.enemies
-            ]
+        case model.currentPlayer of
+            Just player ->
+                scene []
+                    [ renderCamera player.position
+                    , renderFloor
+                    , renderPlayers model.players
+                    , renderEnemies model.enemies
+                    ]
+
+            Nothing ->
+                div [] []
     else
         renderErrorMsg model.error
 

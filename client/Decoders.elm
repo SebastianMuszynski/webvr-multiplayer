@@ -9,8 +9,8 @@ import Models exposing (Action, Player, Enemy, Position)
 
 
 decodeAction : String -> Result String Action
-decodeAction jsonAction =
-    Decode.decodeString actionDecoder jsonAction
+decodeAction actionJSON =
+    Decode.decodeString actionDecoder actionJSON
 
 
 actionDecoder : Decoder Action
@@ -24,9 +24,14 @@ actionDecoder =
 -- Player
 
 
+decodePlayer : String -> Result String Player
+decodePlayer playerJSON =
+    Decode.decodeString playerDecoder playerJSON
+
+
 decodePlayers : String -> Result String (List Player)
-decodePlayers jsonPlayers =
-    Decode.decodeString playersDecoder jsonPlayers
+decodePlayers playersJSON =
+    Decode.decodeString playersDecoder playersJSON
 
 
 playersDecoder : Decoder (List Player)
@@ -46,8 +51,8 @@ playerDecoder =
 
 
 decodeEnemies : String -> Result String (List Enemy)
-decodeEnemies jsonEnemies =
-    Decode.decodeString enemiesDecoder jsonEnemies
+decodeEnemies enemiesJSON =
+    Decode.decodeString enemiesDecoder enemiesJSON
 
 
 enemiesDecoder : Decoder (List Enemy)

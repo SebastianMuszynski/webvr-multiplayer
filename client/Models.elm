@@ -2,18 +2,18 @@ module Models exposing (..)
 
 
 type alias Model =
-    { players : List Player
+    { currentPlayer : Maybe Player
+    , players : List Player
     , enemies : List Enemy
-    , newPlayer : Player
     , error : String
     }
 
 
 initialModel : Model
 initialModel =
-    { players = []
+    { currentPlayer = Nothing
+    , players = []
     , enemies = []
-    , newPlayer = Player "new_player" (Position 0 0 0)
     , error = ""
     }
 

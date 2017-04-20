@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Commands exposing (startGame, sendAction)
-import Decoders exposing (decodeAction, decodePlayers, decodeEnemies)
+import Decoders exposing (decodeAction, decodePlayers, decodePlayer, decodeEnemies)
 import List exposing (filter)
 import Models exposing (Model, Player, Enemy, Position, Action)
 import Msgs exposing (Msg(..))
@@ -34,7 +34,14 @@ handleError msg model =
 
 handleAction : Action -> Model -> ( Model, Cmd Msg )
 handleAction action model =
-    if action.type_ == "PLAYERS" then
+    if action.type_ == "NEW_PLAYER_RESPONSE" then
+        case (decodePlayer action.payload) of
+            Err msg ->
+                handleError msg model
+
+            Ok player ->
+                ( { model | currentPlayer = Just player }, Cmd.none )
+    else if action.type_ == "PLAYERS" then
         case (decodePlayers action.payload) of
             Err msg ->
                 handleError msg model
