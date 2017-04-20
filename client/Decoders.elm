@@ -2,7 +2,7 @@ module Decoders exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, required, requiredAt)
-import Models exposing (Player, Enemy, Position, Action)
+import Models exposing (Action, Player, Enemy, Position)
 
 
 -- Action
