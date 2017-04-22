@@ -26,6 +26,12 @@ class Position
     @z = value
   end
 
+  def self.random
+    random = Random.new
+    range = 1.0..8.0
+    new(random.rand(range), random.rand(range), random.rand(range))
+  end
+
   JSON.mapping(
     x: Float64,
     y: Float64,
