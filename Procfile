@@ -1,1 +1,1 @@
-web: crystal server/main.cr
+web: crystal src/server.cr
