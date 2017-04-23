@@ -5,3 +5,8 @@
   width: 100vw;
   height: 100vh;
 }
+
+.a-enter-vr.embedded {
+  right: 25px;
+  bottom: 25px;
+}
