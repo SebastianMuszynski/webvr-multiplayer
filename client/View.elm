@@ -18,7 +18,7 @@ view model =
     if isEmpty model.error then
         case model.currentPlayer of
             Just player ->
-                scene []
+                scene [ attribute "embedded" "true" ]
                     [ renderCamera player.position
                     , renderFloor
                     , renderPlayers model.players
