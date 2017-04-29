@@ -18,6 +18,14 @@ ws "/room" do |socket|
 
       newPlayerAction = Action.new_player(player)
       socket.send newPlayerAction.to_json
+
+      # Broadcast players
+      playersAction = Action.players(SCENE.players)
+      socket.send playersAction.to_json
+
+      # Broadcast enemies
+      enemiesAction = Action.enemies(SCENE.enemies)
+      socket.send enemiesAction.to_json
     when "REMOVE_ENEMY_REQUEST"
       enemy_id = action.payload
       SCENE.remove_enemy_by_id(enemy_id)
@@ -28,11 +36,6 @@ ws "/room" do |socket|
       end
     else
       p "Unrecognised action type: #{action.type_}"
-    end
-
-    playersAction = Action.players(SCENE.players)
-    SOCKETS.each do |socket|
-      socket.send playersAction.to_json
     end
   end
 

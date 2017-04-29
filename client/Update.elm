@@ -86,21 +86,5 @@ handleAction action model =
                         { currentGame | enemies = newEnemies }
                 in
                     ( { model | game = updatedGame }, Cmd.none )
-    else if action.type_ == "REMOVE_ENEMY_REQUEST" then
-        let
-            enemyId =
-                action.payload
-
-            newEnemies =
-                filter (\a -> a.id /= enemyId) model.game.enemies
-        in
-            let
-                currentGame =
-                    model.game
-
-                updatedGame =
-                    { currentGame | enemies = newEnemies }
-            in
-                ( { model | game = updatedGame }, Cmd.none )
     else
         ( { model | error = Just ("Unrecognised action type: " ++ action.type_) }, Cmd.none )
