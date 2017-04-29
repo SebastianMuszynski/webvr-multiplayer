@@ -15,20 +15,22 @@ import String exposing (isEmpty)
 
 view : Model -> Html msg
 view model =
-    if isEmpty model.error then
-        case model.currentPlayer of
-            Just player ->
-                scene [ attribute "embedded" "true" ]
-                    [ renderCamera player.position
-                    , renderFloor
-                    , renderPlayers model.players
-                    , renderEnemies model.enemies
-                    ]
+    case model.error of
+        Nothing ->
+            case model.game.currentPlayer of
+                Just player ->
+                    scene [ attribute "embedded" "true" ]
+                        [ renderCamera player.position
+                        , renderFloor
+                        , renderPlayers model.game.players
+                        , renderEnemies model.game.enemies
+                        ]
 
-            Nothing ->
-                div [] []
-    else
-        renderErrorMsg model.error
+                Nothing ->
+                    div [] []
+
+        Just errorMsg ->
+            renderErrorMsg errorMsg
 
 
 renderErrorMsg : String -> Html msg

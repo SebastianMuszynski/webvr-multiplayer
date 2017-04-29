@@ -24,12 +24,22 @@ update msg model =
                     handleError msg model
 
                 Ok action ->
-                    ( model, sendAction action )
+                    handleActionOnComponentRequest action model
+
+
+handleActionOnComponentRequest : Action -> Model -> ( Model, Cmd Msg )
+handleActionOnComponentRequest action model =
+    case model.config.host of
+        Just host ->
+            ( model, sendAction host action )
+
+        Nothing ->
+            handleError "No host provided!" model
 
 
 handleError : String -> Model -> ( Model, Cmd Msg )
-handleError msg model =
-    ( { model | error = msg }, Cmd.none )
+handleError errorMsg model =
+    ( { model | error = Just errorMsg }, Cmd.none )
 
 
 handleAction : Action -> Model -> ( Model, Cmd Msg )
@@ -40,29 +50,57 @@ handleAction action model =
                 handleError msg model
 
             Ok player ->
-                ( { model | currentPlayer = Just player }, Cmd.none )
+                let
+                    currentGame =
+                        model.game
+
+                    updatedGame =
+                        { currentGame | currentPlayer = Just player }
+                in
+                    ( { model | game = updatedGame }, Cmd.none )
     else if action.type_ == "PLAYERS" then
         case (decodePlayers action.payload) of
             Err msg ->
                 handleError msg model
 
             Ok newPlayers ->
-                ( { model | players = newPlayers }, Cmd.none )
+                let
+                    currentGame =
+                        model.game
+
+                    updatedGame =
+                        { currentGame | players = newPlayers }
+                in
+                    ( { model | game = updatedGame }, Cmd.none )
     else if action.type_ == "ENEMIES" then
         case (decodeEnemies action.payload) of
             Err msg ->
                 handleError msg model
 
             Ok newEnemies ->
-                ( { model | enemies = newEnemies }, Cmd.none )
+                let
+                    currentGame =
+                        model.game
+
+                    updatedGame =
+                        { currentGame | enemies = newEnemies }
+                in
+                    ( { model | game = updatedGame }, Cmd.none )
     else if action.type_ == "REMOVE_ENEMY_REQUEST" then
         let
             enemyId =
                 action.payload
 
             newEnemies =
-                filter (\a -> a.id /= enemyId) model.enemies
+                filter (\a -> a.id /= enemyId) model.game.enemies
         in
-            ( { model | enemies = newEnemies }, Cmd.none )
+            let
+                currentGame =
+                    model.game
+
+                updatedGame =
+                    { currentGame | enemies = newEnemies }
+            in
+                ( { model | game = updatedGame }, Cmd.none )
     else
-        ( { model | error = "Unrecognised action type: " ++ action.type_ }, Cmd.none )
+        ( { model | error = Just ("Unrecognised action type: " ++ action.type_) }, Cmd.none )

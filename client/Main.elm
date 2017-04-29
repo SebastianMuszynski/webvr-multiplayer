@@ -1,22 +1,29 @@
 module Main exposing (..)
 
 import Commands exposing (startGame)
-import Html exposing (program)
-import Models exposing (Model, initialModel)
+import Html exposing (programWithFlags)
+import Models exposing (Model, Flags, initialModel)
 import Msgs exposing (Msg)
 import Subs exposing (subscriptions)
 import Update exposing (update)
 import View exposing (view)
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( initialModel, startGame )
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    let
+        oldConfig =
+            initialModel.config
+
+        newConfig =
+            { oldConfig | host = Just flags.host }
+    in
+        ( { initialModel | config = newConfig }, startGame flags.host )
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    program
+    programWithFlags
         { init = init
         , view = view
         , update = update

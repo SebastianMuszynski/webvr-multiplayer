@@ -1,9 +1,9 @@
 module Config exposing (..)
 
 
-websocketUrl : String
-websocketUrl =
-    "ws://138.68.169.91:3000/room"
+websocketUrl : String -> String
+websocketUrl host =
+    "ws://" ++ host ++ ":3000/room"
 
 
 jsonIndentation : Int

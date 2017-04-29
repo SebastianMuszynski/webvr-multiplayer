@@ -1,20 +1,35 @@
 module Models exposing (..)
 
 
-type alias Model =
+type alias Game =
     { currentPlayer : Maybe Player
     , players : List Player
     , enemies : List Enemy
-    , error : String
+    }
+
+
+type alias Config =
+    { host : Maybe String
+    }
+
+
+type alias Model =
+    { game : Game
+    , config : Config
+    , error : Maybe String
     }
 
 
 initialModel : Model
 initialModel =
-    { currentPlayer = Nothing
-    , players = []
-    , enemies = []
-    , error = ""
+    { game = Game Nothing [] []
+    , config = Config Nothing
+    , error = Nothing
+    }
+
+
+type alias Flags =
+    { host : String
     }
 
 
