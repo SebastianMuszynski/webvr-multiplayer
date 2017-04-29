@@ -10,3 +10,6 @@ public/app.js
 # Crystal packages
 .shards
 lib
+
+# Environmental variables
+.env
