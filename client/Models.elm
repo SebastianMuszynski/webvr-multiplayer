@@ -63,4 +63,5 @@ type alias EnemyId =
 type alias Enemy =
     { id : EnemyId
     , position : Position
+    , isVisible : Bool
     }

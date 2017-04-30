@@ -2,7 +2,6 @@ module Update exposing (..)
 
 import Commands exposing (startGame, sendAction)
 import Decoders exposing (decodeAction, decodePlayers, decodePlayer, decodeEnemies)
-import List exposing (filter)
 import Models exposing (Model, Player, Enemy, Position, Action)
 import Msgs exposing (Msg(..))
 

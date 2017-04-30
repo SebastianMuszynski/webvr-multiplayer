@@ -24,7 +24,8 @@ class Scene
   end
 
   def remove_enemy_by_id(enemy_id)
-    @enemies = @enemies.reject { |enemy| enemy.id == enemy_id }
+    enemy = @enemies.find { |enemy| enemy.id == enemy_id }
+    enemy && enemy.hide
   end
 
   JSON.mapping(

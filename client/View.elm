@@ -1,7 +1,6 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Animations exposing (animation, attribute_, direction, dur, to, repeat)
 import AFrame.Primitives exposing (plane, box, sphere)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
@@ -97,23 +96,20 @@ renderEnemies enemies =
 
 renderEnemy : Enemy -> Html msg
 renderEnemy enemy =
-    sphere
-        [ attribute "data-id" enemy.id
-        , position enemy.position.x enemy.position.y enemy.position.z
-        , radius 0.5
-        , color (rgb 255 0 0)
-        , attribute "enemy-hover-listener" "true"
-        ]
-        [ animation
-            [ attribute_ "position"
-            , dur 2000
-            , direction "alternate"
-            , [ enemy.position.x, enemy.position.y + 1, enemy.position.z ]
+    let
+        newPosition =
+            [ enemy.position.x, enemy.position.y + 1, enemy.position.z ]
                 |> List.map toString
                 |> List.intersperse " "
                 |> String.concat
-                |> to
-            , repeat "indefinite"
+    in
+        sphere
+            [ attribute "data-id" enemy.id
+            , position enemy.position.x enemy.position.y enemy.position.z
+            , radius 0.5
+            , color (rgb 255 0 0)
+            , attribute "enemy-hover-listener" "true"
+            , attribute "visible" (String.toLower <| toString enemy.isVisible)
+            , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInSine; loop: true; to: " ++ newPosition)
             ]
             []
-        ]

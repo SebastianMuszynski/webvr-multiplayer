@@ -2,6 +2,7 @@ class Enemy
   def initialize(x : Float64, y : Float64, z : Float64)
     @id = SecureRandom.uuid
     @position = Position.new(x, y, z)
+    @isVisible = true
   end
 
   def self.random
@@ -14,8 +15,13 @@ class Enemy
     @id ||= SecureRandom.uuid
   end
 
+  def hide
+    @isVisible = false
+  end
+
   JSON.mapping(
     id: String,
-    position: { type: Position, nilable: false }
+    position: { type: Position, nilable: false },
+    isVisible: Bool
   )
 end
