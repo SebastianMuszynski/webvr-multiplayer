@@ -4,7 +4,7 @@ import AFrame exposing (scene, entity)
 import AFrame.Primitives exposing (plane, box, sphere)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
-import AFrame.Primitives.Cursor exposing (cursor)
+import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
 import Color exposing (rgb)
 import Html exposing (Html, div, text, h2)
 import Html.Attributes exposing (attribute, style)
@@ -54,9 +54,23 @@ renderCamera : Position -> Html msg
 renderCamera cameraPos =
     entity [ position cameraPos.x cameraPos.y cameraPos.z ]
         [ camera []
-            [ cursor [] []
+            [ renderCursor
             ]
         ]
+
+
+renderCursor : Html msg
+renderCursor =
+    cursor
+        [ timeout 2
+        , fuse True
+        , attribute "color" "#000"
+        , attribute "animation" "property: scale; dur: 100; startEvents: mouseenter; to: 2 2 2"
+        , attribute "animation__color" "property: color; dur: 100; startEvents: mouseenter; to: #00F"
+        , attribute "animation__colorOut" "property: color; dur: 100; startEvents: mouseleave; to: #000"
+        , attribute "animation__scale" "property: scale; dur: 100; startEvents: mouseleave; to: 1 1 1"
+        ]
+        []
 
 
 renderFloor : Html msg
@@ -98,7 +112,7 @@ renderEnemy : Enemy -> Html msg
 renderEnemy enemy =
     let
         newPosition =
-            [ enemy.position.x, enemy.position.y + 1, enemy.position.z ]
+            [ enemy.position.x + 2, enemy.position.y + 3, enemy.position.z ]
                 |> List.map toString
                 |> List.intersperse " "
                 |> String.concat
@@ -110,6 +124,6 @@ renderEnemy enemy =
             , color (rgb 255 0 0)
             , attribute "enemy-hover-listener" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
-            , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInSine; loop: true; to: " ++ newPosition)
+            , attribute "animation" ("property: position; dir: alternate; dur: 1000; easing: easeInSine; loop: true; to: " ++ newPosition)
             ]
             []

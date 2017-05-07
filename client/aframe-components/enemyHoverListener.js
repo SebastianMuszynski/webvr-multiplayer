@@ -1,7 +1,7 @@
 AFRAME.registerComponent('enemy-hover-listener', {
   init: function () {
     var enemy = this.el;
-    this.el.addEventListener('mouseenter', function() {
+    this.el.addEventListener('click', function() {
       var enemyId = this.getAttribute("data-id");
       var action = {
         type_: "REMOVE_ENEMY_REQUEST",
