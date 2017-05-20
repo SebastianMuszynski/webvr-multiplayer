@@ -65,10 +65,6 @@ renderCursor =
         [ timeout 2
         , fuse True
         , attribute "color" "#000"
-        , attribute "animation" "property: scale; dur: 100; startEvents: mouseenter; to: 2 2 2"
-        , attribute "animation__color" "property: color; dur: 100; startEvents: mouseenter; to: #00F"
-        , attribute "animation__colorOut" "property: color; dur: 100; startEvents: mouseleave; to: #000"
-        , attribute "animation__scale" "property: scale; dur: 100; startEvents: mouseleave; to: 1 1 1"
         ]
         []
 
