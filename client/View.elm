@@ -112,7 +112,7 @@ renderEnemy : Enemy -> Html msg
 renderEnemy enemy =
     let
         newPosition =
-            [ enemy.position.x + 2, enemy.position.y + 3, enemy.position.z ]
+            [ enemy.position.x, enemy.position.y + 2, enemy.position.z ]
                 |> List.map toString
                 |> List.intersperse " "
                 |> String.concat
@@ -124,6 +124,6 @@ renderEnemy enemy =
             , color (rgb 255 0 0)
             , attribute "enemy-hover-listener" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
-            , attribute "animation" ("property: position; dir: alternate; dur: 1000; easing: easeInSine; loop: true; to: " ++ newPosition)
+            , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
             ]
             []
