@@ -53,6 +53,7 @@ type alias Position =
 type alias Player =
     { id : PlayerId
     , position : Position
+    , points : Int
     }
 
 

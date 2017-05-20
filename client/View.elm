@@ -1,13 +1,13 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (plane, box, sphere)
+import AFrame.Primitives exposing (plane, box, sphere, text)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
 import Color exposing (rgb)
 import Html exposing (Html, div, text, h2)
-import Html.Attributes exposing (attribute, style)
+import Html.Attributes exposing (align, attribute, style, value)
 import Models exposing (Model, Player, Enemy, Position)
 import String exposing (isEmpty)
 
@@ -19,7 +19,7 @@ view model =
             case model.game.currentPlayer of
                 Just player ->
                     scene [ attribute "embedded" "true" ]
-                        [ renderCamera player.position
+                        [ renderCamera player.position player.points
                         , renderFloor
                         , renderPlayers model.game.players
                         , renderEnemies model.game.enemies
@@ -47,14 +47,15 @@ renderErrorMsg error =
             , ( "color", "#FFF" )
             ]
         ]
-        [ text error ]
+        [ Html.text error ]
 
 
-renderCamera : Position -> Html msg
-renderCamera cameraPos =
+renderCamera : Position -> Int -> Html msg
+renderCamera cameraPos points =
     entity [ position cameraPos.x cameraPos.y cameraPos.z ]
         [ camera []
             [ renderCursor
+            , renderPoints points
             ]
         ]
 
@@ -123,3 +124,13 @@ renderEnemy enemy =
             , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
             ]
             []
+
+
+renderPoints : Int -> Html msg
+renderPoints points =
+    AFrame.Primitives.text
+        [ attribute "value" (toString points)
+        , color (rgb 0 0 0)
+        , position 1 0 -2
+        ]
+        []

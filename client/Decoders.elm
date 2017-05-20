@@ -44,6 +44,7 @@ playerDecoder =
     decode Player
         |> required "id" Decode.string
         |> requiredAt [ "position" ] positionDecoder
+        |> requiredAt [ "points" ] Decode.int
 
 
 

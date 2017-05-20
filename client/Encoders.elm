@@ -29,6 +29,7 @@ encodePlayer player =
         attributes =
             [ ( "id", Encode.string player.id )
             , ( "position", encodePosition player.position )
+            , ( "points", Encode.int player.points )
             ]
     in
         Encode.encode jsonIndentation (Encode.object attributes)
