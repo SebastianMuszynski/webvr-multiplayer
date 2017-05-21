@@ -29,7 +29,7 @@ view model =
                             [ attribute "embedded" "true"
                             , attribute "data-player-id" player.id
                             ]
-                            [ renderCamera player.position player.points
+                            [ renderCamera (Position 0 0.6 0) player.points
                             , renderFloor
                             , renderPlayers model.game
                             , renderEnemies model.game.enemies

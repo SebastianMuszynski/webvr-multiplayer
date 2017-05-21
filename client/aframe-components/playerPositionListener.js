@@ -4,7 +4,7 @@ AFRAME.registerComponent('player-position-listener', {
     var scene = player.sceneEl;
     var playerId = scene.getAttribute("data-player-id");
 
-    if (time - this.time < 200) {
+    if (time - this.time < 50) {
       return;
     }
 
