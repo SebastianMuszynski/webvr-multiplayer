@@ -1,13 +1,13 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (plane, box, sphere, text)
+import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
 import Color exposing (rgb)
 import Html exposing (Html, div, text, h2)
-import Html.Attributes exposing (align, attribute, style, value)
+import Html.Attributes exposing (id, align, attribute, style, value)
 import Models exposing (Model, Player, Enemy, Position, Game)
 import String exposing (isEmpty)
 
@@ -29,7 +29,29 @@ view model =
                             [ attribute "embedded" "true"
                             , attribute "data-player-id" player.id
                             ]
-                            [ renderCamera (Position 0 0.6 0) player.points
+                            [ assets []
+                                [ assetItem
+                                    [ id "mario-mtl"
+                                    , src "models/mario/mario-sculpture.mtl"
+                                    ]
+                                    []
+                                , assetItem
+                                    [ id "mario-obj"
+                                    , src "models/mario/mario-sculpture.obj"
+                                    ]
+                                    []
+                                , assetItem
+                                    [ id "draug-mtl"
+                                    , src "models/draug/ur-draug.mtl"
+                                    ]
+                                    []
+                                , assetItem
+                                    [ id "draug-obj"
+                                    , src "models/draug/ur-draug.obj"
+                                    ]
+                                    []
+                                ]
+                            , renderCamera (Position 0 0.6 0) player.points
                             , renderFloor
                             , renderPlayers model.game
                             , renderEnemies model.game.enemies
@@ -108,11 +130,12 @@ renderPlayers game =
 
 renderPlayer : Player -> Html msg
 renderPlayer player =
-    sphere
-        [ attribute "data-id" player.id
-        , position player.position.x 1 player.position.z
-        , radius 1
-        , color (rgb 240 173 0)
+    objModel
+        [ src "#mario-obj"
+        , attribute "mtl" "#mario-mtl"
+        , scale 0.025 0.025 0.025
+        , attribute "data-id" player.id
+        , position player.position.x 1.5 player.position.z
         ]
         []
 
@@ -134,11 +157,22 @@ renderEnemy enemy =
                 |> List.intersperse " "
                 |> String.concat
     in
-        sphere
-            [ attribute "data-id" enemy.id
+        -- sphere
+        --     [ attribute "data-id" enemy.id
+        --     , position enemy.position.x enemy.position.y enemy.position.z
+        --     , radius 0.5
+        --     , color (rgb 255 0 0)
+        --     , attribute "enemy-hover-listener" "true"
+        --     , attribute "visible" (String.toLower <| toString enemy.isVisible)
+        --     , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
+        --     ]
+        --     []
+        objModel
+            [ src "#draug-obj"
+            , attribute "mtl" "#draug-mtl"
+            , scale 0.3 0.3 0.3
+            , attribute "data-id" enemy.id
             , position enemy.position.x enemy.position.y enemy.position.z
-            , radius 0.5
-            , color (rgb 255 0 0)
             , attribute "enemy-hover-listener" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
             , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
