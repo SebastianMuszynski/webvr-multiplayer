@@ -35,7 +35,13 @@ type alias Flags =
 
 type alias Action =
     { type_ : String
-    , payload : String
+    , payload : ActionPayload
+    }
+
+
+type alias ActionPayload =
+    { data : String
+    , player_id : String
     }
 
 

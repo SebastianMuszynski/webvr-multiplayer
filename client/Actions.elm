@@ -1,6 +1,6 @@
 module Actions exposing (..)
 
-import Models exposing (Action)
+import Models exposing (Action, ActionPayload)
 
 
 -- New player
@@ -8,4 +8,4 @@ import Models exposing (Action)
 
 newPlayerAction : Action
 newPlayerAction =
-    Action "NEW_PLAYER_REQUEST" ""
+    Action "NEW_PLAYER_REQUEST" (ActionPayload "" "")

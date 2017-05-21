@@ -12,6 +12,10 @@ class Scene
     @players << player
   end
 
+  def get_player_by_id(player_id)
+    @players.find { |player| player.id == player_id }
+  end
+
   def enemies
     @enemies
   end

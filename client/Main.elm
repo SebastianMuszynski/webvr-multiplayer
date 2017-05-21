@@ -17,8 +17,11 @@ init flags =
 
         newConfig =
             { oldConfig | host = Just flags.host }
+
+        model =
+            { initialModel | config = newConfig }
     in
-        ( { initialModel | config = newConfig }, startGame flags.host )
+        ( model, startGame model )
 
 
 main : Program Flags Model Msg

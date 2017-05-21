@@ -11,15 +11,25 @@ import WebSocket
 -- Start Game
 
 
-startGame : String -> Cmd Msg
-startGame host =
-    sendAction host newPlayerAction
+startGame : Model -> Cmd Msg
+startGame model =
+    sendAction model newPlayerAction
 
 
 
 -- Helpers
 
 
-sendAction : String -> Action -> Cmd Msg
-sendAction host action =
-    WebSocket.send (websocketUrl host) (encodeAction action)
+sendAction : Model -> Action -> Cmd Msg
+sendAction model action =
+    case model.config.host of
+        Just host ->
+            case model.game.currentPlayer of
+                Just player ->
+                    WebSocket.send (websocketUrl host) (encodeAction action)
+
+                Nothing ->
+                    WebSocket.send (websocketUrl host) (encodeAction action)
+
+        Nothing ->
+            Cmd.none

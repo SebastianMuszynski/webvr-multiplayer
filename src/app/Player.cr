@@ -16,6 +16,10 @@ class Player
     @id ||= SecureRandom.uuid
   end
 
+  def add_points(number)
+    @points += number
+  end
+
   JSON.mapping(
     id: String,
     position: { type: Position, nilable: false },

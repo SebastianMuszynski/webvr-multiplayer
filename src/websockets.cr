@@ -27,10 +27,23 @@ ws "/room" do |socket|
       enemiesAction = Action.enemies(SCENE.enemies)
       socket.send enemiesAction.to_json
     when "REMOVE_ENEMY_REQUEST"
-      enemy_id = action.payload
-      SCENE.remove_enemy_by_id(enemy_id)
+      enemy_id = action.payload.data
+      player_id = action.payload.player_id
 
+      player = SCENE.get_player_by_id(player_id)
+
+      if player
+        player.add_points(1) if player
+        playerAction = Action.player(player)
+
+        SOCKETS.each do |socket|
+          socket.send playerAction.to_json
+        end
+      end
+
+      SCENE.remove_enemy_by_id(enemy_id)
       enemiesAction = Action.enemies(SCENE.enemies)
+
       SOCKETS.each do |socket|
         socket.send enemiesAction.to_json
       end

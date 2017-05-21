@@ -18,7 +18,10 @@ view model =
         Nothing ->
             case model.game.currentPlayer of
                 Just player ->
-                    scene [ attribute "embedded" "true" ]
+                    scene
+                        [ attribute "embedded" "true"
+                        , attribute "data-player-id" player.id
+                        ]
                         [ renderCamera player.position player.points
                         , renderFloor
                         , renderPlayers model.game.players
