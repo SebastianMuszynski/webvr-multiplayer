@@ -108,11 +108,10 @@ renderPlayers game =
 
 renderPlayer : Player -> Html msg
 renderPlayer player =
-    box
+    sphere
         [ attribute "data-id" player.id
-        , position player.position.x 0.6 player.position.z
-        , width 1
-        , height 1
+        , position player.position.x 1 player.position.z
+        , radius 1
         , color (rgb 240 173 0)
         ]
         []
@@ -120,7 +119,10 @@ renderPlayer player =
 
 renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
-    entity [] (List.map renderEnemy enemies)
+    entity
+        [ attribute "animation" ("property: rotation; dir: alternate; dur: 10000; easing: easeInOutSine; loop: true; to: 5 5 5")
+        ]
+        (List.map renderEnemy enemies)
 
 
 renderEnemy : Enemy -> Html msg

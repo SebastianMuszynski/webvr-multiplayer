@@ -7,7 +7,7 @@ class Enemy
 
   def self.random
     random = Random.new
-    new(random.rand(-15.00..15.00), random.rand(1.00..3.00), random.rand(-15.00..15.00))
+    new(random.rand(-20.00..20.00), random.rand(3.00..5.00), random.rand(-20.00..20.00))
   end
 
   def id
