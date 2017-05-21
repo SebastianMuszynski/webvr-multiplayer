@@ -24,12 +24,7 @@ sendAction : Model -> Action -> Cmd Msg
 sendAction model action =
     case model.config.host of
         Just host ->
-            case model.game.currentPlayer of
-                Just player ->
-                    WebSocket.send (websocketUrl host) (encodeAction action)
-
-                Nothing ->
-                    WebSocket.send (websocketUrl host) (encodeAction action)
+            WebSocket.send (websocketUrl host) (encodeAction action)
 
         Nothing ->
             Cmd.none

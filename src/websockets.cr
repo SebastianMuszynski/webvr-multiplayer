@@ -16,16 +16,36 @@ ws "/room" do |socket|
       player = Player.random
       SCENE.add_player(player)
 
-      newPlayerAction = Action.new_player(player)
+      # Set current player id
+      newPlayerAction = Action.new_player(player.id)
       socket.send newPlayerAction.to_json
 
-      # Broadcast players
-      playersAction = Action.players(SCENE.players)
-      socket.send playersAction.to_json
+      SOCKETS.each do |socket|
+        # Broadcast players
+        playersAction = Action.players(SCENE.players)
+        socket.send playersAction.to_json
 
-      # Broadcast enemies
-      enemiesAction = Action.enemies(SCENE.enemies)
-      socket.send enemiesAction.to_json
+        # Broadcast enemies
+        enemiesAction = Action.enemies(SCENE.enemies)
+        socket.send enemiesAction.to_json
+      end
+    when "PLAYER_POSITION_CHANGED"
+      position = Position.from_json(action.payload.data)
+
+      player_id = action.payload.player_id
+      player = SCENE.get_player_by_id(player_id)
+
+      if player
+        player.set_position(position)
+        playersAction = Action.players(SCENE.players)
+
+        SOCKETS.each do |otherSocket|
+          if otherSocket != socket
+            otherSocket.send playersAction.to_json
+          end
+        end
+      end
+
     when "REMOVE_ENEMY_REQUEST"
       enemy_id = action.payload.data
       player_id = action.payload.player_id
@@ -34,10 +54,12 @@ ws "/room" do |socket|
 
       if player
         player.add_points(1) if player
-        playerAction = Action.player(player)
+        # playerAction = Action.player(player)
+        # socket.send playerAction.to_json
 
+        playersAction = Action.players(SCENE.players)
         SOCKETS.each do |socket|
-          socket.send playerAction.to_json
+          socket.send playersAction.to_json
         end
       end
 

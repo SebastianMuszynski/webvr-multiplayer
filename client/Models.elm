@@ -2,7 +2,7 @@ module Models exposing (..)
 
 
 type alias Game =
-    { currentPlayer : Maybe Player
+    { currentPlayerId : PlayerId
     , players : List Player
     , enemies : List Enemy
     }
@@ -22,7 +22,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { game = Game Nothing [] []
+    { game = Game "" [] []
     , config = Config Nothing
     , error = Nothing
     }

@@ -44,19 +44,17 @@ handleError errorMsg model =
 handleAction : Action -> Model -> ( Model, Cmd Msg )
 handleAction action model =
     if action.type_ == "NEW_PLAYER_RESPONSE" then
-        case (decodePlayer action.payload.data) of
-            Err msg ->
-                handleError msg model
+        let
+            playerId =
+                action.payload.data
 
-            Ok player ->
-                let
-                    currentGame =
-                        model.game
+            currentGame =
+                model.game
 
-                    updatedGame =
-                        { currentGame | currentPlayer = Just player }
-                in
-                    ( { model | game = updatedGame }, Cmd.none )
+            updatedGame =
+                { currentGame | currentPlayerId = playerId }
+        in
+            ( { model | game = updatedGame }, Cmd.none )
     else if action.type_ == "PLAYERS" then
         case (decodePlayers action.payload.data) of
             Err msg ->
@@ -85,31 +83,5 @@ handleAction action model =
                         { currentGame | enemies = newEnemies }
                 in
                     ( { model | game = updatedGame }, Cmd.none )
-    else if action.type_ == "PLAYER" then
-        let
-            player =
-                model.game.currentPlayer
-        in
-            case player of
-                Just player ->
-                    if action.payload.player_id == player.id then
-                        case (decodePlayer action.payload.data) of
-                            Err msg ->
-                                handleError msg model
-
-                            Ok player ->
-                                let
-                                    currentGame =
-                                        model.game
-
-                                    updatedGame =
-                                        { currentGame | currentPlayer = Just player }
-                                in
-                                    ( { model | game = updatedGame }, Cmd.none )
-                    else
-                        ( model, Cmd.none )
-
-                Nothing ->
-                    ( model, Cmd.none )
     else
         ( { model | error = Just ("Unrecognised action type: " ++ action.type_) }, Cmd.none )

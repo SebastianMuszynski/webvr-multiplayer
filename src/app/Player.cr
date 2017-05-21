@@ -20,6 +20,10 @@ class Player
     @points += number
   end
 
+  def set_position(position : Position)
+    @position = position
+  end
+
   JSON.mapping(
     id: String,
     position: { type: Position, nilable: false },

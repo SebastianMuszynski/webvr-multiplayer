@@ -2,8 +2,8 @@ class Action
   def initialize(@type_ : String, @payload : ActionPayload)
   end
 
-  def self.new_player(player : Player)
-    new("NEW_PLAYER_RESPONSE", ActionPayload.new(player.to_json, player.id.to_json))
+  def self.new_player(player_id : String)
+    new("NEW_PLAYER_RESPONSE", ActionPayload.new(player_id, ""))
   end
 
   def self.players(players : Array(Player))

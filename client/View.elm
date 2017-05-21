@@ -8,7 +8,7 @@ import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
 import Color exposing (rgb)
 import Html exposing (Html, div, text, h2)
 import Html.Attributes exposing (align, attribute, style, value)
-import Models exposing (Model, Player, Enemy, Position)
+import Models exposing (Model, Player, Enemy, Position, Game)
 import String exposing (isEmpty)
 
 
@@ -16,20 +16,27 @@ view : Model -> Html msg
 view model =
     case model.error of
         Nothing ->
-            case model.game.currentPlayer of
-                Just player ->
-                    scene
-                        [ attribute "embedded" "true"
-                        , attribute "data-player-id" player.id
-                        ]
-                        [ renderCamera player.position player.points
-                        , renderFloor
-                        , renderPlayers model.game.players
-                        , renderEnemies model.game.enemies
-                        ]
+            let
+                currentPlayerId =
+                    model.game.currentPlayerId
 
-                Nothing ->
-                    div [] []
+                currentPlayer =
+                    List.head <| List.filter (\a -> a.id == currentPlayerId) model.game.players
+            in
+                case currentPlayer of
+                    Just player ->
+                        scene
+                            [ attribute "embedded" "true"
+                            , attribute "data-player-id" player.id
+                            ]
+                            [ renderCamera player.position player.points
+                            , renderFloor
+                            , renderPlayers model.game
+                            , renderEnemies model.game.enemies
+                            ]
+
+                    Nothing ->
+                        div [] []
 
         Just errorMsg ->
             renderErrorMsg errorMsg
@@ -55,8 +62,11 @@ renderErrorMsg error =
 
 renderCamera : Position -> Int -> Html msg
 renderCamera cameraPos points =
-    entity [ position cameraPos.x cameraPos.y cameraPos.z ]
-        [ camera []
+    entity
+        [ position cameraPos.x cameraPos.y cameraPos.z ]
+        [ camera
+            [ attribute "player-position-listener" "true"
+            ]
             [ renderCursor
             , renderPoints points
             ]
@@ -86,9 +96,13 @@ renderFloor =
         ]
 
 
-renderPlayers : List Player -> Html msg
-renderPlayers players =
-    entity [] (List.map renderPlayer players)
+renderPlayers : Game -> Html msg
+renderPlayers game =
+    let
+        players =
+            List.filter (\a -> a.id /= game.currentPlayerId) game.players
+    in
+        entity [] (List.map renderPlayer players)
 
 
 renderPlayer : Player -> Html msg
