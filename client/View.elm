@@ -63,9 +63,10 @@ renderErrorMsg error =
 renderCamera : Position -> Int -> Html msg
 renderCamera cameraPos points =
     entity
-        [ position cameraPos.x cameraPos.y cameraPos.z ]
+        []
         [ camera
-            [ attribute "player-position-listener" "true"
+            [ position cameraPos.x cameraPos.y cameraPos.z
+            , attribute "player-position-listener" "true"
             ]
             [ renderCursor
             , renderPoints points
@@ -109,7 +110,7 @@ renderPlayer : Player -> Html msg
 renderPlayer player =
     box
         [ attribute "data-id" player.id
-        , position player.position.x player.position.y player.position.z
+        , position player.position.x 0.6 player.position.z
         , width 1
         , height 1
         , color (rgb 240 173 0)
