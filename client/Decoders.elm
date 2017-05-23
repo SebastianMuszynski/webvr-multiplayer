@@ -2,7 +2,7 @@ module Decoders exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, required, requiredAt)
-import Models exposing (Action, ActionPayload, Player, Enemy, Position)
+import Models exposing (Action, ActionPayload, Player, Enemy, PlayerSettings, Position, Rotation)
 
 
 -- Action
@@ -50,8 +50,19 @@ playerDecoder : Decoder Player
 playerDecoder =
     decode Player
         |> required "id" Decode.string
-        |> requiredAt [ "position" ] positionDecoder
+        |> requiredAt [ "player_settings" ] playerSettingsDecoder
         |> requiredAt [ "points" ] Decode.int
+
+
+
+-- PlayerSettings
+
+
+playerSettingsDecoder : Decoder PlayerSettings
+playerSettingsDecoder =
+    decode PlayerSettings
+        |> requiredAt [ "position" ] positionDecoder
+        |> requiredAt [ "rotation" ] rotationDecoder
 
 
 
@@ -86,3 +97,15 @@ positionDecoder =
         |> required "x" Decode.float
         |> required "y" Decode.float
         |> required "z" Decode.float
+
+
+
+-- Rotation
+
+
+rotationDecoder : Decoder Rotation
+rotationDecoder =
+    decode Rotation
+        |> required "x" Decode.int
+        |> required "y" Decode.int
+        |> required "z" Decode.int

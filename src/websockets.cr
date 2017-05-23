@@ -30,13 +30,13 @@ ws "/room" do |socket|
         socket.send enemiesAction.to_json
       end
     when "PLAYER_POSITION_CHANGED"
-      position = Position.from_json(action.payload.data)
+      playerSettings = PlayerSettings.from_json(action.payload.data)
 
       player_id = action.payload.player_id
       player = SCENE.get_player_by_id(player_id)
 
       if player
-        player.set_position(position)
+        player.set_player_settings(playerSettings)
         playersAction = Action.players(SCENE.players)
 
         SOCKETS.each do |otherSocket|

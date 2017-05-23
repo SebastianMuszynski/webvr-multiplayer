@@ -135,7 +135,8 @@ renderPlayer player =
         , attribute "mtl" "#mario-mtl"
         , scale 0.025 0.025 0.025
         , attribute "data-id" player.id
-        , position player.position.x 1.5 player.position.z
+        , position player.player_settings.position.x 1.5 player.player_settings.position.z
+        , rotation 0 (player.player_settings.rotation.y + 180) 0
         ]
         []
 

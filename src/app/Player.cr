@@ -1,7 +1,10 @@
 class Player
   def initialize(x : Float64, y : Float64, z : Float64)
     @id = SecureRandom.uuid
-    @position = Position.new(x, y, z)
+    @player_settings = PlayerSettings.new(
+      Position.new(x, y, z),
+      Rotation.new(0, 0, 0)
+    )
     @points = 0
   end
 
@@ -20,13 +23,13 @@ class Player
     @points += number
   end
 
-  def set_position(position : Position)
-    @position = position
+  def set_player_settings(player_settings : PlayerSettings)
+    @player_settings = player_settings
   end
 
   JSON.mapping(
     id: String,
-    position: { type: Position, nilable: false },
+    player_settings: { type: PlayerSettings, nilable: false },
     points: Int32
   )
 end

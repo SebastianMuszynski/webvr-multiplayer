@@ -56,9 +56,22 @@ type alias Position =
     }
 
 
+type alias Rotation =
+    { x : Int
+    , y : Int
+    , z : Int
+    }
+
+
+type alias PlayerSettings =
+    { position : Position
+    , rotation : Rotation
+    }
+
+
 type alias Player =
     { id : PlayerId
-    , position : Position
+    , player_settings : PlayerSettings
     , points : Int
     }
 

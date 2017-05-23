@@ -2,7 +2,7 @@ module Encoders exposing (..)
 
 import Config exposing (jsonIndentation)
 import Json.Encode as Encode
-import Models exposing (Player, Position, Action, ActionPayload)
+import Models exposing (Player, Position, Rotation, Action, ActionPayload, PlayerSettings)
 
 
 -- Action
@@ -43,11 +43,26 @@ encodePlayer player =
     let
         attributes =
             [ ( "id", Encode.string player.id )
-            , ( "position", encodePosition player.position )
+            , ( "player_settings", encodePlayerSettings player.player_settings )
             , ( "points", Encode.int player.points )
             ]
     in
         Encode.encode jsonIndentation (Encode.object attributes)
+
+
+
+-- PlayerSettingse
+
+
+encodePlayerSettings : PlayerSettings -> Encode.Value
+encodePlayerSettings playerSettings =
+    let
+        attributes =
+            [ ( "position", encodePosition playerSettings.position )
+            , ( "rotation", encodeRotation playerSettings.rotation )
+            ]
+    in
+        Encode.object attributes
 
 
 
@@ -61,6 +76,22 @@ encodePosition position =
             [ ( "x", Encode.float position.x )
             , ( "y", Encode.float position.y )
             , ( "z", Encode.float position.z )
+            ]
+    in
+        Encode.object attributes
+
+
+
+-- Rotation
+
+
+encodeRotation : Rotation -> Encode.Value
+encodeRotation rotation =
+    let
+        attributes =
+            [ ( "x", Encode.int rotation.x )
+            , ( "y", Encode.int rotation.y )
+            , ( "z", Encode.int rotation.z )
             ]
     in
         Encode.object attributes
