@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel, image, sky)
+import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
@@ -30,8 +30,7 @@ view model =
                             , attribute "data-player-id" player.id
                             ]
                             [ assets []
-                                [ image [ id "sky", src "images/sky2.jpg" ] []
-                                , assetItem
+                                [ assetItem
                                     [ id "mario-mtl"
                                     , src "models/mario/mario-sculpture.mtl"
                                     ]
@@ -53,11 +52,9 @@ view model =
                                     []
                                 ]
                             , renderCamera (Position 0 0.6 0) player.points
-
-                            -- , renderFloor
-                            -- , renderPlayers model.game
-                            -- , renderEnemies model.game.enemies
-                            , renderSky
+                            , renderFloor
+                            , renderPlayers model.game
+                            , renderEnemies model.game.enemies
                             ]
 
                     Nothing ->
@@ -94,10 +91,8 @@ renderCamera cameraPos points =
             , attribute "player-position-listener" "true"
             ]
             [ renderCursor
-
-            -- , renderPoints points
+            , renderPoints points
             ]
-        , renderPlayerLight cameraPos
         ]
 
 
@@ -116,21 +111,12 @@ renderFloor =
     entity []
         [ plane
             [ rotation -90 0 0
-            , width 30
-            , height 30
+            , width 100
+            , height 100
             , color (rgb 92 171 125)
             ]
             []
         ]
-
-
-renderSky : Html msg
-renderSky =
-    sky
-        [ src "#sky"
-        , attribute "animation" ("property: rotation; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: 0.5 0.5 0.1")
-        ]
-        []
 
 
 renderPlayers : Game -> Html msg
@@ -191,15 +177,5 @@ renderPoints points =
         [ attribute "value" (toString points)
         , color (rgb 0 0 0)
         , position 1 0 -2
-        ]
-        []
-
-
-renderPlayerLight : Position -> Html msg
-renderPlayerLight playerPosition =
-    entity
-        [ attribute "light" "angle: 90; color: #fff; decay: 0; intensity: 1; penumbra: 1; type: spot"
-        , position playerPosition.x 4 playerPosition.z
-        , rotation -90 0 0
         ]
         []
