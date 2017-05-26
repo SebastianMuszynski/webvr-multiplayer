@@ -29,12 +29,24 @@ view model =
                             [ attribute "embedded" "true"
                             , attribute "data-player-id" player.id
                             ]
-                            [ assets [] []
+                            [ assets []
+                                [ assetItem
+                                    [ id "ship-obj"
+                                    , src "models/ship/OBJ/msmunchen.obj"
+                                    ]
+                                    []
+                                , assetItem
+                                    [ id "ship-mtl"
+                                    , src "models/ship/OBJ/msmunchen.mtl"
+                                    ]
+                                    []
+                                ]
                             , renderCamera (Position 0 0.6 0) player.points
 
                             -- , renderFloor
                             -- , renderPlayers model.game
                             -- , renderEnemies model.game.enemies
+                            , renderShip
                             , renderOcean
                             , renderSky
                             ]
@@ -69,11 +81,12 @@ renderCamera cameraPos points =
     entity
         []
         [ camera
-            [ position cameraPos.x cameraPos.y cameraPos.z
+            [ position cameraPos.x 5 cameraPos.z
             , attribute "player-position-listener" "true"
             ]
             [ renderCursor
-            , renderPoints points
+
+            -- , renderPoints points
             ]
         ]
 
@@ -164,6 +177,19 @@ renderPoints points =
         [ attribute "value" (toString points)
         , color (rgb 0 0 0)
         , position 1 0 -2
+        ]
+        []
+
+
+renderShip : Html msg
+renderShip =
+    objModel
+        [ src "#ship-obj"
+        , attribute "mtl" "#ship-mtl"
+        , scale 0.5 0.5 0.5
+        , position -10 -2 -40
+        , rotation 0 -45 0
+        , attribute "animation" ("property: position; dur: 120000; easing: easeInOutSine; loop: true; to: -50 -2 -80")
         ]
         []
 
