@@ -6,7 +6,7 @@ import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
 import Color exposing (rgb)
-import Html exposing (Html, div, text, h2)
+import Html exposing (Html, div, text, h2, node)
 import Html.Attributes exposing (id, align, attribute, style, value)
 import Models exposing (Model, Player, Enemy, Position, Game)
 import String exposing (isEmpty)
@@ -29,49 +29,13 @@ view model =
                             [ attribute "embedded" "true"
                             , attribute "data-player-id" player.id
                             ]
-                            [ assets []
-                                [ assetItem
-                                    [ id "mario-mtl"
-                                    , src "models/mario/mario-sculpture.mtl"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "mario-obj"
-                                    , src "models/mario/mario-sculpture.obj"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "draug-mtl"
-                                    , src "models/draug/ur-draug.mtl"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "draug-obj"
-                                    , src "models/draug/ur-draug.obj"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "spider-mtl"
-                                    , src "models/spider/Only_Spider_with_Animations_Export.mtl"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "spider-obj"
-                                    , src "models/spider/Only_Spider_with_Animations_Export.obj"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "spider-dae"
-                                    , src "models/spider/Only_Spider_with_Animations_Export.dae"
-                                    ]
-                                    []
-                                ]
+                            [ assets [] []
                             , renderCamera (Position 0 0.6 0) player.points
-                            , renderFloor
-                            , renderPlayers model.game
-                            , renderEnemies model.game.enemies
 
-                            -- , renderSingleModel
+                            -- , renderFloor
+                            -- , renderPlayers model.game
+                            -- , renderEnemies model.game.enemies
+                            , renderOcean
                             , renderSky
                             ]
 
@@ -204,30 +168,6 @@ renderPoints points =
         []
 
 
-renderSingleModel : Html msg
-renderSingleModel =
-    -- objModel
-    --     [ src "#spider-obj"
-    --     , attribute "mtl" "#spider-mtl"
-    --     , attribute "model-animation" "true"
-    --     , scale 0.05 0.05 0.05
-    --     , position 0 0 -3
-    --     , rotation 0 180 0
-    --     ]
-    --     []
-    -- colladaModel
-    --     [ src "#spider-dae"
-    --     , scale 0.05 0.05 0.05
-    --     , position 0 0 -3
-    --     , rotation 0 180 0
-    --     ]
-    --     []
-    entity
-        [ attribute "gltf-model" "url(/models/spider/Only_Spider_with_Animations_Export.gltf)"
-
-        -- , attribute "model-animation" "true"
-        , scale 0.2 0.2 0.2
-        , position 0 0 -3
-        , rotation 0 180 0
-        ]
-        []
+renderOcean : Html msg
+renderOcean =
+    node "a-ocean-plane" [] []
