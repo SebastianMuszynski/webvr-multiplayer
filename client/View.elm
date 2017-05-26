@@ -70,7 +70,8 @@ view model =
                             , renderFloor
                             , renderPlayers model.game
                             , renderEnemies model.game.enemies
-                            , renderSingleModel
+
+                            -- , renderSingleModel
                             , renderSky
                             ]
 
