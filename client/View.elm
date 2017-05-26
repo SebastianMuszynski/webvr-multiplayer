@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel)
+import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel, colladaModel, sky)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
@@ -50,11 +50,28 @@ view model =
                                     , src "models/draug/ur-draug.obj"
                                     ]
                                     []
+                                , assetItem
+                                    [ id "spider-mtl"
+                                    , src "models/spider/Only_Spider_with_Animations_Export.mtl"
+                                    ]
+                                    []
+                                , assetItem
+                                    [ id "spider-obj"
+                                    , src "models/spider/Only_Spider_with_Animations_Export.obj"
+                                    ]
+                                    []
+                                , assetItem
+                                    [ id "spider-dae"
+                                    , src "models/spider/Only_Spider_with_Animations_Export.dae"
+                                    ]
+                                    []
                                 ]
                             , renderCamera (Position 0 0.6 0) player.points
                             , renderFloor
                             , renderPlayers model.game
                             , renderEnemies model.game.enemies
+                            , renderSingleModel
+                            , renderSky
                             ]
 
                     Nothing ->
@@ -119,6 +136,11 @@ renderFloor =
         ]
 
 
+renderSky : Html msg
+renderSky =
+    sky [ color (rgb 135 206 250) ] []
+
+
 renderPlayers : Game -> Html msg
 renderPlayers game =
     let
@@ -177,5 +199,34 @@ renderPoints points =
         [ attribute "value" (toString points)
         , color (rgb 0 0 0)
         , position 1 0 -2
+        ]
+        []
+
+
+renderSingleModel : Html msg
+renderSingleModel =
+    -- objModel
+    --     [ src "#spider-obj"
+    --     , attribute "mtl" "#spider-mtl"
+    --     , attribute "model-animation" "true"
+    --     , scale 0.05 0.05 0.05
+    --     , position 0 0 -3
+    --     , rotation 0 180 0
+    --     ]
+    --     []
+    -- colladaModel
+    --     [ src "#spider-dae"
+    --     , scale 0.05 0.05 0.05
+    --     , position 0 0 -3
+    --     , rotation 0 180 0
+    --     ]
+    --     []
+    entity
+        [ attribute "gltf-model" "url(/models/spider/Only_Spider_with_Animations_Export.gltf)"
+
+        -- , attribute "model-animation" "true"
+        , scale 0.2 0.2 0.2
+        , position 0 0 -3
+        , rotation 0 180 0
         ]
         []

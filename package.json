@@ -19,6 +19,7 @@
     "elm-webpack-loader": "^4.3.0",
     "file-loader": "^0.11.1",
     "foreman": "^2.0.0",
+    "obj2gltf": "^1.1.1",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.3",

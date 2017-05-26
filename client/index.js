@@ -2,6 +2,7 @@
 
 require('./aframe-components/enemyHoverListener.js');
 require('./aframe-components/playerPositionListener.js');
+require('./aframe-components/modelAnimation.js');
 
 var Elm = require('./Main.elm');
 var mountNode = document.getElementById('main');
