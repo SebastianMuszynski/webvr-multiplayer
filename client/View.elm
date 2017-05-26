@@ -82,7 +82,8 @@ renderCamera cameraPos points =
         []
         [ camera
             [ position cameraPos.x 5 cameraPos.z
-            , attribute "player-position-listener" "true"
+
+            -- , attribute "player-position-listener" "true"
             ]
             [ renderCursor
 
