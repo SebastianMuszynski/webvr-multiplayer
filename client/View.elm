@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel)
+import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel, sky)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
@@ -9,7 +9,6 @@ import Color exposing (rgb)
 import Html exposing (Html, div, text, h2)
 import Html.Attributes exposing (id, align, attribute, style, value)
 import Models exposing (Model, Player, Enemy, Position, Game)
-import String exposing (isEmpty)
 
 
 view : Model -> Html msg
@@ -29,32 +28,11 @@ view model =
                             [ attribute "embedded" "true"
                             , attribute "data-player-id" player.id
                             ]
-                            [ assets []
-                                [ assetItem
-                                    [ id "mario-mtl"
-                                    , src "models/mario/mario-sculpture.mtl"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "mario-obj"
-                                    , src "models/mario/mario-sculpture.obj"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "draug-mtl"
-                                    , src "models/draug/ur-draug.mtl"
-                                    ]
-                                    []
-                                , assetItem
-                                    [ id "draug-obj"
-                                    , src "models/draug/ur-draug.obj"
-                                    ]
-                                    []
-                                ]
-                            , renderCamera (Position 0 0.6 0) player.points
+                            [ renderCamera (Position 0 0.6 0) player.points
                             , renderFloor
                             , renderPlayers model.game
                             , renderEnemies model.game.enemies
+                            , renderSky
                             ]
 
                     Nothing ->
@@ -130,23 +108,18 @@ renderPlayers game =
 
 renderPlayer : Player -> Html msg
 renderPlayer player =
-    objModel
-        [ src "#mario-obj"
-        , attribute "mtl" "#mario-mtl"
-        , scale 0.025 0.025 0.025
-        , attribute "data-id" player.id
-        , position player.player_settings.position.x 1.5 player.player_settings.position.z
-        , rotation 0 (player.player_settings.rotation.y + 180) 0
-        ]
-        []
+    entity []
+      [ sphere
+          [ radius 1
+          , color (rgb 255 0 125)
+          ]
+          []
+      ]
 
 
 renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
-    entity
-        [ attribute "animation" ("property: rotation; dur: 10000; easing: easeInOutSine; loop: true; to: 0 360 0")
-        ]
-        (List.map renderEnemy enemies)
+    entity [] (List.map renderEnemy enemies)
 
 
 renderEnemy : Enemy -> Html msg
@@ -158,10 +131,10 @@ renderEnemy enemy =
                 |> List.intersperse " "
                 |> String.concat
     in
-        objModel
-            [ src "#draug-obj"
-            , attribute "mtl" "#draug-mtl"
-            , scale 0.3 0.3 0.3
+        entity []
+          [ sphere
+            [ radius 3
+            , color (rgb 92 171 255)
             , attribute "data-id" enemy.id
             , position enemy.position.x enemy.position.y enemy.position.z
             , attribute "enemy-hover-listener" "true"
@@ -169,6 +142,7 @@ renderEnemy enemy =
             , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
             ]
             []
+          ]
 
 
 renderPoints : Int -> Html msg
@@ -179,3 +153,7 @@ renderPoints points =
         , position 1 0 -2
         ]
         []
+
+renderSky : Html msg
+renderSky =
+    sky [ color (rgb 255 186 213) ] []
