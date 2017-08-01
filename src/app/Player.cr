@@ -24,6 +24,9 @@ class Player
   end
 
   def set_player_settings(player_settings : PlayerSettings)
+    pos = player_settings.position
+    pos.x = pos.x + player_settings.rotation.z
+    player_settings.position = pos
     @player_settings = player_settings
   end
 
