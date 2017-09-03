@@ -25,6 +25,10 @@ class Action
   def self.start_game
     new("START_GAME", ActionPayload.new("", ""))
   end
+  
+  def self.game_over
+    new("GAME_OVER", ActionPayload.new("", ""))
+  end
 
   JSON.mapping(
     type_: String,

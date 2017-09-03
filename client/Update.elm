@@ -61,6 +61,15 @@ handleAction action model =
                 { currentGame | status = "START_GAME" }
         in
         ( { model | game = updatedGame }, Cmd.none )
+    else if action.type_ == "GAME_OVER" then
+        let
+            currentGame =
+                model.game
+
+            updatedGame =
+                { currentGame | status = "GAME_OVER" }
+        in
+        ( { model | game = updatedGame }, Cmd.none )
     else if action.type_ == "NEW_PLAYER_RESPONSE" then
         let
             playerId =

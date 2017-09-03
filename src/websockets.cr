@@ -83,6 +83,12 @@ ws "/room" do |socket|
       SOCKETS.each do |socket|
         socket.send enemiesAction.to_json
       end
+      
+      if SCENE.is_game_over
+        SOCKETS.each do |socket|
+          socket.send Action.game_over.to_json
+        end
+      end
     else
       p "Unrecognised action type: #{action.type_}"
     end

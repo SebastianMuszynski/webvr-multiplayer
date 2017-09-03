@@ -45,6 +45,10 @@ class Scene
   def can_start_game
     @players.all? { |player| player.is_ready_to_play } 
   end
+  
+  def is_game_over
+    @enemies.all? { |enemy| enemy.is_dead } 
+  end
 
   JSON.mapping(
     players: Array(Player),

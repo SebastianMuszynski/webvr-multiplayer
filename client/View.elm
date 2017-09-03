@@ -36,6 +36,9 @@ view model =
                             "START_GAME" ->
                                 renderGame model.game player
 
+                            "GAME_OVER" ->
+                                renderGameOverText
+
                             _ ->
                                 renderStartGameBtn
                         ]
@@ -104,6 +107,18 @@ renderAwaitingText =
     entity []
         [ text
             [ attribute "value" "Waiting for other players to start..."
+            , color (rgb 0 0 0)
+            , position -1.5 1.6 -3
+            ]
+            []
+        ]
+
+
+renderGameOverText : Html msg
+renderGameOverText =
+    entity []
+        [ text
+            [ attribute "value" "Game over! :)"
             , color (rgb 0 0 0)
             , position -1.5 1.6 -3
             ]

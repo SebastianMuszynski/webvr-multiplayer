@@ -17,6 +17,10 @@ class Enemy
   def hide
     @isVisible = false
   end
+  
+  def is_dead
+    !@isVisible
+  end
 
   JSON.mapping(
     id: String,
