@@ -119,10 +119,7 @@ renderPlayer player =
 
 renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
-    entity
-        [ attribute "animation" "property: rotation; dur: 10000; easing: easeInOutSine; loop: true; to: 0 360 0"
-        ]
-        (List.map renderEnemy enemies)
+    entity [] (List.map renderEnemy enemies)
 
 
 renderEnemy : Enemy -> Html msg
