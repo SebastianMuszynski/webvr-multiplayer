@@ -6,7 +6,7 @@ import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
 import Color exposing (rgb)
-import Html exposing (Html, div, h2, node, text)
+import Html exposing (Html, div, h2, node)
 import Html.Attributes exposing (align, attribute, id, style, value)
 import Models exposing (Enemy, Game, Model, Player, Position)
 import String exposing (isEmpty)
@@ -29,12 +29,18 @@ view model =
                         [ attribute "embedded" "true"
                         , attribute "data-player-id" player.id
                         ]
-                        [ renderCamera (Position 0 0.6 0) player.points
-                        , renderFloor
-                        , renderPlayers model.game
-                        , renderEnemies model.game.enemies
+                        [ renderMenu
                         ]
 
+                -- scene
+                --     [ attribute "embedded" "true"
+                --     , attribute "data-player-id" player.id
+                --     ]
+                --     [ renderCamera (Position 0 0.6 0) player.points
+                --     , renderFloor
+                --     , renderPlayers model.game
+                --     , renderEnemies model.game.enemies
+                --     ]
                 Nothing ->
                     div [] []
 
@@ -58,6 +64,25 @@ renderErrorMsg error =
             ]
         ]
         [ Html.text error ]
+
+
+renderMenu : Html msg
+renderMenu =
+    entity []
+        [ plane
+            [ width 2
+            , height 2
+            , position 0 1.6 -3
+            , color (rgb 255 171 125)
+            ]
+            []
+        , text
+            [ attribute "value" "Start game"
+            , color (rgb 0 0 0)
+            , position -0.55 1.6 -3
+            ]
+            []
+        ]
 
 
 renderCamera : Position -> Int -> Html msg
