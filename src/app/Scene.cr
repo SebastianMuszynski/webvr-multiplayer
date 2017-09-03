@@ -11,6 +11,11 @@ class Scene
   def add_player(player)
     @players << player
   end
+  
+  def set_player_as_ready_to_play(player_id)
+    player = get_player_by_id(player_id)
+    player && player.set_as_ready_to_play
+  end
 
   def get_player_by_id(player_id)
     @players.find { |player| player.id == player_id }
@@ -30,6 +35,10 @@ class Scene
   def remove_enemy_by_id(enemy_id)
     enemy = @enemies.find { |enemy| enemy.id == enemy_id }
     enemy && enemy.hide
+  end
+  
+  def can_start_game
+    @players.all? { |player| player.is_ready_to_play } 
   end
 
   JSON.mapping(

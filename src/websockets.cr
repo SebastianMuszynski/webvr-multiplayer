@@ -12,6 +12,19 @@ ws "/room" do |socket|
     action = Action.from_json(message)
 
     case action.type_
+    when "START_GAME_REQUEST"
+      player_id = action.payload.player_id
+      SCENE.set_player_as_ready_to_play(player_id)
+      
+      if SCENE.can_start_game
+        p "TRYING TO START GAME FOR ALL"
+        SOCKETS.each do |socket|  
+          socket.send Action.start_game.to_json
+        end
+      else
+        socket.send Action.wait_for_players.to_json
+        p Action.wait_for_players.to_json
+      end
     when "NEW_PLAYER_REQUEST"
       player = Player.random
       SCENE.add_player(player)

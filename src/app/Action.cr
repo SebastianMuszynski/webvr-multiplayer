@@ -17,6 +17,14 @@ class Action
   def self.player(player : Player)
     new("PLAYER", ActionPayload.new(player.to_json, player.id))
   end
+  
+  def self.wait_for_players
+    new("WAIT_FOR_PLAYERS", ActionPayload.new("", ""))
+  end
+  
+  def self.start_game
+    new("START_GAME", ActionPayload.new("", ""))
+  end
 
   JSON.mapping(
     type_: String,

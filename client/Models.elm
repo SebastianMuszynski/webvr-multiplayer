@@ -3,9 +3,14 @@ module Models exposing (..)
 
 type alias Game =
     { currentPlayerId : PlayerId
+    , status : GameStatus
     , players : List Player
     , enemies : List Enemy
     }
+
+
+type alias GameStatus =
+    String
 
 
 type alias Config =
@@ -22,7 +27,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { game = Game "" [] []
+    { game = Game "NEW_GAME" "" [] []
     , config = Config Nothing
     , error = Nothing
     }

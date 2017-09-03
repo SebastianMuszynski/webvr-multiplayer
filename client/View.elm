@@ -8,7 +8,7 @@ import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
 import Color exposing (rgb)
 import Html exposing (Html, div, h2, node)
 import Html.Attributes exposing (align, attribute, id, style, value)
-import Models exposing (Enemy, Game, Model, Player, Position)
+import Models exposing (Enemy, Game, GameStatus, Model, Player, Position)
 import String exposing (isEmpty)
 
 
@@ -29,23 +29,32 @@ view model =
                         [ attribute "embedded" "true"
                         , attribute "data-player-id" player.id
                         ]
-                        [ renderMenu
+                        [ case model.game.status of
+                            "WAIT_FOR_PLAYERS" ->
+                                renderAwaitingText
+
+                            "START_GAME" ->
+                                renderGame model.game player
+
+                            _ ->
+                                renderStartGameBtn
                         ]
 
-                -- scene
-                --     [ attribute "embedded" "true"
-                --     , attribute "data-player-id" player.id
-                --     ]
-                --     [ renderCamera (Position 0 0.6 0) player.points
-                --     , renderFloor
-                --     , renderPlayers model.game
-                --     , renderEnemies model.game.enemies
-                --     ]
                 Nothing ->
                     div [] []
 
         Just errorMsg ->
             renderErrorMsg errorMsg
+
+
+renderGame : Game -> Player -> Html msg
+renderGame game player =
+    entity []
+        [ renderCamera (Position 0 0.6 0) player.points
+        , renderFloor
+        , renderPlayers game
+        , renderEnemies game.enemies
+        ]
 
 
 renderErrorMsg : String -> Html msg
@@ -66,14 +75,15 @@ renderErrorMsg error =
         [ Html.text error ]
 
 
-renderMenu : Html msg
-renderMenu =
+renderStartGameBtn : Html msg
+renderStartGameBtn =
     entity []
         [ plane
             [ width 2
             , height 1
             , position 0 2.6 -3
             , color (rgb 255 171 125)
+            , attribute "start-game-listener" "true"
             ]
             []
         , text
@@ -86,6 +96,18 @@ renderMenu =
             []
             [ renderCursor
             ]
+        ]
+
+
+renderAwaitingText : Html msg
+renderAwaitingText =
+    entity []
+        [ text
+            [ attribute "value" "Waiting for other players to start..."
+            , color (rgb 0 0 0)
+            , position -1.5 1.6 -3
+            ]
+            []
         ]
 
 

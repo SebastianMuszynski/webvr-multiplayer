@@ -6,6 +6,7 @@ class Player
       Rotation.new(0, 0, 0)
     )
     @points = 0
+    @is_ready_to_play = false
   end
 
   def self.random
@@ -29,10 +30,19 @@ class Player
     player_settings.position = pos
     @player_settings = player_settings
   end
+  
+  def set_as_ready_to_play
+    @is_ready_to_play = true
+  end
+  
+  def is_ready_to_play
+    @is_ready_to_play
+  end
 
   JSON.mapping(
     id: String,
     player_settings: { type: PlayerSettings, nilable: false },
-    points: Int32
+    points: Int32,
+    is_ready_to_play: Bool
   )
 end
