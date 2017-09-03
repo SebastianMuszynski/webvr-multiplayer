@@ -71,17 +71,21 @@ renderMenu =
     entity []
         [ plane
             [ width 2
-            , height 2
-            , position 0 1.6 -3
+            , height 1
+            , position 0 2.6 -3
             , color (rgb 255 171 125)
             ]
             []
         , text
             [ attribute "value" "Start game"
             , color (rgb 0 0 0)
-            , position -0.55 1.6 -3
+            , position -0.55 2.6 -3
             ]
             []
+        , camera
+            []
+            [ renderCursor
+            ]
         ]
 
 
