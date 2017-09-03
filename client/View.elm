@@ -1,14 +1,15 @@
 module View exposing (..)
 
-import AFrame exposing (scene, entity)
-import AFrame.Primitives exposing (assets, assetItem, plane, box, sphere, text, objModel, sky)
+import AFrame exposing (entity, scene)
+import AFrame.Primitives exposing (assetItem, assets, box, objModel, plane, sky, sphere, text)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
-import AFrame.Primitives.Cursor exposing (cursor, timeout, fuse)
+import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
 import Color exposing (rgb)
-import Html exposing (Html, div, text, h2)
-import Html.Attributes exposing (id, align, attribute, style, value)
-import Models exposing (Model, Player, Enemy, Position, Game)
+import Html exposing (Html, div, h2, node, text)
+import Html.Attributes exposing (align, attribute, id, style, value)
+import Models exposing (Enemy, Game, Model, Player, Position)
+import String exposing (isEmpty)
 
 
 view : Model -> Html msg
@@ -22,21 +23,20 @@ view model =
                 currentPlayer =
                     List.head <| List.filter (\a -> a.id == currentPlayerId) model.game.players
             in
-                case currentPlayer of
-                    Just player ->
-                        scene
-                            [ attribute "embedded" "true"
-                            , attribute "data-player-id" player.id
-                            ]
-                            [ renderCamera (Position 0 0.6 0) player.points
-                            , renderFloor
-                            , renderPlayers model.game
-                            , renderEnemies model.game.enemies
-                            , renderSky
-                            ]
+            case currentPlayer of
+                Just player ->
+                    scene
+                        [ attribute "embedded" "true"
+                        , attribute "data-player-id" player.id
+                        ]
+                        [ renderCamera (Position 0 0.6 0) player.points
+                        , renderFloor
+                        , renderPlayers model.game
+                        , renderEnemies model.game.enemies
+                        ]
 
-                    Nothing ->
-                        div [] []
+                Nothing ->
+                    div [] []
 
         Just errorMsg ->
             renderErrorMsg errorMsg
@@ -103,23 +103,26 @@ renderPlayers game =
         players =
             List.filter (\a -> a.id /= game.currentPlayerId) game.players
     in
-        entity [] (List.map renderPlayer players)
+    entity [] (List.map renderPlayer players)
 
 
 renderPlayer : Player -> Html msg
 renderPlayer player =
     entity []
-      [ sphere
-          [ radius 1
-          , color (rgb 255 0 125)
-          ]
-          []
-      ]
+        [ sphere
+            [ radius 1
+            , color (rgb 255 0 125)
+            ]
+            []
+        ]
 
 
 renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
-    entity [] (List.map renderEnemy enemies)
+    entity
+        [ attribute "animation" "property: rotation; dur: 10000; easing: easeInOutSine; loop: true; to: 0 360 0"
+        ]
+        (List.map renderEnemy enemies)
 
 
 renderEnemy : Enemy -> Html msg
@@ -131,10 +134,10 @@ renderEnemy enemy =
                 |> List.intersperse " "
                 |> String.concat
     in
-        entity []
-          [ sphere
-            [ radius 3
-            , color (rgb 92 171 255)
+    entity []
+        [ sphere
+            [ radius 1
+            , color (rgb 255 0 125)
             , attribute "data-id" enemy.id
             , position enemy.position.x enemy.position.y enemy.position.z
             , attribute "enemy-hover-listener" "true"
@@ -142,7 +145,7 @@ renderEnemy enemy =
             , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
             ]
             []
-          ]
+        ]
 
 
 renderPoints : Int -> Html msg
@@ -153,7 +156,3 @@ renderPoints points =
         , position 1 0 -2
         ]
         []
-
-renderSky : Html msg
-renderSky =
-    sky [ color (rgb 255 186 213) ] []
