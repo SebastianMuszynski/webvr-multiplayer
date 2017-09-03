@@ -12,6 +12,11 @@ class Scene
     @players << player
   end
   
+  def remove_player_by_socket(socket)
+    player = @players.find { |player| player.socket == socket }
+    player && @players.delete player
+  end
+  
   def set_player_as_ready_to_play(player_id)
     player = get_player_by_id(player_id)
     player && player.set_as_ready_to_play

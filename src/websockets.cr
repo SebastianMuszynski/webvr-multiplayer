@@ -27,6 +27,7 @@ ws "/room" do |socket|
       end
     when "NEW_PLAYER_REQUEST"
       player = Player.random
+      player.assign_socket(socket)
       SCENE.add_player(player)
 
       # Set current player id
@@ -88,6 +89,15 @@ ws "/room" do |socket|
   end
 
   socket.on_close do
+    SCENE.remove_player_by_socket(socket)
+    
+    playersAction = Action.players(SCENE.players)
+    SOCKETS.each do |otherSocket|
+      if otherSocket != socket
+        otherSocket.send playersAction.to_json
+      end
+    end
+    
     SOCKETS.delete socket
   end
 end
