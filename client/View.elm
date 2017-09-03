@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (entity, scene)
-import AFrame.Primitives exposing (assetItem, assets, box, objModel, plane, sky, sphere, text)
+import AFrame.Primitives exposing (assetItem, assets, box, plane, sky, sphere, text)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
