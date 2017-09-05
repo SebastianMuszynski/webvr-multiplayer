@@ -26,7 +26,10 @@ ws "/room" do |socket|
         p Action.wait_for_players.to_json
       end
     when "NEW_PLAYER_REQUEST"
-      player = Player.random
+      # player = Player.random
+      new_pos = SCENE.get_new_player_position
+      player = Player.new(new_pos.x, new_pos.y, new_pos.z)
+      
       player.assign_socket(socket)
       SCENE.add_player(player)
 
@@ -84,7 +87,7 @@ ws "/room" do |socket|
         socket.send enemiesAction.to_json
       end
       
-      if SCENE.is_game_over
+      if SCENE.is_game_over 
         SOCKETS.each do |socket|
           socket.send Action.game_over.to_json
         end

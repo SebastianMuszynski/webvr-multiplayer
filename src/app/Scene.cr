@@ -12,6 +12,18 @@ class Scene
     @players << player
   end
   
+  def get_new_player_position
+    dist = 7.0
+    zero = 0.0
+    positions = [
+      Position.new( zero, zero,  dist), 
+      Position.new( zero, zero, -dist), 
+      Position.new(-dist, zero,  zero), 
+      Position.new( dist, zero,  zero)
+    ]
+    positions[@players.size % positions.size]
+  end
+  
   def remove_player_by_socket(socket)
     player = @players.find { |player| player.socket == socket }
     player && @players.delete player

@@ -53,10 +53,49 @@ view model =
 renderGame : Game -> Player -> Html msg
 renderGame game player =
     entity []
-        [ renderCamera (Position 0 0.6 0) player.points
-        , renderFloor
-        , renderPlayers game
-        , renderEnemies game.enemies
+        [ renderCountdown
+        , entity []
+            [ renderCamera player.player_settings.position player.points
+            , renderFloor
+            , renderPlayers game
+            , renderEnemies game.enemies
+            ]
+        ]
+
+
+renderCountdown : Html msg
+renderCountdown =
+    entity []
+        [ entity []
+            [ text
+                [ attribute "value" "3"
+                , height 5
+                , color (rgb 0 0 0)
+                , position -0.15 -2.6 -3
+                , attribute "animation" "property: position; dur: 1000; dir: alternate; easing: easeInOutSine; to: -0.15 2.6 -3; delay: 500"
+                ]
+                []
+            ]
+        , entity []
+            [ text
+                [ attribute "value" "2"
+                , height 5
+                , color (rgb 0 0 0)
+                , position -0.15 -2.6 -3
+                , attribute "animation" "property: position; dur: 1000; dir: alternate; easing: easeInOutSine; to: -0.15 2.6 -3; delay: 1500"
+                ]
+                []
+            ]
+        , entity []
+            [ text
+                [ attribute "value" "1"
+                , height 5
+                , color (rgb 0 0 0)
+                , position -0.15 -2.6 -3
+                , attribute "animation" "property: position; dur: 1000; dir: alternate; easing: easeInOutSine; to: -0.15 2.6 -3; delay: 2500"
+                ]
+                []
+            ]
         ]
 
 
@@ -157,7 +196,8 @@ renderFloor =
             [ rotation -90 0 0
             , width 100
             , height 100
-            , color (rgb 92 171 125)
+            , color (rgb 255 255 255)
+            , attribute "animation" "property: color; dur: 1000; delay: 2500; easing: easeInOutSine; to: #8FA"
             ]
             []
         ]
@@ -176,8 +216,16 @@ renderPlayer : Player -> Html msg
 renderPlayer player =
     entity []
         [ sphere
-            [ radius 1
+            [ radius 0.5
             , color (rgb 255 0 125)
+            , position player.player_settings.position.x 3.5 player.player_settings.position.z
+            ]
+            []
+        , box
+            [ depth 1
+            , width 1
+            , height 3
+            , position player.player_settings.position.x 1.5 player.player_settings.position.z
             ]
             []
         ]
@@ -185,7 +233,11 @@ renderPlayer player =
 
 renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
-    entity [] (List.map renderEnemy enemies)
+    entity
+        [ position 0 -15 0
+        , attribute "animation" "property: position; dur: 1000; easing: easeInOutSine; to: 0 0 0; delay: 4000"
+        ]
+        (List.map renderEnemy enemies)
 
 
 renderEnemy : Enemy -> Html msg
