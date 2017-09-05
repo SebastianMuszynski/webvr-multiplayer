@@ -78,6 +78,7 @@ type alias Player =
     { id : PlayerId
     , player_settings : PlayerSettings
     , points : Int
+    , color : String
     }
 
 
@@ -89,4 +90,5 @@ type alias Enemy =
     { id : EnemyId
     , position : Position
     , isVisible : Bool
+    , color : String
     }

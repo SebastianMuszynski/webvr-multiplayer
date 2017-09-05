@@ -2,7 +2,6 @@ SOCKETS = [] of HTTP::WebSocket
 
 # Init the scene
 SCENE = Scene.new
-SCENE.generate_enemies(5)
 
 ws "/room" do |socket|
   SOCKETS << socket
@@ -18,6 +17,7 @@ ws "/room" do |socket|
       
       if SCENE.can_start_game
         p "TRYING TO START GAME FOR ALL"
+                
         SOCKETS.each do |socket|  
           socket.send Action.start_game.to_json
         end
@@ -28,10 +28,12 @@ ws "/room" do |socket|
     when "NEW_PLAYER_REQUEST"
       # player = Player.random
       new_pos = SCENE.get_new_player_position
-      player = Player.new(new_pos.x, new_pos.y, new_pos.z)
+      player = Player.new(new_pos.x, new_pos.y, new_pos.z, SCENE.get_new_player_color)
       
       player.assign_socket(socket)
       SCENE.add_player(player)
+      
+      SCENE.generate_enemies_for_player(5, player)
 
       # Set current player id
       newPlayerAction = Action.new_player(player.id)

@@ -170,7 +170,7 @@ renderCamera cameraPos points =
     entity
         []
         [ camera
-            [ position cameraPos.x cameraPos.y cameraPos.z
+            [ position cameraPos.x 3 cameraPos.z
             , attribute "player-position-listener" "true"
             ]
             [ renderCursor
@@ -217,7 +217,7 @@ renderPlayer player =
     entity []
         [ sphere
             [ radius 0.5
-            , color (rgb 255 0 125)
+            , attribute "color" player.color
             , position player.player_settings.position.x 3.5 player.player_settings.position.z
             ]
             []
@@ -252,7 +252,7 @@ renderEnemy enemy =
     entity []
         [ sphere
             [ radius 1
-            , color (rgb 255 0 125)
+            , attribute "color" enemy.color
             , attribute "data-id" enemy.id
             , position enemy.position.x enemy.position.y enemy.position.z
             , attribute "enemy-hover-listener" "true"

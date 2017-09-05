@@ -24,6 +24,16 @@ class Scene
     positions[@players.size % positions.size]
   end
   
+  def get_new_player_color
+    colors = [
+      "#F39237",
+      "#BF1363",
+      "#E6C229",
+      "#81559B",
+    ]
+    colors[@players.size % colors.size]
+  end
+  
   def remove_player_by_socket(socket)
     player = @players.find { |player| player.socket == socket }
     player && @players.delete player
@@ -42,13 +52,15 @@ class Scene
     @enemies
   end
 
-  def generate_enemies(enemies_number)
+  def generate_enemies_for_player(enemies_number, player)
     while enemies_number > 0
-      @enemies << Enemy.random
+      enemy = Enemy.random
+      enemy.set_color(player.color)
+      @enemies << enemy
       enemies_number -= 1
     end
   end
-
+  
   def remove_enemy_by_id(enemy_id)
     enemy = @enemies.find { |enemy| enemy.id == enemy_id }
     enemy && enemy.hide

@@ -1,7 +1,7 @@
 class Player
   @socket = uninitialized HTTP::WebSocket
   
-  def initialize(x : Float64, y : Float64, z : Float64)
+  def initialize(x : Float64, y : Float64, z : Float64, color : String)
     @id = SecureRandom.uuid
     @player_settings = PlayerSettings.new(
       Position.new(x, y, z),
@@ -9,6 +9,7 @@ class Player
     )
     @points = 0
     @is_ready_to_play = false
+    @color = color
   end
   
   def assign_socket(socket)
@@ -17,6 +18,10 @@ class Player
   
   def socket
     @socket
+  end
+  
+  def color
+    @color
   end
 
   def self.random
@@ -53,6 +58,7 @@ class Player
     id: String,
     player_settings: { type: PlayerSettings, nilable: false },
     points: Int32,
-    is_ready_to_play: Bool
+    is_ready_to_play: Bool,
+    color: String
   )
 end

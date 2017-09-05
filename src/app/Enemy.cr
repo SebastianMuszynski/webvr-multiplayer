@@ -3,6 +3,15 @@ class Enemy
     @id = SecureRandom.uuid
     @position = Position.new(x, y, z)
     @isVisible = true
+    @color = "#000"
+  end
+  
+  def color
+    @color
+  end
+  
+  def set_color(color)
+    @color = color
   end
 
   def self.random
@@ -25,6 +34,7 @@ class Enemy
   JSON.mapping(
     id: String,
     position: { type: Position, nilable: false },
-    isVisible: Bool
+    isVisible: Bool,
+    color: String
   )
 end
