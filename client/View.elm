@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (entity, scene)
-import AFrame.Primitives exposing (assetItem, assets, box, plane, sky, sphere, text)
+import AFrame.Primitives exposing (assetItem, assets, box, cylinder, plane, sky, sphere, text)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
@@ -216,19 +216,99 @@ renderPlayers game =
 renderPlayer : Player -> Html msg
 renderPlayer player =
     entity []
-        [ sphere
+        [ -- HEAD
+          sphere
             [ radius 0.5
             , attribute "color" player.color
-            , position player.player_settings.position.x 3.5 player.player_settings.position.z
+            , position player.player_settings.position.x 3 player.player_settings.position.z
+            , rotation player.player_settings.rotation.x player.player_settings.rotation.y player.player_settings.rotation.z
+            ]
+            [ -- EYES
+              sphere
+                [ radius 0.2
+                , attribute "color" "#FFF"
+                , position -0.1 0.2 -0.3
+                ]
+                []
+            , sphere
+                [ radius 0.2
+                , attribute "color" "#FFF"
+                , position 0.1 0.2 -0.3
+                ]
+                []
+
+            -- PUPILS
+            , sphere
+                [ radius 0.1
+                , attribute "color" "#000"
+                , position -0.12 0.26 -0.42
+                ]
+                []
+            , sphere
+                [ radius 0.1
+                , attribute "color" "#000"
+                , position 0.12 0.26 -0.42
+                ]
+                []
+            ]
+
+        -- BODY
+        , cylinder
+            [ radius 0.18
+            , height 1.7
+            , attribute "color" player.color
+            , position player.player_settings.position.x 2 player.player_settings.position.z
+            , rotation 0 player.player_settings.rotation.y 0
             ]
             []
-        , box
-            [ depth 1
-            , width 1
-            , height 3
-            , position player.player_settings.position.x 1.5 player.player_settings.position.z
+
+        -- ARMS
+        , entity
+            [ rotation 0 player.player_settings.rotation.y 0
+            , position player.player_settings.position.x 0 player.player_settings.position.z
             ]
-            []
+            [ cylinder
+                [ radius 0.2
+                , height 0.8
+                , scale 0.25 1 0.25
+                , attribute "color" player.color
+                , position -0.3 1.8 0
+                , rotation 0 player.player_settings.rotation.y 0
+                ]
+                []
+            , cylinder
+                [ radius 0.2
+                , height 0.8
+                , scale 0.25 1 0.25
+                , attribute "color" player.color
+                , position 0.3 1.8 0
+                , rotation 0 player.player_settings.rotation.y 0
+                ]
+                []
+            ]
+
+        -- LEGS
+        , entity
+            [ rotation 0 player.player_settings.rotation.y 0
+            , position player.player_settings.position.x 0 player.player_settings.position.z
+            ]
+            [ cylinder
+                [ radius 0.2
+                , height 1.2
+                , scale 0.25 1 0.25
+                , attribute "color" player.color
+                , position -0.13 0.6 0
+                ]
+                []
+            , cylinder
+                [ radius 0.2
+                , height 1.2
+                , scale 0.25 1 0.25
+                , attribute "color" player.color
+                , position 0.13 0.6 0
+                ]
+                []
+            ]
         ]
 
 
