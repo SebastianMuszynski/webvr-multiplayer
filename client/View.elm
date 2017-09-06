@@ -28,6 +28,7 @@ view model =
                     scene
                         [ attribute "embedded" "true"
                         , attribute "data-player-id" player.id
+                        , attribute "data-player-color" player.color
                         ]
                         [ case model.game.status of
                             "WAIT_FOR_PLAYERS" ->
@@ -254,6 +255,7 @@ renderEnemy enemy =
             [ radius 1
             , attribute "color" enemy.color
             , attribute "data-id" enemy.id
+            , attribute "data-color" enemy.color
             , position enemy.position.x enemy.position.y enemy.position.z
             , attribute "enemy-hover-listener" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
