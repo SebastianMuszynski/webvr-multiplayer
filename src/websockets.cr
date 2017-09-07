@@ -33,7 +33,7 @@ ws "/room" do |socket|
       player.assign_socket(socket)
       SCENE.add_player(player)
       
-      SCENE.generate_enemies_for_player(5, player)
+      SCENE.generate_enemies_for_player(1, player)
 
       # Set current player id
       newPlayerAction = Action.new_player(player.id)
@@ -77,8 +77,13 @@ ws "/room" do |socket|
         # socket.send playerAction.to_json
 
         playersAction = Action.players(SCENE.players)
+        
+        SCENE.generate_enemies_for_player(1, player)
+        enemiesAction = Action.enemies(SCENE.enemies)
+        
         SOCKETS.each do |socket|
           socket.send playersAction.to_json
+          socket.send enemiesAction.to_json
         end
       end
 
