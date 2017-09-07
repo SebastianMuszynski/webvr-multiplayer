@@ -172,8 +172,7 @@ renderCamera cameraPos points playerColor =
         []
         [ camera
             [ position cameraPos.x 3 cameraPos.z
-
-            -- , attribute "player-position-listener" "true"
+            , attribute "player-position-listener" "true"
             ]
             [ renderCursor playerColor
             , renderPoints points
