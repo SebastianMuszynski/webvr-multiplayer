@@ -56,7 +56,7 @@ renderGame game player =
     entity []
         [ renderCountdown
         , entity []
-            [ renderCamera player.player_settings.position player.points
+            [ renderCamera player.player_settings.position player.points player.color
             , renderFloor
             , renderPlayers game
             , renderEnemies game.enemies
@@ -137,7 +137,7 @@ renderStartGameBtn =
             []
         , camera
             []
-            [ renderCursor
+            [ renderCursor "#000"
             ]
         ]
 
@@ -166,8 +166,8 @@ renderGameOverText =
         ]
 
 
-renderCamera : Position -> Int -> Html msg
-renderCamera cameraPos points =
+renderCamera : Position -> Int -> String -> Html msg
+renderCamera cameraPos points playerColor =
     entity
         []
         [ camera
@@ -175,18 +175,18 @@ renderCamera cameraPos points =
 
             -- , attribute "player-position-listener" "true"
             ]
-            [ renderCursor
+            [ renderCursor playerColor
             , renderPoints points
             ]
         ]
 
 
-renderCursor : Html msg
-renderCursor =
+renderCursor : String -> Html msg
+renderCursor playerColor =
     cursor
         [ timeout 2
         , fuse True
-        , attribute "color" "#000"
+        , attribute "color" playerColor
         ]
         []
 

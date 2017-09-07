@@ -17,7 +17,7 @@ AFRAME.registerComponent('player-position-listener', {
 
       playerRotation.x = Math.floor(playerRotation.x);
       playerRotation.y = Math.floor(playerRotation.y);
-      playerRotation.z = Math.floor(playerRotation.z);
+      playerRotation.z = 0; //Math.floor(playerRotation.z);
 
       var playerSettings = {
         position: playerPosition,
