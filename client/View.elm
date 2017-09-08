@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import AFrame exposing (entity, scene)
-import AFrame.Primitives exposing (assetItem, assets, box, cylinder, plane, sky, sphere, text)
+import AFrame.Primitives exposing (assetItem, assets, box, cone, cylinder, plane, sky, sphere, text)
 import AFrame.Primitives.Attributes exposing (..)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
@@ -184,7 +184,7 @@ renderCamera cameraPos points playerColor =
 renderCursor : String -> Html msg
 renderCursor playerColor =
     cursor
-        [ timeout 2
+        [ timeout 1
         , fuse True
         , attribute "color" playerColor
         ]
@@ -194,12 +194,34 @@ renderCursor playerColor =
 renderFloor : Html msg
 renderFloor =
     entity []
-        [ plane
-            [ rotation -90 0 0
-            , width 100
-            , height 100
-            , color (rgb 255 255 255)
-            , attribute "animation" "property: color; dur: 1000; delay: 2500; easing: easeInOutSine; to: #8FA"
+        [ cylinder
+            [ radius 20
+            , height 1
+            , attribute "color" "#A8CD1B"
+            ]
+            []
+        , entity [ position -6 0 8 ] [ renderTree ]
+        , entity [ position 5 0 -8 ] [ renderTree ]
+        , entity [ position 6 0 -3 ] [ renderTree ]
+        ]
+
+
+renderTree : Html msg
+renderTree =
+    entity []
+        [ cylinder
+            [ position 0 1.5 0
+            , radius 0.3
+            , height 3
+            , attribute "color" "#5D2800"
+            ]
+            []
+        , cone
+            [ position 0 4 0
+            , height 3
+            , attribute "radius-bottom" "1"
+            , attribute "radius-top" "0"
+            , attribute "color" "#43916e"
             ]
             []
         ]
