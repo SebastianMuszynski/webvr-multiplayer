@@ -60,6 +60,7 @@ renderGame game player =
             , renderFloor
             , renderPlayers game
             , renderEnemies game.enemies
+            , renderSky
             ]
         ]
 
@@ -353,3 +354,8 @@ renderPoints points =
         , position 1 0 -2
         ]
         []
+
+
+renderSky : Html msg
+renderSky =
+    sky [ attribute "src" "img/aframe-sky.png" ] []
