@@ -1,6 +1,6 @@
 class Player
   @socket = uninitialized HTTP::WebSocket
-  
+
   def initialize(x : Float64, y : Float64, z : Float64, color : String)
     @id = SecureRandom.uuid
     @player_settings = PlayerSettings.new(
@@ -11,15 +11,15 @@ class Player
     @is_ready_to_play = false
     @color = color
   end
-  
+
   def assign_socket(socket)
     @socket = socket
   end
-  
+
   def socket
     @socket
   end
-  
+
   def color
     @color
   end
@@ -45,18 +45,18 @@ class Player
     player_settings.position = pos
     @player_settings = player_settings
   end
-  
+
   def set_as_ready_to_play
     @is_ready_to_play = true
   end
-  
+
   def is_ready_to_play
     @is_ready_to_play
   end
 
   JSON.mapping(
     id: String,
-    player_settings: { type: PlayerSettings, nilable: false },
+    player_settings: {type: PlayerSettings, nilable: false},
     points: Int32,
     is_ready_to_play: Bool,
     color: String

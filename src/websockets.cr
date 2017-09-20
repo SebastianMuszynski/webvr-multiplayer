@@ -15,11 +15,11 @@ ws "/room" do |socket|
       when "START_GAME_REQUEST"
         player_id = action.payload.player_id
         SCENE.set_player_as_ready_to_play(player_id)
-        
+
         if SCENE.can_start_game
           p "TRYING TO START GAME FOR ALL"
-                  
-          SOCKETS.each do |socket|  
+
+          SOCKETS.each do |socket|
             socket.send Action.start_game.to_json
           end
         else
@@ -30,10 +30,10 @@ ws "/room" do |socket|
         # player = Player.random
         new_pos = SCENE.get_new_player_position
         player = Player.new(new_pos.x, new_pos.y, new_pos.z, SCENE.get_new_player_color)
-        
+
         player.assign_socket(socket)
         SCENE.add_player(player)
-        
+
         SCENE.generate_enemies_for_player(1, player)
 
         # Set current player id
@@ -65,7 +65,6 @@ ws "/room" do |socket|
             end
           end
         end
-
       when "REMOVE_ENEMY_REQUEST"
         enemy_id = action.payload.data
         player_id = action.payload.player_id
@@ -78,10 +77,10 @@ ws "/room" do |socket|
           # socket.send playerAction.to_json
 
           playersAction = Action.players(SCENE.players)
-          
+
           SCENE.generate_enemies_for_player(1, player)
           enemiesAction = Action.enemies(SCENE.enemies)
-          
+
           SOCKETS.each do |socket|
             socket.send playersAction.to_json
             socket.send enemiesAction.to_json
@@ -94,8 +93,8 @@ ws "/room" do |socket|
         SOCKETS.each do |socket|
           socket.send enemiesAction.to_json
         end
-        
-        if SCENE.is_game_over 
+
+        if SCENE.is_game_over
           SOCKETS.each do |socket|
             socket.send Action.game_over.to_json
           end
@@ -111,14 +110,14 @@ ws "/room" do |socket|
   begin
     socket.on_close do
       SCENE.remove_player_by_socket(socket)
-      
+
       playersAction = Action.players(SCENE.players)
       SOCKETS.each do |otherSocket|
         if otherSocket != socket
           otherSocket.send playersAction.to_json
         end
       end
-      
+
       SOCKETS.delete socket
     end
   rescue

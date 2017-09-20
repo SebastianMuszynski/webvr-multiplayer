@@ -5,11 +5,11 @@ class Enemy
     @isVisible = true
     @color = "#000"
   end
-  
+
   def color
     @color
   end
-  
+
   def set_color(color)
     @color = color
   end
@@ -26,14 +26,14 @@ class Enemy
   def hide
     @isVisible = false
   end
-  
+
   def is_dead
     !@isVisible
   end
 
   JSON.mapping(
     id: String,
-    position: { type: Position, nilable: false },
+    position: {type: Position, nilable: false},
     isVisible: Bool,
     color: String
   )
