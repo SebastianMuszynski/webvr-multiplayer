@@ -1,17 +1,13 @@
 class StartGameService
-  def self.call(action : Action, player : Player, game : Game)
-    player_id = action.payload.player_id
-    scene.set_player_as_ready_to_play(player_id)
-
-    if scene.can_start_game
-      p "TRYING TO START GAME FOR ALL"
-
-      sockets.each do |a_socket|
-        a_socket.send Action.start_game.to_json
-      end
+  def self.call(player : Player, game : Game)
+    # player_id = ActionHelper.new(action).get_player_id
+    # player = game.get_player(player_id)
+    player.start_game
+    
+    if game.can_start_game
+      SocketsHelper.broadcast(game.players, Action.start_game)
     else
-      socket.send Action.wait_for_players.to_json
-      p Action.wait_for_players.to_json
+      SocketsHelper.unicast(player, Action.wait_for_players)
     end
   end
 end

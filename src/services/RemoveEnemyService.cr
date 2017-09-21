@@ -1,37 +1,14 @@
 class RemoveEnemyService
   def self.call(action : Action, player : Player, game : Game)
-    enemy_id = action.payload.data
-    player_id = action.payload.player_id
-
-    player = scene.get_player_by_id(player_id)
-
-    if player
-      player.add_points(1) if player
-      # playerAction = Action.player(player)
-      # socket.send playerAction.to_json
-
-      playersAction = Action.players(scene.players)
-
-      scene.generate_enemies_for_player(1, player)
-      enemiesAction = Action.enemies(scene.enemies)
-
-      sockets.each do |a_socket|
-        a_socket.send playersAction.to_json
-        a_socket.send enemiesAction.to_json
-      end
-    end
-
-    scene.remove_enemy_by_id(enemy_id)
-    enemiesAction = Action.enemies(scene.enemies)
-
-    sockets.each do |a_socket|
-      a_socket.send enemiesAction.to_json
-    end
-
-    if scene.is_game_over
-      sockets.each do |a_socket|
-        a_socket.send Action.game_over.to_json
-      end
-    end
+    # Remove the enemy & add a new one
+    enemy_id = ActionHelper.new(action).get_enemy_id
+    game.remove_enemy_by_id(enemy_id)
+    game.add_enemy_for_player(player)
+    
+    # Increase player's score
+    player.add_point
+    
+    SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
+    SocketsHelper.broadcast(game.players, Action.game_over) if game.is_over
   end
 end

@@ -2,11 +2,11 @@ class Player
   # @socket = uninitialized HTTP::WebSocket
 
   # def initialize(x : Float64, y : Float64, z : Float64, color : String)
-  def initialize(socket : HTTP::WebSocket)
-    @socket = socket
+  def initialize(@socket : HTTP::WebSocket)
     @id = SecureRandom.uuid
     @player_settings = PlayerSettings.new
-    # @points = 0
+    @status = STATUS_NEW_PLAYER
+    @points = 0
     # @is_ready_to_play = false
   end
   
@@ -20,6 +20,18 @@ class Player
   
   def set_rotation(rotation : Rotation)
     @player_settings.rotation = rotation
+  end
+  
+  def set_settings(settings : PlayerSettings)
+    @player_settings = settings
+  end
+  
+  def start_game
+    if @status == STATUS_NEW_PLAYER
+      @status = STATUS_STARTING_GAME
+    else
+      @status = STATUS_PLAYING
+    end
   end
 
   # def assign_socket(socket)
@@ -41,9 +53,13 @@ class Player
   #   @id ||= SecureRandom.uuid
   # end
 
-  # def add_points(number)
-  #   @points += number
-  # end
+  def add_points(number)
+    @points += number
+  end
+  
+  def add_point
+    self.add_point(1)
+  end
 
   # def set_player_settings(player_settings : PlayerSettings)
   #   pos = player_settings.position
@@ -72,6 +88,8 @@ class Player
   JSON.mapping(
     id: String,
     player_settings: {type: PlayerSettings, nilable: false},
+    status: Int32,
+    points: Int32,
     color: String
   )
 end

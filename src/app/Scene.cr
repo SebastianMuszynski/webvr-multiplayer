@@ -1,6 +1,7 @@
 class Scene
   
   PlayerId = String
+  Points = Int32
   
   def initialize
     @players = Array(Player)
@@ -12,7 +13,7 @@ class Scene
   end
   
   def add_player(player : Player)
-    @players << player    
+    @players << player
   end
   
   def add_enemies_for_player(enemies_number : Int32, player : Player)
@@ -46,17 +47,16 @@ class Scene
     positions[@players.size % positions.size]
   end
 
-  def remove_player_by_socket(socket)
-    player = @players.find { |player| player.socket == socket }
-    player && @players.delete player
+  def remove_player(player : Player)
+    @players.delete(player)
   end
 
-  def set_player_as_ready_to_play(player_id)
-    player = get_player_by_id(player_id)
+  def set_player_as_ready_to_play(player_id : String)
+    player = get_player(player_id)
     player && player.set_as_ready_to_play
   end
 
-  def get_player_by_id(player_id)
+  def get_player(player_id : String)
     @players.find { |player| player.id == player_id }
   end
 

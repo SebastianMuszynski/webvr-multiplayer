@@ -1,21 +1,17 @@
-# sockets = [] of HTTP::WebSocket
-
 game = Game.new
 
 ws "/room" do |socket|
   player = Player.new(socket)
-  # sockets << socket
 
   socket.on_message do |message|
-    # Decode action
-    action = Action.from_json(message)
+    action = ActionHelper.decode(message)
 
     begin
       case action.type_
       when MSG_NEW_PLAYER
         AddPlayerService.call(player, game)
       when MSG_START_GAME
-        StartGameService.call(action, player, game)
+        StartGameService.call(player, game)
       when MSG_PLAYER_POSITION_CHANGED
         UpdatePlayersPositionService.call(action, player, game)
       when MSG_REMOVE_ENEMY
