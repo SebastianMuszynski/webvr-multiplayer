@@ -2,7 +2,7 @@ class ActionHelper
   def initialize(@action : Action)
   end
 
-  def decode(message : String)
+  def self.decode(message : String)
     Action.from_json(message)
   end
 

@@ -8,7 +8,9 @@ require "./app/PlayerSettings"
 require "./app/Position"
 require "./app/Rotation"
 require "./app/Scene"
+require "./app/Game"
 
+require "./helpers/ActionHelper"
 require "./helpers/SocketsHelper"
 
 require "./services/StartGameService"

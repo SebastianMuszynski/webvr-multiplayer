@@ -6,6 +6,10 @@ class Game
   def players
     @scene.players
   end
+  
+  def enemies
+    @scene.enemies
+  end
 
   def add_player(player : Player)
     @scene.add_player(player)

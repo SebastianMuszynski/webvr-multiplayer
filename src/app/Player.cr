@@ -7,19 +7,11 @@ class Player
     @player_settings = PlayerSettings.new
     @status = STATUS_NEW_PLAYER
     @points = 0
-    # @is_ready_to_play = false
+    @color = "#000"
   end
 
   def set_color(color : String)
     @color = color
-  end
-
-  def set_position(position : Position)
-    @player_settings.position = position
-  end
-
-  def set_rotation(rotation : Rotation)
-    @player_settings.rotation = rotation
   end
 
   def set_settings(settings : PlayerSettings)
@@ -58,7 +50,7 @@ class Player
   end
 
   def add_point
-    self.add_point(1)
+    self.add_points(1)
   end
 
   # def set_player_settings(player_settings : PlayerSettings)
@@ -73,9 +65,9 @@ class Player
   #   @is_ready_to_play = true
   # end
   #
-  # def is_ready_to_play
-  #   @is_ready_to_play
-  # end
+  def is_ready_to_play
+    @status == STATUS_STARTING_GAME
+  end
 
   # JSON.mapping(
   #   id: String,
@@ -86,10 +78,21 @@ class Player
   # )
 
   JSON.mapping(
+    socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
-    player_settings: {type: PlayerSettings, nilable: false},
+    player_settings: PlayerSettings?,
     status: Int32,
     points: Int32,
     color: String
   )
+end
+
+module WebSocketConverter
+  def self.from_json(value : JSON::PullParser) : String
+    ""
+  end
+  
+  def self.to_json(value : HTTP::WebSocket, json : JSON::Builder)
+    json.raw("")
+  end
 end

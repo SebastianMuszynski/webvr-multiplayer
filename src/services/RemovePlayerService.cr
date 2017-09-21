@@ -3,9 +3,9 @@ class RemovePlayerService
     game.remove_player(player)
 
     SocketsHelper.broadcast_to_others(
-      game.players,
-      Action.players(game.players),
-      excluded_player: player
+      players: game.players,
+      excluded_player: player,
+      action: Action.players(game.players)
     )
   end
 end
