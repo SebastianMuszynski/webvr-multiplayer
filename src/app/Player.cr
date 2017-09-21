@@ -9,23 +9,23 @@ class Player
     @points = 0
     # @is_ready_to_play = false
   end
-  
+
   def set_color(color : String)
     @color = color
   end
-  
+
   def set_position(position : Position)
     @player_settings.position = position
   end
-  
+
   def set_rotation(rotation : Rotation)
     @player_settings.rotation = rotation
   end
-  
+
   def set_settings(settings : PlayerSettings)
     @player_settings = settings
   end
-  
+
   def start_game
     if @status == STATUS_NEW_PLAYER
       @status = STATUS_STARTING_GAME
@@ -56,7 +56,7 @@ class Player
   def add_points(number)
     @points += number
   end
-  
+
   def add_point
     self.add_point(1)
   end
@@ -68,11 +68,11 @@ class Player
   #   player_settings.position = pos
   #   @player_settings = player_settings
   # end
-  # 
+  #
   # def set_as_ready_to_play
   #   @is_ready_to_play = true
   # end
-  # 
+  #
   # def is_ready_to_play
   #   @is_ready_to_play
   # end

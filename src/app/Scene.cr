@@ -1,26 +1,25 @@
 class Scene
-  
   PlayerId = String
-  Points = Int32
-  
+  Points   = Int32
+
   def initialize
     @players = Array(Player)
-    @enemies = Array(Enemy, PlayerId)
+    @enemies = Array({Enemy, PlayerId})
   end
 
   def players
     @players
   end
-  
+
   def add_player(player : Player)
     @players << player
   end
-  
+
   def add_enemies_for_player(enemies_number : Int32, player : Player)
     while enemies_number > 0
       enemy = Enemy.random
       enemy.set_color(player.color)
-      @enemies << (enemy, player)
+      @enemies << {enemy, player}
       enemies_number -= 1
     end
   end
