@@ -1,10 +1,10 @@
-SOCKETS = [] of HTTP::WebSocket
+sockets = [] of HTTP::WebSocket
 
 # Init the scene
-SCENE = Scene.new
+scene = Scene.new
 
 ws "/room" do |socket|
-  SOCKETS << socket
+  sockets << socket
 
   socket.on_message do |message|
     # Decode action
@@ -12,53 +12,20 @@ ws "/room" do |socket|
 
     case action.type_
     when "START_GAME_REQUEST"
-      player_id = action.payload.player_id
-      SCENE.set_player_as_ready_to_play(player_id)
-
-      if SCENE.can_start_game
-        p "TRYING TO START GAME FOR ALL"
-
-        SOCKETS.each do |a_socket|
-          a_socket.send Action.start_game.to_json
-        end
-      else
-        socket.send Action.wait_for_players.to_json
-        p Action.wait_for_players.to_json
-      end
+      StartGameService.call(action, scene, socket, sockets)
     when "NEW_PLAYER_REQUEST"
-      # player = Player.random
-      new_pos = SCENE.get_new_player_position
-      player = Player.new(new_pos.x, new_pos.y, new_pos.z, SCENE.get_new_player_color)
-
-      player.assign_socket(socket)
-      SCENE.add_player(player)
-
-      SCENE.generate_enemies_for_player(1, player)
-
-      # Set current player id
-      newPlayerAction = Action.new_player(player.id)
-      socket.send newPlayerAction.to_json
-
-      SOCKETS.each do |a_socket|
-        # Broadcast players
-        playersAction = Action.players(SCENE.players)
-        a_socket.send playersAction.to_json
-
-        # Broadcast enemies
-        enemiesAction = Action.enemies(SCENE.enemies)
-        a_socket.send enemiesAction.to_json
-      end
+      NewPlayerService.call(action, scene, socket, sockets)
     when "PLAYER_POSITION_CHANGED"
       playerSettings = PlayerSettings.from_json(action.payload.data)
 
       player_id = action.payload.player_id
-      player = SCENE.get_player_by_id(player_id)
+      player = scene.get_player_by_id(player_id)
 
       if player
         player.set_player_settings(playerSettings)
-        playersAction = Action.players(SCENE.players)
+        playersAction = Action.players(scene.players)
 
-        SOCKETS.each do |other_socket|
+        sockets.each do |other_socket|
           if other_socket != socket
             other_socket.send playersAction.to_json
           end
@@ -68,33 +35,33 @@ ws "/room" do |socket|
       enemy_id = action.payload.data
       player_id = action.payload.player_id
 
-      player = SCENE.get_player_by_id(player_id)
+      player = scene.get_player_by_id(player_id)
 
       if player
         player.add_points(1) if player
         # playerAction = Action.player(player)
         # socket.send playerAction.to_json
 
-        playersAction = Action.players(SCENE.players)
+        playersAction = Action.players(scene.players)
 
-        SCENE.generate_enemies_for_player(1, player)
-        enemiesAction = Action.enemies(SCENE.enemies)
+        scene.generate_enemies_for_player(1, player)
+        enemiesAction = Action.enemies(scene.enemies)
 
-        SOCKETS.each do |a_socket|
+        sockets.each do |a_socket|
           a_socket.send playersAction.to_json
           a_socket.send enemiesAction.to_json
         end
       end
 
-      SCENE.remove_enemy_by_id(enemy_id)
-      enemiesAction = Action.enemies(SCENE.enemies)
+      scene.remove_enemy_by_id(enemy_id)
+      enemiesAction = Action.enemies(scene.enemies)
 
-      SOCKETS.each do |a_socket|
+      sockets.each do |a_socket|
         a_socket.send enemiesAction.to_json
       end
 
-      if SCENE.is_game_over
-        SOCKETS.each do |a_socket|
+      if scene.is_game_over
+        sockets.each do |a_socket|
           a_socket.send Action.game_over.to_json
         end
       end
@@ -104,15 +71,15 @@ ws "/room" do |socket|
   end
 
   socket.on_close do
-    SCENE.remove_player_by_socket(socket)
+    scene.remove_player_by_socket(socket)
 
-    playersAction = Action.players(SCENE.players)
-    SOCKETS.each do |other_socket|
+    playersAction = Action.players(scene.players)
+    sockets.each do |other_socket|
       if other_socket != socket
         other_socket.send playersAction.to_json
       end
     end
 
-    SOCKETS.delete socket
+    sockets.delete socket
   end
 end
