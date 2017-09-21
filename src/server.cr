@@ -9,6 +9,8 @@ require "./app/Position"
 require "./app/Rotation"
 require "./app/Scene"
 
+require "./helpers/SocketsHelper"
+
 require "./services/StartGameService"
 require "./services/AddPlayerService"
 require "./services/UpdatePlayersPositionService"

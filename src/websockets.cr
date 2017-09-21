@@ -12,14 +12,14 @@ ws "/room" do |socket|
 
     begin
       case action.type_
-      when START_GAME_REQUEST
-        StartGameService.call(action, game, socket, sockets)
-      when NEW_PLAYER_REQUEST
+      when MSG_NEW_PLAYER
         AddPlayerService.call(player, game)
-      when PLAYER_POSITION_CHANGED
-        UpdatePlayersPositionService.call(action, game, socket, sockets)
-      when REMOVE_ENEMY_REQUEST
-        RemoveEnemyService.call(action, game, socket, sockets)
+      when MSG_START_GAME
+        StartGameService.call(action, player, game)
+      when MSG_PLAYER_POSITION_CHANGED
+        UpdatePlayersPositionService.call(action, player, game)
+      when MSG_REMOVE_ENEMY
+        RemoveEnemyService.call(action, player, game)
       else
         raise "Unrecognised action type: #{action.type_}"
       end
@@ -29,6 +29,6 @@ ws "/room" do |socket|
   end
 
   socket.on_close do
-    RemovePlayerService.call(game, socket, sockets)
+    RemovePlayerService.call(player, game)
   end
 end

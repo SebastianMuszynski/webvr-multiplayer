@@ -1,5 +1,5 @@
 class UpdatePlayersPositionService
-  def self.call(action : Action, game : Game, socket : HTTP::WebSocket, sockets : Array(HTTP::WebSocket))
+  def self.call(action : Action, player : Player, game : Game)
     playerSettings = PlayerSettings.from_json(action.payload.data)
 
     player_id = action.payload.player_id
