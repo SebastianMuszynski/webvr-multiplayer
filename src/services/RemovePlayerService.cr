@@ -1,5 +1,5 @@
 class RemovePlayerService
-  def self.call(scene : Scene, socket : HTTP::WebSocket, sockets : Array(HTTP::WebSocket))
+  def self.call(game : Game, socket : HTTP::WebSocket, sockets : Array(HTTP::WebSocket))
     scene.remove_player_by_socket(socket)
 
     playersAction = Action.players(scene.players)

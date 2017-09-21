@@ -1,5 +1,5 @@
 class RemoveEnemyService
-  def self.call(action : Action, scene : Scene, socket : HTTP::WebSocket, sockets : Array(HTTP::WebSocket))
+  def self.call(action : Action, game : Game, socket : HTTP::WebSocket, sockets : Array(HTTP::WebSocket))
     enemy_id = action.payload.data
     player_id = action.payload.player_id
 

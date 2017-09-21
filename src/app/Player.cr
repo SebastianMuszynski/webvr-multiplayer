@@ -1,64 +1,77 @@
 class Player
-  @socket = uninitialized HTTP::WebSocket
+  # @socket = uninitialized HTTP::WebSocket
 
-  def initialize(x : Float64, y : Float64, z : Float64, color : String)
+  # def initialize(x : Float64, y : Float64, z : Float64, color : String)
+  def initialize(socket : HTTP::WebSocket)
+    @socket = socket
     @id = SecureRandom.uuid
-    @player_settings = PlayerSettings.new(
-      Position.new(x, y, z),
-      Rotation.new(0, 0, 0)
-    )
-    @points = 0
-    @is_ready_to_play = false
+    @player_settings = PlayerSettings.new
+    # @points = 0
+    # @is_ready_to_play = false
+  end
+  
+  def set_color(color : String)
     @color = color
   end
-
-  def assign_socket(socket)
-    @socket = socket
+  
+  def set_position(position : Position)
+    @player_settings.position = position
+  end
+  
+  def set_rotation(rotation : Rotation)
+    @player_settings.rotation = rotation
   end
 
-  def socket
-    @socket
-  end
+  # def assign_socket(socket)
+  #   @socket = socket
+  # end
 
-  def color
-    @color
-  end
+  # def socket
+  #   @socket
+  # end
 
-  def self.random
-    random = Random.new
-    range = 1.0..8.0
-    groundHeight = 0.6
-    new(random.rand(range), groundHeight, random.rand(range))
-  end
+  # def self.random
+  #   random = Random.new
+  #   range = 1.0..8.0
+  #   groundHeight = 0.6
+  #   new(random.rand(range), groundHeight, random.rand(range))
+  # end
 
-  def id
-    @id ||= SecureRandom.uuid
-  end
+  # def id
+  #   @id ||= SecureRandom.uuid
+  # end
 
-  def add_points(number)
-    @points += number
-  end
+  # def add_points(number)
+  #   @points += number
+  # end
 
-  def set_player_settings(player_settings : PlayerSettings)
-    pos = player_settings.position
-    pos.x = pos.x + player_settings.rotation.z
-    player_settings.position = pos
-    @player_settings = player_settings
-  end
+  # def set_player_settings(player_settings : PlayerSettings)
+  #   pos = player_settings.position
+  # TODO: BUGGG! DON'T CHANGE POSITION BASED ON ROTATION
+  #   pos.x = pos.x + player_settings.rotation.z
+  #   player_settings.position = pos
+  #   @player_settings = player_settings
+  # end
+  # 
+  # def set_as_ready_to_play
+  #   @is_ready_to_play = true
+  # end
+  # 
+  # def is_ready_to_play
+  #   @is_ready_to_play
+  # end
 
-  def set_as_ready_to_play
-    @is_ready_to_play = true
-  end
-
-  def is_ready_to_play
-    @is_ready_to_play
-  end
+  # JSON.mapping(
+  #   id: String,
+  #   player_settings: {type: PlayerSettings, nilable: false},
+  #   points: Int32,
+  #   is_ready_to_play: Bool,
+  #   color: String
+  # )
 
   JSON.mapping(
     id: String,
     player_settings: {type: PlayerSettings, nilable: false},
-    points: Int32,
-    is_ready_to_play: Bool,
     color: String
   )
 end

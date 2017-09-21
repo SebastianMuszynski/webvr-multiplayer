@@ -1,10 +1,10 @@
-sockets = [] of HTTP::WebSocket
+# sockets = [] of HTTP::WebSocket
 
-# Init the scene
-scene = Scene.new
+game = Game.new
 
 ws "/room" do |socket|
-  sockets << socket
+  player = Player.new(socket)
+  # sockets << socket
 
   socket.on_message do |message|
     # Decode action
@@ -13,13 +13,13 @@ ws "/room" do |socket|
     begin
       case action.type_
       when START_GAME_REQUEST
-        StartGameService.call(action, scene, socket, sockets)
+        StartGameService.call(action, game, socket, sockets)
       when NEW_PLAYER_REQUEST
-        NewPlayerService.call(action, scene, socket, sockets)
+        AddPlayerService.call(player, game)
       when PLAYER_POSITION_CHANGED
-        UpdatePlayersPositionService.call(action, scene, socket, sockets)
+        UpdatePlayersPositionService.call(action, game, socket, sockets)
       when REMOVE_ENEMY_REQUEST
-        RemoveEnemyService.call(action, scene, socket, sockets)
+        RemoveEnemyService.call(action, game, socket, sockets)
       else
         raise "Unrecognised action type: #{action.type_}"
       end
@@ -29,6 +29,6 @@ ws "/room" do |socket|
   end
 
   socket.on_close do
-    RemovePlayerService.call(scene, socket, sockets)
+    RemovePlayerService.call(game, socket, sockets)
   end
 end

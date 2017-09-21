@@ -10,7 +10,7 @@ require "./app/Rotation"
 require "./app/Scene"
 
 require "./services/StartGameService"
-require "./services/NewPlayerService"
+require "./services/AddPlayerService"
 require "./services/UpdatePlayersPositionService"
 require "./services/RemoveEnemyService"
 require "./services/RemovePlayerService"

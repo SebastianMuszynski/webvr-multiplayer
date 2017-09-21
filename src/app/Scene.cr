@@ -1,15 +1,37 @@
 class Scene
+  
+  PlayerId = String
+  
   def initialize
-    @players = [] of Player
-    @enemies = [] of Enemy
+    @players = Array(Player)
+    @enemies = Array(Enemy, PlayerId)
   end
 
   def players
     @players
   end
+  
+  def add_player(player : Player)
+    @players << player    
+  end
+  
+  def add_enemies_for_player(enemies_number : Int32, player : Player)
+    while enemies_number > 0
+      enemy = Enemy.random
+      enemy.set_color(player.color)
+      @enemies << (enemy, player)
+      enemies_number -= 1
+    end
+  end
 
-  def add_player(player)
-    @players << player
+  def get_new_player_color
+    colors = [
+      "#F39237",
+      "#BF1363",
+      "#E6C229",
+      "#81559B",
+    ]
+    colors[@players.size % colors.size]
   end
 
   def get_new_player_position
@@ -22,16 +44,6 @@ class Scene
       Position.new(dist, zero, zero),
     ]
     positions[@players.size % positions.size]
-  end
-
-  def get_new_player_color
-    colors = [
-      "#F39237",
-      "#BF1363",
-      "#E6C229",
-      "#81559B",
-    ]
-    colors[@players.size % colors.size]
   end
 
   def remove_player_by_socket(socket)
