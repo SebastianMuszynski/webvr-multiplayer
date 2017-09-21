@@ -11,7 +11,11 @@ require "./app/Scene"
 
 require "./services/StartGameService"
 require "./services/NewPlayerService"
+require "./services/UpdatePlayersPositionService"
+require "./services/RemoveEnemyService"
+require "./services/RemovePlayerService"
 
+require "./constants"
 require "./routes"
 require "./websockets"
 
