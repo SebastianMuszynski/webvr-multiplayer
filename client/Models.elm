@@ -79,6 +79,8 @@ type alias Player =
     , player_settings : PlayerSettings
     , points : Int
     , color : String
+    , status : Int
+    , socket : String
     }
 
 

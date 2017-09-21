@@ -69,14 +69,6 @@ class Player
     @status == STATUS_STARTING_GAME
   end
 
-  # JSON.mapping(
-  #   id: String,
-  #   player_settings: {type: PlayerSettings, nilable: false},
-  #   points: Int32,
-  #   is_ready_to_play: Bool,
-  #   color: String
-  # )
-
   JSON.mapping(
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
@@ -87,12 +79,13 @@ class Player
   )
 end
 
+# Ideally would be to ignore the socket being sent to the client
 module WebSocketConverter
   def self.from_json(value : JSON::PullParser) : String
-    ""
+    "socket"
   end
   
   def self.to_json(value : HTTP::WebSocket, json : JSON::Builder)
-    json.raw("")
+    json.string("socket")
   end
 end

@@ -46,6 +46,8 @@ encodePlayer player =
             , ( "player_settings", encodePlayerSettings player.player_settings )
             , ( "points", Encode.int player.points )
             , ( "color", Encode.string player.color )
+            , ( "status", Encode.int player.status )
+            , ( "socket", Encode.string player.socket )
             ]
     in
     Encode.encode jsonIndentation (Encode.object attributes)

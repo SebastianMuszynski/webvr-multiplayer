@@ -2,6 +2,10 @@ class Game
   def initialize
     @scene = Scene.new
   end
+  
+  def scene
+    @scene
+  end
 
   def players
     @scene.players
