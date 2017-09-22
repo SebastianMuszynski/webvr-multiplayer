@@ -2,8 +2,8 @@
 # ## SETTINGS ###
 ################
 
-INITIAL_PLAYER_POINTS  = 1
-INITIAL_ENEMIES_NUMBER = 1
+DEFAULT_PLAYER_COLOR = "#000"
+DEFAULT_ENEMIES_NUMBER = 1
 
 #####################
 # ## PLAYER STATUS ###

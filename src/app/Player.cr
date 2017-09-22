@@ -7,7 +7,7 @@ class Player
     @player_settings = PlayerSettings.new
     @status = STATUS_NEW_PLAYER
     @points = 0
-    @color = "#000"
+    @color = DEFAULT_PLAYER_COLOR
   end
 
   def set_color(color : String)

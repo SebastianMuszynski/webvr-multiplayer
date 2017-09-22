@@ -17,7 +17,7 @@ class Game
 
   def add_player(player : Player)
     @scene.add_player(player)
-    self.add_enemies_for_player(INITIAL_ENEMIES_NUMBER, player)
+    self.add_enemies_for_player(DEFAULT_ENEMIES_NUMBER, player)
   end
 
   def add_enemies_for_player(enemies_number : Int32, player : Player)
