@@ -1,6 +1,7 @@
 class AddPlayerService
   def self.call(player : Player, game : Game)
     player.set_color(game.scene.get_new_player_color) # TODO: UGLY!
+    player.set_position(game.get_new_player_position)
     game.add_player(player)
 
     SocketsHelper.unicast(player, Action.new_player(player.id))

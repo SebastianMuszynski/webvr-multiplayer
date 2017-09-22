@@ -13,6 +13,10 @@ class Player
   def set_color(color : String)
     @color = color
   end
+  
+  def set_position(position : Position)
+    @player_settings.set_position(position)
+  end
 
   def set_settings(settings : PlayerSettings)
     @player_settings = settings
@@ -72,7 +76,7 @@ class Player
   JSON.mapping(
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
-    player_settings: PlayerSettings?,
+    player_settings: PlayerSettings,
     status: Int32,
     points: Int32,
     color: String
