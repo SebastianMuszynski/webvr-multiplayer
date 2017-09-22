@@ -46,7 +46,12 @@ class Scene
   end
 
   def remove_player(player : Player)
+    self.remove_player_enemies(player)
     @players.delete(player)
+  end
+  
+  def remove_player_enemies(player : Player)
+    @enemies.reject! { |enemy| enemy.color == player.color }
   end
 
   def set_player_as_ready_to_play(player_id : String)
