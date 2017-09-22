@@ -13,7 +13,6 @@ AFRAME.registerComponent('start-game-listener', {
         }
       };
       window.elmApp.ports.fromJs.send(JSON.stringify(action));
-      console.log("START GAME");
     });
   }
 });

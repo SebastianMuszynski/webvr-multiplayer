@@ -54,49 +54,13 @@ view model =
 renderGame : Game -> Player -> Html msg
 renderGame game player =
     entity []
-        [ renderCountdown
-        , entity []
+        -- [ renderCountdown
+        [ entity []
             [ renderCamera player.player_settings.position player.points player.color
             , renderFloor
             , renderPlayers game
             , renderEnemies game.enemies
             , renderSky
-            ]
-        ]
-
-
-renderCountdown : Html msg
-renderCountdown =
-    entity []
-        [ entity []
-            [ text
-                [ attribute "value" "3"
-                , height 5
-                , color (rgb 0 0 0)
-                , position -0.15 -2.6 -3
-                , attribute "animation" "property: position; dur: 1000; dir: alternate; easing: easeInOutSine; to: -0.15 2.6 -3; delay: 500"
-                ]
-                []
-            ]
-        , entity []
-            [ text
-                [ attribute "value" "2"
-                , height 5
-                , color (rgb 0 0 0)
-                , position -0.15 -2.6 -3
-                , attribute "animation" "property: position; dur: 1000; dir: alternate; easing: easeInOutSine; to: -0.15 2.6 -3; delay: 1500"
-                ]
-                []
-            ]
-        , entity []
-            [ text
-                [ attribute "value" "1"
-                , height 5
-                , color (rgb 0 0 0)
-                , position -0.15 -2.6 -3
-                , attribute "animation" "property: position; dur: 1000; dir: alternate; easing: easeInOutSine; to: -0.15 2.6 -3; delay: 2500"
-                ]
-                []
             ]
         ]
 
@@ -339,7 +303,7 @@ renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
     entity
         [ position 0 -15 0
-        , attribute "animation" "property: position; dur: 1000; easing: easeInOutSine; to: 0 0 0; delay: 4000"
+        , attribute "animation" "property: position; dur: 1000; easing: easeInOutSine; to: 0 0 0"
         ]
         (List.map renderEnemy enemies)
 

@@ -56,15 +56,7 @@ class Player
   def add_point
     self.add_points(1)
   end
-
-  # def set_player_settings(player_settings : PlayerSettings)
-  #   pos = player_settings.position
-  # TODO: BUGGG! DON'T CHANGE POSITION BASED ON ROTATION
-  #   pos.x = pos.x + player_settings.rotation.z
-  #   player_settings.position = pos
-  #   @player_settings = player_settings
-  # end
-  #
+  
   # def set_as_ready_to_play
   #   @is_ready_to_play = true
   # end

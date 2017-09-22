@@ -8,9 +8,9 @@ AFRAME.registerComponent('player-position-listener', {
       var propChanged = evt.detail.name;
       
       // Track only rotation
-      // var hasPositionChanged = propChanged == 'position' || propChanged == 'rotation';
+      var hasPositionChanged = propChanged == 'position' || propChanged == 'rotation';
       
-      var hasPositionChanged = propChanged == 'rotation';
+      // var hasPositionChanged = propChanged == 'rotation';
 
       if (!hasPositionChanged) {
         return;
@@ -21,10 +21,10 @@ AFRAME.registerComponent('player-position-listener', {
 
       playerRotation.x = Math.floor(playerRotation.x);
       playerRotation.y = Math.floor(playerRotation.y);
-      playerRotation.z = 0;
+      // playerRotation.z = 0;
       
       // Turned off - its buggy on mobile
-      // playerRotation.z = Math.floor(playerRotation.z);
+      playerRotation.z = Math.floor(playerRotation.z);
 
       var playerSettings = {
         position: playerPosition,
