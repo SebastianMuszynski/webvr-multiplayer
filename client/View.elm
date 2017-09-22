@@ -27,7 +27,7 @@ view model =
                 Just player ->
                     scene
                         [ attribute "embedded" "true"
-                        , attribute "stats" "true"
+                        , attribute "stats" "false"
                         , attribute "data-player-id" player.id
                         , attribute "data-player-color" player.color
                         ]
