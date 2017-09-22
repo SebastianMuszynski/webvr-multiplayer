@@ -27,10 +27,18 @@ view model =
                 Just player ->
                     scene
                         [ attribute "embedded" "true"
+                        , attribute "stats" "true"
                         , attribute "data-player-id" player.id
                         , attribute "data-player-color" player.color
                         ]
-                        [ case model.game.status of
+                        [ assets []
+                            [ assetItem
+                                [ attribute "id" "sky"
+                                , attribute "src" "img/aframe-sky.jpg"
+                                ]
+                                []
+                            ]
+                        , case model.game.status of
                             "WAIT_FOR_PLAYERS" ->
                                 renderAwaitingText
 
@@ -54,7 +62,6 @@ view model =
 renderGame : Game -> Player -> Html msg
 renderGame game player =
     entity []
-        -- [ renderCountdown
         [ entity []
             [ renderCamera player.player_settings.position player.points player.color
             , renderFloor
@@ -344,4 +351,4 @@ renderPoints points =
 
 renderSky : Html msg
 renderSky =
-    sky [ attribute "src" "img/aframe-sky.png" ] []
+    sky [ attribute "src" "#sky" ] []
