@@ -7,11 +7,8 @@ AFRAME.registerComponent('player-position-listener', {
     player.addEventListener('componentchanged', function (evt) {
       var propChanged = evt.detail.name;
       
-      // Track only rotation
       var hasPositionChanged = propChanged == 'position' || propChanged == 'rotation';
       
-      // var hasPositionChanged = propChanged == 'rotation';
-
       if (!hasPositionChanged) {
         return;
       }
@@ -21,9 +18,6 @@ AFRAME.registerComponent('player-position-listener', {
 
       playerRotation.x = Math.floor(playerRotation.x);
       playerRotation.y = Math.floor(playerRotation.y);
-      // playerRotation.z = 0;
-      
-      // Turned off - its buggy on mobile
       playerRotation.z = Math.floor(playerRotation.z);
 
       var playerSettings = {
@@ -32,7 +26,7 @@ AFRAME.registerComponent('player-position-listener', {
       };
 
       var action = {
-        type_: "PLAYER_POSITION_CHANGED",
+        type_: "UPDATE_POSITION",
         payload: {
           data: JSON.stringify(playerSettings),
           player_id: playerId || ""

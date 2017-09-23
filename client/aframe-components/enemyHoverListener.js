@@ -10,7 +10,7 @@ AFRAME.registerComponent('enemy-hover-listener', {
       if (playerColor != enemyColor) return;      
       var enemyId = this.getAttribute("data-id");
       var action = {
-        type_: "REMOVE_ENEMY_REQUEST",
+        type_: "REMOVE_ENEMY",
         payload: {
           data: enemyId,
           player_id: playerId || ""

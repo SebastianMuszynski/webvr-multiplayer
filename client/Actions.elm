@@ -8,4 +8,4 @@ import Models exposing (Action, ActionPayload)
 
 newPlayerAction : Action
 newPlayerAction =
-    Action "NEW_PLAYER_REQUEST" (ActionPayload "" "")
+    Action "NEW_PLAYER" (ActionPayload "" "")

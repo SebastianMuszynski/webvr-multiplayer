@@ -49,7 +49,7 @@ view model =
                                 renderGameOverText
 
                             _ ->
-                                renderStartGameBtn
+                                renderStartGameBtns
                         ]
 
                 Nothing ->
@@ -90,23 +90,86 @@ renderErrorMsg error =
         [ Html.text error ]
 
 
-renderStartGameBtn : Html msg
-renderStartGameBtn =
+renderStartGameBtns : Html msg
+renderStartGameBtns =
     entity []
-        [ plane
-            [ width 2
-            , height 1
-            , position 0 2.6 -3
-            , color (rgb 255 171 125)
-            , attribute "start-game-listener" "true"
+        [ entity [ position -1 2.6 -3 ]
+            [ box
+                [ width 1
+                , height 1
+                , depth 1
+                , scale 1 1 0.5
+                , position 0 0 -0.25
+                , color (rgb 223 64 90)
+                , attribute "start-game-listener" "playersNumber: 1"
+                ]
+                []
+            , text
+                [ attribute "value" "1 player"
+                , color (rgb 254 200 201)
+                , attribute "align" "center"
+                , attribute "anchor" "center"
+                ]
+                []
             ]
-            []
-        , text
-            [ attribute "value" "Start game"
-            , color (rgb 0 0 0)
-            , position -0.55 2.6 -3
+        , entity [ position 1 2.6 -3 ]
+            [ box
+                [ width 1
+                , height 1
+                , depth 1
+                , scale 1 1 0.5
+                , position 0 0 -0.25
+                , color (rgb 135 49 78)
+                , attribute "start-game-listener" "playersNumber: 2"
+                ]
+                []
+            , text
+                [ attribute "value" "2 players"
+                , color (rgb 254 200 201)
+                , attribute "align" "center"
+                , attribute "anchor" "center"
+                ]
+                []
             ]
-            []
+        , entity [ position -1 0.6 -3 ]
+            [ box
+                [ width 1
+                , height 1
+                , depth 1
+                , scale 1 1 0.5
+                , position 0 0 -0.25
+                , color (rgb 81 38 69)
+                , attribute "start-game-listener" "playersNumber: 3"
+                ]
+                []
+            , text
+                [ attribute "value" "3 players"
+                , color (rgb 254 200 201)
+                , attribute "align" "center"
+                , attribute "anchor" "center"
+                ]
+                []
+            ]
+        , entity [ position 1 0.6 -3 ]
+            [ box
+                [ width 1
+                , height 1
+                , depth 1
+                , scale 1 1 0.5
+                , position 0 0 -0.25
+                , color (rgb 49 30 62)
+                , attribute "start-game-listener" "playersNumber: 4"
+                ]
+                []
+            , text
+                [ attribute "value" "4 players"
+                , color (rgb 254 200 201)
+                , attribute "align" "center"
+                , attribute "anchor" "center"
+                ]
+                []
+            ]
+        , sky [ color (rgb 82 97 106) ] []
         , camera
             []
             [ renderCursor "#000"

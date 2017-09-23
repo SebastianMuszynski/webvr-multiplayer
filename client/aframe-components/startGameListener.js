@@ -1,14 +1,18 @@
 AFRAME.registerComponent('start-game-listener', {
+  schema: {
+    playersNumber: {type: 'int', default: 1}
+  },
   init: function () {
-    var enemy = this.el;
-    var scene = enemy.sceneEl;
-    var playerId = scene.getAttribute("data-player-id");
+    let enemy = this.el;
+    let scene = enemy.sceneEl;
+    let playerId = scene.getAttribute("data-player-id");
+    let playersNumber = this.data.playersNumber;
 
     this.el.addEventListener('mouseenter', function() {
-      var action = {
-        type_: "START_GAME_REQUEST",
+      let action = {
+        type_: "START_GAME",
         payload: {
-          data: "",
+          data: "" + playersNumber,
           player_id: playerId || ""
         }
       };

@@ -43,7 +43,19 @@ handleError errorMsg model =
 
 handleAction : Action -> Model -> ( Model, Cmd Msg )
 handleAction action model =
-    if action.type_ == "WAIT_FOR_PLAYERS" then
+    if action.type_ == "NEW_PLAYER" then
+        let
+            playerId =
+                action.payload.data
+
+            currentGame =
+                model.game
+
+            updatedGame =
+                { currentGame | currentPlayerId = playerId }
+        in
+        ( { model | game = updatedGame }, Cmd.none )
+    else if action.type_ == "WAIT_FOR_PLAYERS" then
         let
             currentGame =
                 model.game
@@ -59,27 +71,6 @@ handleAction action model =
 
             updatedGame =
                 { currentGame | status = "START_GAME" }
-        in
-        ( { model | game = updatedGame }, Cmd.none )
-    else if action.type_ == "GAME_OVER" then
-        let
-            currentGame =
-                model.game
-
-            updatedGame =
-                { currentGame | status = "GAME_OVER" }
-        in
-        ( { model | game = updatedGame }, Cmd.none )
-    else if action.type_ == "NEW_PLAYER_RESPONSE" then
-        let
-            playerId =
-                action.payload.data
-
-            currentGame =
-                model.game
-
-            updatedGame =
-                { currentGame | currentPlayerId = playerId }
         in
         ( { model | game = updatedGame }, Cmd.none )
     else if action.type_ == "PLAYERS" then
@@ -110,5 +101,14 @@ handleAction action model =
                         { currentGame | enemies = newEnemies }
                 in
                 ( { model | game = updatedGame }, Cmd.none )
+    else if action.type_ == "GAME_OVER" then
+        let
+            currentGame =
+                model.game
+
+            updatedGame =
+                { currentGame | status = "GAME_OVER" }
+        in
+        ( { model | game = updatedGame }, Cmd.none )
     else
         ( { model | error = Just ("Unrecognised action type: " ++ action.type_) }, Cmd.none )
