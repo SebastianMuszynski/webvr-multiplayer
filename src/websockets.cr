@@ -8,13 +8,13 @@ ws "/room" do |socket|
 
     begin
       case action.type_
-      when MSG_NEW_PLAYER
+      when MSG[:NEW_PLAYER]
         AddPlayerService.call(player, game)
-      when MSG_START_GAME
+      when MSG[:START_GAME]
         StartGameService.call(player, game)
-      when MSG_PLAYER_POSITION_CHANGED
+      when MSG[:PLAYER_POSITION_CHANGED]
         UpdatePlayersPositionService.call(action, player, game)
-      when MSG_REMOVE_ENEMY
+      when MSG[:REMOVE_ENEMY]
         RemoveEnemyService.call(action, player, game)
       else
         raise "Unrecognised action type: #{action.type_}"

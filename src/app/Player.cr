@@ -2,9 +2,9 @@ class Player
   def initialize(@socket : HTTP::WebSocket)
     @id = SecureRandom.uuid
     @player_settings = PlayerSettings.new
-    @status = STATUS_NEW_PLAYER
+    @status = GAME_STATUS[:NEW_PLAYER]
     @points = 0
-    @color = DEFAULT_PLAYER_COLOR
+    @color = SETTINGS[:PLAYER_COLOR]
   end
 
   def set_color(color : String)
@@ -20,10 +20,10 @@ class Player
   end
 
   def start_game
-    if @status == STATUS_NEW_PLAYER
-      @status = STATUS_STARTING_GAME
+    if @status == GAME_STATUS[:NEW_PLAYER]
+      @status = GAME_STATUS[:STARTING_GAME]
     else
-      @status = STATUS_PLAYING
+      @status = GAME_STATUS[:PLAYING]
     end
   end
 
@@ -36,7 +36,7 @@ class Player
   end
   
   def is_ready_to_play
-    @status == STATUS_STARTING_GAME
+    @status == GAME_STATUS[:STARTING_GAME]
   end
 
   JSON.mapping(

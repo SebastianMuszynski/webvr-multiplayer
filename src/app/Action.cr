@@ -3,31 +3,31 @@ class Action
   end
 
   def self.new_player(player_id : String)
-    new("NEW_PLAYER_RESPONSE", ActionPayload.new(player_id, ""))
+    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.new(player_id, ""))
   end
 
   def self.players(players : Array(Player))
-    new("PLAYERS", ActionPayload.new(players.to_json, ""))
+    new(ACTION_TYPE[:PLAYERS], ActionPayload.new(players.to_json, ""))
   end
 
   def self.enemies(enemies : Array(Enemy))
-    new("ENEMIES", ActionPayload.new(enemies.to_json, ""))
+    new(ACTION_TYPE[:ENEMIES], ActionPayload.new(enemies.to_json, ""))
   end
 
   def self.player(player : Player)
-    new("PLAYER", ActionPayload.new(player.to_json, player.id))
+    new(ACTION_TYPE[:PLAYER], ActionPayload.new(player.to_json, player.id))
   end
 
   def self.wait_for_players
-    new("WAIT_FOR_PLAYERS", ActionPayload.new("", ""))
+    new(ACTION_TYPE[:WAIT_FOR_PLAYERS], ActionPayload.new("", ""))
   end
 
   def self.start_game
-    new("START_GAME", ActionPayload.new("", ""))
+    new(ACTION_TYPE[:START_GAME], ActionPayload.new("", ""))
   end
 
   def self.game_over
-    new("GAME_OVER", ActionPayload.new("", ""))
+    new(ACTION_TYPE[:GAME_OVER], ActionPayload.new("", ""))
   end
 
   JSON.mapping(
