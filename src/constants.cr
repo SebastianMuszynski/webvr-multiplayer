@@ -3,13 +3,20 @@ SETTINGS = {
   ENEMIES_NUMBER: 1,
 }
 
-GAME_STATUS = {
+PLAYER_STATUS = {
   # Player hasn't clicked Start Game button yet
   NEW_PLAYER: 0,
   # Player has clicked Start Game button and is waiting for others
   STARTING_GAME: 1,
   # Player is playing the game with others
   PLAYING: 2,
+}
+
+GAME_STATUS = {
+  NEW_GAME: "NEW_GAME",
+  WAITING_FOR_PLAYERS: "WAITING_FOR_PLAYERS",
+  PLAYING: "PLAYING",
+  GAME_OVER: "GAME_OVER", 
 }
 
 MSG = {

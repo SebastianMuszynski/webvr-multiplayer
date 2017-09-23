@@ -5,15 +5,13 @@ ws "/room" do |socket|
 
   socket.on_message do |message|
     action = ActionHelper.decode(message)
-    
-    p action
 
     begin
       case action.type_
       when MSG[:NEW_PLAYER]
         AddPlayerService.call(player, game)
       when MSG[:START_GAME]
-        StartGameService.call(player, game)
+        StartGameService.call(action, player, game)
       when MSG[:UPDATE_POSITION]
         UpdatePlayersPositionService.call(action, player, game)
       when MSG[:REMOVE_ENEMY]

@@ -13,7 +13,7 @@ AFRAME.registerComponent('start-game-listener', {
         type_: "START_GAME",
         payload: {
           data: "" + playersNumber,
-          player_id: playerId || ""
+          player_id: playerId || "",
         }
       };
       window.elmApp.ports.fromJs.send(JSON.stringify(action));
