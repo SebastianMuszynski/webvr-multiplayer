@@ -1,7 +1,6 @@
 class Scene
   def initialize
     @players = [] of Player
-    # @enemies = Array({Enemy, String}).new
     @enemies = [] of Enemy
   end
 
@@ -17,7 +16,6 @@ class Scene
     while enemies_number > 0
       enemy = Enemy.random
       enemy.set_color(player.color)
-      # @enemies << {enemy, player.id}
       @enemies << enemy
       enemies_number -= 1
     end
@@ -91,7 +89,6 @@ class Scene
 
   JSON.mapping(
     players: Array(Player),
-    # enemies: Array({Enemy, String}),
     enemies: Array(Enemy),
   )
 end

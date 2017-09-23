@@ -14,8 +14,6 @@ class ActionHelper
     @action.payload.player_id
   end
 
-  # TODO: Use format:
-  # @action.payload.enemy_id
   def get_enemy_id
     @action.payload.data
   end

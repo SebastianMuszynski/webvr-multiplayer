@@ -1,7 +1,4 @@
 class Player
-  # @socket = uninitialized HTTP::WebSocket
-
-  # def initialize(x : Float64, y : Float64, z : Float64, color : String)
   def initialize(@socket : HTTP::WebSocket)
     @id = SecureRandom.uuid
     @player_settings = PlayerSettings.new
@@ -30,25 +27,6 @@ class Player
     end
   end
 
-  # def assign_socket(socket)
-  #   @socket = socket
-  # end
-
-  # def socket
-  #   @socket
-  # end
-
-  # def self.random
-  #   random = Random.new
-  #   range = 1.0..8.0
-  #   groundHeight = 0.6
-  #   new(random.rand(range), groundHeight, random.rand(range))
-  # end
-
-  # def id
-  #   @id ||= SecureRandom.uuid
-  # end
-
   def add_points(number)
     @points += number
   end
@@ -57,10 +35,6 @@ class Player
     self.add_points(1)
   end
   
-  # def set_as_ready_to_play
-  #   @is_ready_to_play = true
-  # end
-  #
   def is_ready_to_play
     @status == STATUS_STARTING_GAME
   end

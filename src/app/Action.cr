@@ -32,7 +32,7 @@ class Action
 
   JSON.mapping(
     type_: String,
-    payload: {type: ActionPayload, nilable: false},
+    payload: ActionPayload
   )
 end
 

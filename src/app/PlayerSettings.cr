@@ -13,7 +13,7 @@ class PlayerSettings
   end
 
   JSON.mapping(
-    position: {type: Position, nilable: false},
-    rotation: {type: Rotation, nilable: false}
+    position: Position,
+    rotation: Rotation
   )
 end

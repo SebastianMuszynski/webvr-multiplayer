@@ -33,7 +33,7 @@ class Enemy
 
   JSON.mapping(
     id: String,
-    position: {type: Position, nilable: false},
+    position: Position,
     isVisible: Bool,
     color: String
   )

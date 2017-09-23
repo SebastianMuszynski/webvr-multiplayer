@@ -31,6 +31,10 @@ class Game
   def get_new_player_position
     @scene.get_new_player_position
   end
+  
+  def get_new_player_color
+    @scene.get_new_player_color
+  end
 
   def get_player(player_id : String)
     @scene.get_player(player_id)
