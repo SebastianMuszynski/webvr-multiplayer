@@ -426,6 +426,7 @@ renderEnemy enemy =
             , attribute "enemy-hover-listener" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
             , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
+            , attribute "sound" "src: #soundShoot"
             ]
             []
         ]

@@ -6,6 +6,7 @@ AFRAME.registerComponent('enemy-hover-listener', {
     var playerColor = scene.getAttribute("data-player-color");
     
     this.el.addEventListener('click', function() {
+      enemy.components.sound.playSound();
       var enemyColor = this.getAttribute("data-color");
       if (playerColor != enemyColor) return;      
       var enemyId = this.getAttribute("data-id");
