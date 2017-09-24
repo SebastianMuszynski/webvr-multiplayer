@@ -35,6 +35,10 @@ class Player
     self.add_points(1)
   end
   
+  def points
+    @points
+  end
+  
   def is_ready_to_play
     @status == PLAYER_STATUS[:STARTING_GAME]
   end

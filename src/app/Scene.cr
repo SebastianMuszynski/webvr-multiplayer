@@ -84,7 +84,7 @@ class Scene
   end
 
   def is_game_over
-    @enemies.all? { |enemy| enemy.is_dead }
+    @players.any? { |player| player.points >= SETTINGS[:POINTS_NUMBER_TO_WIN] }
   end
 
   JSON.mapping(
