@@ -37,6 +37,24 @@ view model =
                                 , attribute "src" "img/aframe-sky.jpg"
                                 ]
                                 []
+                            , node "a-audio"
+                                [ id "soundClick"
+                                , attribute "src" "music/click.mp3"
+                                , attribute "preload" "auto"
+                                ]
+                                []
+                            , node "a-audio"
+                                [ id "soundShoot"
+                                , attribute "src" "music/shoot.mp3"
+                                , attribute "preload" "auto"
+                                ]
+                                []
+                            , node "a-audio"
+                                [ id "soundBackground"
+                                , attribute "src" "music/fantasyGame.wav"
+                                , attribute "preload" "auto"
+                                ]
+                                []
                             ]
                         , case model.game.status of
                             "WAIT_FOR_PLAYERS" ->
@@ -68,6 +86,7 @@ renderGame game player =
             , renderPlayers game
             , renderEnemies game.enemies
             , renderSky
+            , playMusic
             ]
         ]
 
@@ -102,6 +121,8 @@ renderStartGameBtns =
                 , position 0 0 -0.25
                 , color (rgb 223 64 90)
                 , attribute "start-game-listener" "playersNumber: 1"
+                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
+                , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
                 []
             , text
@@ -121,6 +142,8 @@ renderStartGameBtns =
                 , position 0 0 -0.25
                 , color (rgb 135 49 78)
                 , attribute "start-game-listener" "playersNumber: 2"
+                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
+                , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
                 []
             , text
@@ -140,6 +163,8 @@ renderStartGameBtns =
                 , position 0 0 -0.25
                 , color (rgb 81 38 69)
                 , attribute "start-game-listener" "playersNumber: 3"
+                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
+                , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
                 []
             , text
@@ -159,6 +184,8 @@ renderStartGameBtns =
                 , position 0 0 -0.25
                 , color (rgb 49 30 62)
                 , attribute "start-game-listener" "playersNumber: 4"
+                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
+                , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
                 []
             , text
@@ -172,7 +199,7 @@ renderStartGameBtns =
         , sky [ color (rgb 82 97 106) ] []
         , camera
             []
-            [ renderCursor "#000"
+            [ renderCursor "#000" 250
             ]
         ]
 
@@ -184,6 +211,7 @@ renderAwaitingText =
             [ attribute "value" "Waiting for other players to start..."
             , color (rgb 0 0 0)
             , position -1.5 1.6 -3
+            , attribute "align" "center"
             ]
             []
         ]
@@ -196,6 +224,7 @@ renderGameOverText =
             [ attribute "value" "Game over! :)"
             , color (rgb 0 0 0)
             , position -1.5 1.6 -3
+            , attribute "align" "center"
             ]
             []
         ]
@@ -209,16 +238,16 @@ renderCamera cameraPos points playerColor =
             [ position cameraPos.x 3 cameraPos.z
             , attribute "player-position-listener" "true"
             ]
-            [ renderCursor playerColor
+            [ renderCursor playerColor 1000
             , renderPoints points
             ]
         ]
 
 
-renderCursor : String -> Html msg
-renderCursor playerColor =
+renderCursor : String -> Int -> Html msg
+renderCursor playerColor fuseTimeout =
     cursor
-        [ timeout 1
+        [ timeout fuseTimeout
         , fuse True
         , attribute "color" playerColor
         ]
@@ -407,7 +436,9 @@ renderPoints points =
     AFrame.Primitives.text
         [ attribute "value" (toString points)
         , color (rgb 0 0 0)
-        , position 1 0 -2
+        , position 0 -1 -2
+        , attribute "align" "center"
+        , attribute "font" "exo2bold"
         ]
         []
 
@@ -415,3 +446,11 @@ renderPoints points =
 renderSky : Html msg
 renderSky =
     sky [ attribute "src" "#sky" ] []
+
+
+playMusic : Html msg
+playMusic =
+    entity
+        [ attribute "sound" "src: #soundBackground; autoplay: true; loop: true"
+        ]
+        []

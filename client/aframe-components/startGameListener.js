@@ -8,7 +8,7 @@ AFRAME.registerComponent('start-game-listener', {
     let playerId = scene.getAttribute("data-player-id");
     let playersNumber = this.data.playersNumber;
 
-    this.el.addEventListener('mouseenter', function() {
+    this.el.addEventListener('click', function() {
       let action = {
         type_: "START_GAME",
         payload: {
