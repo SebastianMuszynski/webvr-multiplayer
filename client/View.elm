@@ -211,7 +211,7 @@ renderAwaitingText =
         , text
             [ attribute "value" "Waiting for other players..."
             , color (rgb 254 200 201)
-            , position 0 0 -3
+            , position 0 0 -5
             , attribute "align" "center"
             , attribute "anchor" "center"
             ]
