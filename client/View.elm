@@ -207,11 +207,13 @@ renderStartGameBtns =
 renderAwaitingText : Html msg
 renderAwaitingText =
     entity []
-        [ text
-            [ attribute "value" "Waiting for other players to start..."
-            , color (rgb 0 0 0)
-            , position -1.5 1.6 -3
+        [ sky [ color (rgb 82 97 106) ] []
+        , text
+            [ attribute "value" "Waiting for other players..."
+            , color (rgb 254 200 201)
+            , position 0 0 -3
             , attribute "align" "center"
+            , attribute "anchor" "center"
             ]
             []
         ]
