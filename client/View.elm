@@ -222,11 +222,13 @@ renderAwaitingText =
 renderGameOverText : Html msg
 renderGameOverText =
     entity []
-        [ text
-            [ attribute "value" "Game over! :)"
-            , color (rgb 0 0 0)
-            , position -1.5 1.6 -3
+        [ sky [ color (rgb 82 97 106) ] []
+        , text
+            [ attribute "value" "Great game!"
+            , color (rgb 254 200 201)
+            , position 0 0 -5
             , attribute "align" "center"
+            , attribute "anchor" "center"
             ]
             []
         ]
@@ -437,7 +439,7 @@ renderEnemy enemy =
 renderPoints : Int -> Html msg
 renderPoints points =
     AFrame.Primitives.text
-        [ attribute "value" (toString points)
+        [ attribute "value" (toString points ++ "/10")
         , color (rgb 0 0 0)
         , position 0 -1 -2
         , attribute "align" "center"
