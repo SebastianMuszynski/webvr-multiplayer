@@ -53,7 +53,6 @@ class Player
   )
 end
 
-# Ideally would be to ignore the socket being sent to the client
 module WebSocketConverter
   def self.from_json(value : JSON::PullParser) : String
     "socket"
