@@ -1,8 +1,9 @@
 class RemovePlayerService
   def self.call(player : Player, game : Game)
     game.scene.remove_player_with_enemies(player)
-
-    SocketsHelper.broadcast(game.players, Action.players(game.players))
-    SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
+    players = game.scene.players
+    enemies = game.scene.enemies
+    SocketsHelper.broadcast(players, Action.players(players))
+    SocketsHelper.broadcast(players, Action.enemies(enemies))
   end
 end

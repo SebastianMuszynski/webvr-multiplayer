@@ -24,7 +24,7 @@ class Player
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
     player_settings: PlayerSettings,
-    status: Int32,
+    status: String,
     points: Int32,
     color: String
   )

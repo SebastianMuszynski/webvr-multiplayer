@@ -25,8 +25,9 @@ class Scene
   def get_new_player_position
     player_positions[@players.size % player_positions.size]
   end
-
-  def add_player(player : Player)
+  
+  def add_player_with_enemies(player : Player, enemies_number : Int32)
+    add_player_enemies(player, enemies_number)
     @players << player
   end
 
@@ -36,7 +37,7 @@ class Scene
   end
   
   # Manage player's enemies
-  def add_player_enemies(player : Player, enemies_number : Int32)
+  private def add_player_enemies(player : Player, enemies_number : Int32)
     while enemies_number > 0
       enemy = Enemy.random
       enemy.set_color(player.color)

@@ -53,7 +53,7 @@ playerDecoder =
         |> requiredAt [ "player_settings" ] playerSettingsDecoder
         |> requiredAt [ "points" ] Decode.int
         |> requiredAt [ "color" ] Decode.string
-        |> requiredAt [ "status" ] Decode.int
+        |> requiredAt [ "status" ] Decode.string
         |> requiredAt [ "socket" ] Decode.string
 
 

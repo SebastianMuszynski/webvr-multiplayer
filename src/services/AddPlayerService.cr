@@ -2,17 +2,20 @@ class AddPlayerService
   def self.call(player : Player, game : Game)
     player.color = game.scene.get_new_player_color
     player.player_settings.position = game.scene.get_new_player_position
-    game.add_player(player)
+    game.add_player_with_enemies(player)
+    
+    players = game.scene.players
+    enemies = game.scene.enemies
 
     SocketsHelper.unicast(player, Action.new_player(player.id))
-    SocketsHelper.broadcast(game.players, Action.players(game.players))
-    SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
+    SocketsHelper.broadcast(players, Action.players(players))
+    SocketsHelper.broadcast(players, Action.enemies(enemies))
     
-    if game.can_start_game
-      SocketsHelper.broadcast(game.players, Action.start_game)
+    if game.can_start
+      SocketsHelper.broadcast(players, Action.start_game)
     else 
       if game.is_waiting_for_players
-        SocketsHelper.broadcast(game.players, Action.wait_for_players)
+        SocketsHelper.broadcast(players, Action.wait_for_players)
       end
     end
   end

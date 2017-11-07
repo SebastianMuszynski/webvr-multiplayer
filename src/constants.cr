@@ -16,11 +16,11 @@ PLAYER = {
   ],
   STATUS: {
     # Player has not clicked Start Game button yet
-    NEW_PLAYER: 0,
+    NEW_PLAYER: "NEW_PLAYER",
     # Player has clicked Start Game button and is waiting for others
-    STARTING_GAME: 1,
+    STARTING_GAME: "STARTING_GAME",
     # Player is playing the game with others
-    PLAYING: 2,
+    PLAYING: "PLAYING",
   },
   # A player's distance from the center of the scene in meters
   DISTANCE_FROM_CENTER: 7.0,
