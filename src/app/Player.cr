@@ -1,22 +1,11 @@
 class Player
-  def initialize(@socket : HTTP::WebSocket)
-    @id = SecureRandom.uuid
-    @player_settings = PlayerSettings.new
-    @status = PLAYER[:STATUS][:NEW_PLAYER]
-    @points = 0
-    @color = PLAYER[:DEFAULT_COLOR]
-  end
-
-  def set_color(color : String)
-    @color = color
-  end
+  property player_settings = PlayerSettings.new
+  @id = SecureRandom.uuid
+  @color = PLAYER[:DEFAULT_COLOR]
+  @points = PLAYER[:DEFAULT_POINTS]
+  @status = PLAYER[:STATUS][:NEW_PLAYER]
   
-  def set_position(position : Position)
-    @player_settings.set_position(position)
-  end
-
-  def set_settings(settings : PlayerSettings)
-    @player_settings = settings
+  def initialize(@socket : HTTP::WebSocket)  
   end
 
   def start_game
@@ -27,22 +16,10 @@ class Player
     end
   end
 
-  def add_points(number)
-    @points += number
-  end
-
   def add_point
-    self.add_points(1)
+    @points += 1
   end
   
-  def points
-    @points
-  end
-  
-  def is_ready_to_play
-    @status == PLAYER[:STATUS][:STARTING_GAME]
-  end
-
   JSON.mapping(
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,

@@ -1,17 +1,10 @@
 class PlayerSettings
-  def initialize
-    @position = Position.new(0.0, 0.0, 0.0)
-    @rotation = Rotation.new(0, 0, 0)
+  property :position
+  property :rotation
+  
+  def initialize(@position = Position.new, @rotation = Rotation.new)
   end
   
-  def set_position(position : Position)
-    @position = position
-  end
-
-  def set_rotation(rotation : Rotation)
-    @rotation = rotation
-  end
-
   JSON.mapping(
     position: Position,
     rotation: Rotation

@@ -7,6 +7,7 @@ SETTINGS = {
 
 PLAYER = {
   DEFAULT_COLOR: "#000",
+  DEFAULT_POINTS: 0,
   COLORS: [
     "#F39237",
     "#BF1363",
