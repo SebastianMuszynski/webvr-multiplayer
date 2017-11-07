@@ -1,16 +1,28 @@
 SETTINGS = {
-  PLAYER_COLOR: "#000",
   ENEMIES_NUMBER: 1,
   POINTS_NUMBER_TO_WIN: 10,
+  # Scene's center point
+  SCENE_CENTER: 0.0,
 }
 
-PLAYER_STATUS = {
-  # Player hasn't clicked Start Game button yet
-  NEW_PLAYER: 0,
-  # Player has clicked Start Game button and is waiting for others
-  STARTING_GAME: 1,
-  # Player is playing the game with others
-  PLAYING: 2,
+PLAYER = {
+  DEFAULT_COLOR: "#000",
+  COLORS: [
+    "#F39237",
+    "#BF1363",
+    "#E6C229",
+    "#81559B",
+  ],
+  STATUS: {
+    # Player has not clicked Start Game button yet
+    NEW_PLAYER: 0,
+    # Player has clicked Start Game button and is waiting for others
+    STARTING_GAME: 1,
+    # Player is playing the game with others
+    PLAYING: 2,
+  },
+  # A player's distance from the center of the scene in meters
+  DISTANCE_FROM_CENTER: 7.0,
 }
 
 GAME_STATUS = {

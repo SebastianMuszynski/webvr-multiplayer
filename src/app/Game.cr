@@ -47,21 +47,21 @@ class Game
     @scene.add_enemies_for_player(1, player)
   end
   
-  def get_new_player_position
-    @scene.get_new_player_position
-  end
+  # def get_new_player_position
+  #   @scene.get_new_player_position
+  # end
   
-  def get_new_player_color
-    @scene.get_new_player_color
-  end
+  # def get_new_player_color
+  #   @scene.get_new_player_color
+  # end
 
   def get_player(player_id : String)
     @scene.get_player(player_id)
   end
 
-  def set_player_as_ready_to_play(player : Player)
-    @scene.set_player_as_ready_to_play(player)
-  end
+  # def set_player_as_ready_to_play(player : Player)
+  #   @scene.set_player_as_ready_to_play(player)
+  # end
 
   def can_start_game
     @status == GAME_STATUS[:PLAYING]

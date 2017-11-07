@@ -1,11 +1,20 @@
 class Scene
+  getter players = [] of Player
+  getter enemies = [] of Enemy
+  
   def initialize
-    @players = [] of Player
-    @enemies = [] of Enemy
+    init_player_positions()
   end
-
-  def players
-    @players
+  
+  private def init_player_positions
+    dist = PLAYER[:DISTANCE_FROM_CENTER]
+    center = SETTINGS[:SCENE_CENTER]
+    @player_positions = [
+      Position.new(center, center, dist),
+      Position.new(center, center, -dist),
+      Position.new(-dist, center, center),
+      Position.new(dist, center, center),
+    ]
   end
 
   def add_player(player : Player)
@@ -22,25 +31,12 @@ class Scene
   end
 
   def get_new_player_color
-    colors = [
-      "#F39237",
-      "#BF1363",
-      "#E6C229",
-      "#81559B",
-    ]
+    colors = PLAYER[:COLORS]
     colors[@players.size % colors.size]
   end
 
   def get_new_player_position
-    dist = 7.0
-    zero = 0.0
-    positions = [
-      Position.new(zero, zero, dist),
-      Position.new(zero, zero, -dist),
-      Position.new(-dist, zero, zero),
-      Position.new(dist, zero, zero),
-    ]
-    positions[@players.size % positions.size]
+    @player_positions[@players.size % @player_positions.size]
   end
 
   def remove_player(player : Player)
@@ -52,17 +48,8 @@ class Scene
     @enemies.reject! { |enemy| enemy.color == player.color }
   end
 
-  def set_player_as_ready_to_play(player_id : String)
-    player = get_player(player_id)
-    player && player.set_as_ready_to_play
-  end
-
   def get_player(player_id : String)
     @players.find { |player| player.id == player_id }
-  end
-
-  def enemies
-    @enemies
   end
 
   def remove_enemy_by_id(enemy_id)
