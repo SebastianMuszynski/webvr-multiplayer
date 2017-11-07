@@ -65,15 +65,6 @@ class Scene
     @enemies
   end
 
-  def generate_enemies_for_player(enemies_number, player)
-    while enemies_number > 0
-      enemy = Enemy.random
-      enemy.set_color(player.color)
-      @enemies << enemy
-      enemies_number -= 1
-    end
-  end
-
   def remove_enemy_by_id(enemy_id)
     enemy = @enemies.find { |enemy| enemy.id == enemy_id }
     enemy && enemy.hide
