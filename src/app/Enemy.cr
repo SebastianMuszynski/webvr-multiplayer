@@ -1,26 +1,17 @@
 class Enemy
+  getter id = SecureRandom.uuid
+  @color = PLAYER[:DEFAULT_COLOR]
+  @isVisible = true
+  
   def initialize(x : Float64, y : Float64, z : Float64)
-    @id = SecureRandom.uuid
     @position = Position.new(x, y, z)
-    @isVisible = true
-    @color = "#000"
-  end
-
-  def color
-    @color
-  end
-
-  def set_color(color)
-    @color = color
   end
 
   def self.random
     random = Random.new
-    new(random.rand(-20.00..20.00), random.rand(3.00..8.00), random.rand(-20.00..20.00))
-  end
-
-  def id
-    @id ||= SecureRandom.uuid
+    new(random.rand(-20.00..20.00), 
+        random.rand(3.00..8.00), 
+        random.rand(-20.00..20.00))
   end
 
   def hide

@@ -1,33 +1,41 @@
 class Action
-  def initialize(@type_ : String, @payload : ActionPayload)
+  def initialize(@type_, @payload)
   end
 
   def self.new_player(player_id : String)
-    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.new(player_id, ""))
+    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.new(player_id))
+  end
+  
+  def self.player(player : Player)
+    new(ACTION_TYPE[:PLAYER], ActionPayload.with_id(player, player.id))
   end
 
   def self.players(players : Array(Player))
-    new(ACTION_TYPE[:PLAYERS], ActionPayload.new(players.to_json, ""))
+    new(ACTION_TYPE[:PLAYERS], ActionPayload.new(players))
   end
 
   def self.enemies(enemies : Array(Enemy))
-    new(ACTION_TYPE[:ENEMIES], ActionPayload.new(enemies.to_json, ""))
-  end
-
-  def self.player(player : Player)
-    new(ACTION_TYPE[:PLAYER], ActionPayload.new(player.to_json, player.id))
-  end
-
-  def self.wait_for_players
-    new(ACTION_TYPE[:WAIT_FOR_PLAYERS], ActionPayload.new("", ""))
+    new(ACTION_TYPE[:ENEMIES], ActionPayload.new(enemies))
   end
 
   def self.start_game
-    new(ACTION_TYPE[:START_GAME], ActionPayload.new("", ""))
+    without_payload(ACTION_TYPE[:START_GAME])
+  end
+  
+  def self.wait_for_players
+    without_payload(ACTION_TYPE[:WAIT_FOR_PLAYERS])
   end
 
   def self.game_over
-    new(ACTION_TYPE[:GAME_OVER], ActionPayload.new("", ""))
+    without_payload(ACTION_TYPE[:GAME_OVER])
+  end
+  
+  private def self.without_payload(action_type)
+    new(action_type, empty_action_payload)
+  end
+  
+  private def self.empty_action_payload
+    ActionPayload.new("", "")
   end
 
   JSON.mapping(
@@ -37,7 +45,12 @@ class Action
 end
 
 class ActionPayload
-  def initialize(@data : String, @player_id : String)
+  def initialize(data, @player_id = "")
+    @data = data.to_json
+  end
+  
+  def self.with_id(payload, id)
+    new(payload, id)
   end
 
   JSON.mapping(

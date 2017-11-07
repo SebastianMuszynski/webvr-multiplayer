@@ -3,11 +3,13 @@ class RemoveEnemyService
     enemy_id = ActionHelper.new(action).get_enemy_id
     game.scene.remove_enemy_by_id(enemy_id)
     game.scene.add_player_enemies(player, 1)
-
     player.add_point
     
-    SocketsHelper.broadcast(game.players, Action.players(game.players))
-    SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
-    SocketsHelper.broadcast(game.players, Action.game_over) if game.is_over
+    players = game.scene.players
+    enemies = game.scene.enemies
+    
+    SocketsHelper.broadcast(players, Action.players(players))
+    SocketsHelper.broadcast(players, Action.enemies(enemies))
+    SocketsHelper.broadcast(players, Action.game_over) if game.is_over
   end
 end

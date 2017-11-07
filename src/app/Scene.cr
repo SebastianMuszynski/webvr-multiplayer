@@ -37,10 +37,10 @@ class Scene
   end
   
   # Manage player's enemies
-  private def add_player_enemies(player : Player, enemies_number : Int32)
+  def add_player_enemies(player : Player, enemies_number : Int32)
     while enemies_number > 0
       enemy = Enemy.random
-      enemy.set_color(player.color)
+      enemy.color = player.color
       @enemies << enemy
       enemies_number -= 1
     end
