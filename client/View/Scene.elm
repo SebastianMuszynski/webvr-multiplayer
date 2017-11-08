@@ -57,7 +57,7 @@ renderScene game player =
                 renderText "Great game!"
 
             _ ->
-                renderStartGameBtns
+                renderChoosePlayersBtns
         ]
 
 
@@ -76,96 +76,41 @@ renderText msg =
         ]
 
 
-renderStartGameBtns : Html msg
-renderStartGameBtns =
+renderChoosePlayersBtns : Html msg
+renderChoosePlayersBtns =
     entity []
-        [ entity [ position -1 2.6 -3 ]
-            [ box
-                [ width 1
-                , height 1
-                , depth 1
-                , scale 1 1 0.5
-                , position 0 0 -0.25
-                , color (rgb 223 64 90)
-                , attribute "start-game" "playersNumber: 1"
-                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
-                , attribute "sound" "src: #soundClick; on: mouseenter"
-                ]
-                []
-            , text
-                [ attribute "value" "1 player"
-                , color (rgb 254 200 201)
-                , attribute "align" "center"
-                , attribute "anchor" "center"
-                ]
-                []
-            ]
-        , entity [ position 1 2.6 -3 ]
-            [ box
-                [ width 1
-                , height 1
-                , depth 1
-                , scale 1 1 0.5
-                , position 0 0 -0.25
-                , color (rgb 135 49 78)
-                , attribute "start-game" "playersNumber: 2"
-                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
-                , attribute "sound" "src: #soundClick; on: mouseenter"
-                ]
-                []
-            , text
-                [ attribute "value" "2 players"
-                , color (rgb 254 200 201)
-                , attribute "align" "center"
-                , attribute "anchor" "center"
-                ]
-                []
-            ]
-        , entity [ position -1 0.6 -3 ]
-            [ box
-                [ width 1
-                , height 1
-                , depth 1
-                , scale 1 1 0.5
-                , position 0 0 -0.25
-                , color (rgb 81 38 69)
-                , attribute "start-game" "playersNumber: 3"
-                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
-                , attribute "sound" "src: #soundClick; on: mouseenter"
-                ]
-                []
-            , text
-                [ attribute "value" "3 players"
-                , color (rgb 254 200 201)
-                , attribute "align" "center"
-                , attribute "anchor" "center"
-                ]
-                []
-            ]
-        , entity [ position 1 0.6 -3 ]
-            [ box
-                [ width 1
-                , height 1
-                , depth 1
-                , scale 1 1 0.5
-                , position 0 0 -0.25
-                , color (rgb 49 30 62)
-                , attribute "start-game" "playersNumber: 4"
-                , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
-                , attribute "sound" "src: #soundClick; on: mouseenter"
-                ]
-                []
-            , text
-                [ attribute "value" "4 players"
-                , color (rgb 254 200 201)
-                , attribute "align" "center"
-                , attribute "anchor" "center"
-                ]
-                []
-            ]
+        [ renderChoosePlayerBtn -1 2.6 (rgb 223 64 90) "1" "1 player"
+        , renderChoosePlayerBtn 1 2.6 (rgb 135 49 78) "2" "2 players"
+        , renderChoosePlayerBtn -1 0.6 (rgb 81 38 69) "3" "3 players"
+        , renderChoosePlayerBtn 1 0.6 (rgb 49 30 62) "4" "4 players"
         , sky [ color (rgb 82 97 106) ] []
         , camera
             []
             [ renderCursor "#000" 250
             ]
+        ]
+
+
+renderChoosePlayerBtn : Float -> Float -> Color.Color -> String -> String -> Html msg
+renderChoosePlayerBtn posX posY rgbColor playersNumber displayTxt =
+    entity [ position posX posY -3 ]
+        [ box
+            [ width 1
+            , height 1
+            , depth 1
+            , scale 1 1 0.5
+            , position 0 0 -0.25
+            , color rgbColor
+            , attribute "start-game" ("playersNumber: " ++ playersNumber)
+            , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
+            , attribute "sound" "src: #soundClick; on: mouseenter"
+            ]
+            []
+        , text
+            [ attribute "value" displayTxt
+            , color (rgb 254 200 201)
+            , attribute "align" "center"
+            , attribute "anchor" "center"
+            ]
+            []
         ]
