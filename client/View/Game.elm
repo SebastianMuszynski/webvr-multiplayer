@@ -32,8 +32,9 @@ renderCamera player =
     entity []
         [ camera
             [ position pos.x 3 pos.z
-            , attribute "move-player" ""
             , attribute "user-height" "0"
+            , attribute "move-player" ""
+            , attribute "rotate-player" ""
             ]
             [ renderCursor player.color 1000
             , renderPoints player.points
