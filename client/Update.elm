@@ -26,16 +26,6 @@ update msg model =
                     handleActionOnComponentRequest action model
 
 
-handleActionOnComponentRequest : Action -> Model -> ( Model, Cmd Msg )
-handleActionOnComponentRequest action model =
-    case model.config.host of
-        Just host ->
-            ( model, sendAction model action )
-
-        Nothing ->
-            handleError "No host provided!" model
-
-
 handleError : String -> Model -> ( Model, Cmd Msg )
 handleError errorMsg model =
     ( { model | error = Just errorMsg }, Cmd.none )
@@ -112,3 +102,13 @@ handleAction action model =
         ( { model | game = updatedGame }, Cmd.none )
     else
         ( { model | error = Just ("Unrecognised action type: " ++ action.type_) }, Cmd.none )
+
+
+handleActionOnComponentRequest : Action -> Model -> ( Model, Cmd Msg )
+handleActionOnComponentRequest action model =
+    case model.config.host of
+        Just host ->
+            ( model, sendAction model action )
+
+        Nothing ->
+            handleError "No host provided!" model

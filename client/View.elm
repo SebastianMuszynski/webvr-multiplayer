@@ -122,7 +122,7 @@ renderStartGameBtns =
                 , scale 1 1 0.5
                 , position 0 0 -0.25
                 , color (rgb 223 64 90)
-                , attribute "start-game-listener" "playersNumber: 1"
+                , attribute "start-game" "playersNumber: 1"
                 , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
                 , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
@@ -143,7 +143,7 @@ renderStartGameBtns =
                 , scale 1 1 0.5
                 , position 0 0 -0.25
                 , color (rgb 135 49 78)
-                , attribute "start-game-listener" "playersNumber: 2"
+                , attribute "start-game" "playersNumber: 2"
                 , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
                 , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
@@ -164,7 +164,7 @@ renderStartGameBtns =
                 , scale 1 1 0.5
                 , position 0 0 -0.25
                 , color (rgb 81 38 69)
-                , attribute "start-game-listener" "playersNumber: 3"
+                , attribute "start-game" "playersNumber: 3"
                 , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
                 , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
@@ -185,7 +185,7 @@ renderStartGameBtns =
                 , scale 1 1 0.5
                 , position 0 0 -0.25
                 , color (rgb 49 30 62)
-                , attribute "start-game-listener" "playersNumber: 4"
+                , attribute "start-game" "playersNumber: 4"
                 , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
                 , attribute "sound" "src: #soundClick; on: mouseenter"
                 ]
@@ -257,7 +257,7 @@ renderCamera cameraPos points playerColor =
         []
         [ camera
             [ position cameraPos.x 3 cameraPos.z
-            , attribute "player-position-listener" "true"
+            , attribute "move-player" "true"
             ]
             [ renderCursor playerColor 1000
             , renderPoints points
@@ -444,7 +444,7 @@ renderEnemy enemy =
             , attribute "data-id" enemy.id
             , attribute "data-color" enemy.color
             , position enemy.position.x enemy.position.y enemy.position.z
-            , attribute "enemy-hover-listener" "true"
+            , attribute "shoot-enemy" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
             , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
             , attribute "sound" "src: #soundShoot"
