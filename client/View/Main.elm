@@ -1,4 +1,4 @@
-module View exposing (..)
+module View.Main exposing (..)
 
 import AFrame exposing (entity, scene)
 import AFrame.Primitives exposing (assetItem, assets, box, cone, cylinder, plane, sky, sphere, text)
@@ -47,24 +47,24 @@ renderScene game player =
         [ assets []
             [ assetItem
                 [ attribute "id" "sky"
-                , attribute "src" "img/aframe-sky.jpg"
+                , attribute "src" "images/aframe-sky.jpg"
                 ]
                 []
             , node "a-audio"
                 [ id "soundClick"
-                , attribute "src" "music/click.mp3"
+                , attribute "src" "sounds/click.mp3"
                 , attribute "preload" "auto"
                 ]
                 []
             , node "a-audio"
                 [ id "soundShoot"
-                , attribute "src" "music/shoot.mp3"
+                , attribute "src" "sounds/shoot.mp3"
                 , attribute "preload" "auto"
                 ]
                 []
             , node "a-audio"
                 [ id "soundBackground"
-                , attribute "src" "music/fantasyGame.wav"
+                , attribute "src" "sounds/fantasyGame.wav"
                 , attribute "preload" "auto"
                 ]
                 []

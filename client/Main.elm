@@ -2,11 +2,11 @@ module Main exposing (..)
 
 import Commands exposing (startGame)
 import Html exposing (programWithFlags)
-import Models exposing (Model, Flags, initialModel)
+import Models exposing (Flags, Model, initialModel)
 import Msgs exposing (Msg)
 import Subs exposing (subscriptions)
 import Update exposing (update)
-import View exposing (view)
+import View.Main exposing (view)
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -21,7 +21,7 @@ init flags =
         model =
             { initialModel | config = newConfig }
     in
-        ( model, startGame model )
+    ( model, startGame model )
 
 
 main : Program Flags Model Msg
