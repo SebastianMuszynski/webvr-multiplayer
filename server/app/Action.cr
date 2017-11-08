@@ -3,7 +3,7 @@ class Action
   end
 
   def self.new_player(player_id : String)
-    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.with_id("", player_id))
+    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.new(player_id: player_id))
   end
 
   def self.player(player : Player)
@@ -45,7 +45,7 @@ class Action
 end
 
 class ActionPayload
-  def initialize(data, @player_id = "")
+  def initialize(data = "", @player_id = "")
     @data = data.to_json
   end
 
