@@ -13,3 +13,6 @@ lib
 
 # Environmental variables
 .env
+
+# Other
+.DS_Store
