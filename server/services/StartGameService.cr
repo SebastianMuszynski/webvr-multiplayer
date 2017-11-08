@@ -3,7 +3,7 @@ class StartGameService
     playersNumber = ActionHelper.new(action).get_players_number
     game.set_players_number(playersNumber)
     player.start_game
-    
+
     players = game.scene.players
 
     if game.can_start

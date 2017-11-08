@@ -17,7 +17,7 @@ class ActionHelper
   def get_enemy_id
     @action.payload.data
   end
-  
+
   def get_players_number
     (@action.payload.data).to_i
   end

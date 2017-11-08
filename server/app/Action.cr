@@ -5,7 +5,7 @@ class Action
   def self.new_player(player_id : String)
     new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.with_id("", player_id))
   end
-  
+
   def self.player(player : Player)
     new(ACTION_TYPE[:PLAYER], ActionPayload.with_id(player, player.id))
   end
@@ -21,7 +21,7 @@ class Action
   def self.start_game
     without_payload(ACTION_TYPE[:START_GAME])
   end
-  
+
   def self.wait_for_players
     without_payload(ACTION_TYPE[:WAIT_FOR_PLAYERS])
   end
@@ -29,11 +29,11 @@ class Action
   def self.game_over
     without_payload(ACTION_TYPE[:GAME_OVER])
   end
-  
+
   private def self.without_payload(action_type)
     new(action_type, empty_action_payload)
   end
-  
+
   private def self.empty_action_payload
     ActionPayload.new("", "")
   end
@@ -48,11 +48,11 @@ class ActionPayload
   def initialize(data, @player_id = "")
     @data = data.to_json
   end
-  
+
   def self.with_id(payload, id)
     new(payload, id)
   end
-  
+
   JSON.mapping(
     data: String,
     player_id: String

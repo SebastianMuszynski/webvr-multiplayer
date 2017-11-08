@@ -4,8 +4,8 @@ class Player
   @color = PLAYER[:DEFAULT_COLOR]
   @points = PLAYER[:DEFAULT_POINTS]
   @status = PLAYER[:STATUS][:NEW_PLAYER]
-  
-  def initialize(@socket : HTTP::WebSocket)  
+
+  def initialize(@socket : HTTP::WebSocket)
   end
 
   def start_game
@@ -19,7 +19,7 @@ class Player
   def add_point
     @points += 1
   end
-  
+
   JSON.mapping(
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
@@ -34,7 +34,7 @@ module WebSocketConverter
   def self.from_json(value : JSON::PullParser) : String
     "socket"
   end
-  
+
   def self.to_json(value : HTTP::WebSocket, json : JSON::Builder)
     json.string("socket")
   end
