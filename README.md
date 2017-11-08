@@ -1,5 +1,7 @@
 # A multiplayer game in WebVR
 
+![Gra](https://i.imgur.com/rF49zyF.jpg)
+
 ## Requirements
 
 1. NodeJS & npm
