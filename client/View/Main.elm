@@ -10,7 +10,7 @@ import Html exposing (Html, div, h2, node)
 import Html.Attributes exposing (align, attribute, id, style, value)
 import Models exposing (Enemy, Game, GameStatus, Model, Player, Position)
 import String exposing (isEmpty)
-import View.Scene exposing (renderLoadingText, renderScene)
+import View.Scene exposing (renderScene, renderText)
 
 
 view : Model -> Html msg
@@ -22,18 +22,21 @@ view model =
 
             Nothing ->
                 let
-                    currentPlayerId =
-                        model.game.currentPlayerId
+                    game =
+                        model.game
+
+                    playerId =
+                        game.currentPlayerId
 
                     currentPlayer =
-                        List.head <| List.filter (\a -> a.id == currentPlayerId) model.game.players
+                        List.head <| List.filter (\a -> a.id == playerId) game.players
                 in
                 case currentPlayer of
                     Just player ->
-                        renderScene model.game player
+                        renderScene game player
 
                     Nothing ->
-                        renderLoadingText
+                        renderText "Loading..."
         ]
 
 

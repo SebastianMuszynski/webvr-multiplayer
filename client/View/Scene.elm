@@ -47,56 +47,26 @@ renderScene game player =
                 []
             ]
         , case game.status of
-            "WAIT_FOR_PLAYERS" ->
-                renderAwaitingText
-
             "START_GAME" ->
                 renderGame game player
 
+            "WAIT_FOR_PLAYERS" ->
+                renderText "Waiting for other players..."
+
             "GAME_OVER" ->
-                renderGameOverText
+                renderText "Great game!"
 
             _ ->
                 renderStartGameBtns
         ]
 
 
-renderAwaitingText : Html msg
-renderAwaitingText =
+renderText : String -> Html msg
+renderText msg =
     entity []
         [ sky [ color (rgb 82 97 106) ] []
         , text
-            [ attribute "value" "Waiting for other players..."
-            , color (rgb 254 200 201)
-            , position 0 0 -5
-            , attribute "align" "center"
-            , attribute "anchor" "center"
-            ]
-            []
-        ]
-
-
-renderLoadingText : Html msg
-renderLoadingText =
-    entity []
-        [ sky [ color (rgb 82 97 106) ] []
-        , text
-            [ attribute "value" "Loading..."
-            , color (rgb 254 200 201)
-            , position 0 0 -5
-            , attribute "align" "center"
-            , attribute "anchor" "center"
-            ]
-            []
-        ]
-
-
-renderGameOverText : Html msg
-renderGameOverText =
-    entity []
-        [ sky [ color (rgb 82 97 106) ] []
-        , text
-            [ attribute "value" "Great game!"
+            [ attribute "value" msg
             , color (rgb 254 200 201)
             , position 0 0 -5
             , attribute "align" "center"
