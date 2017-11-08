@@ -14,14 +14,12 @@ import Models exposing (Enemy, Game, Player, Position)
 renderGame : Game -> Player -> Html msg
 renderGame game player =
     entity []
-        [ entity []
-            [ renderCamera player
-            , renderSky
-            , renderFloor
-            , renderPlayers game
-            , renderEnemies game.enemies
-            , playBackgroundMusic
-            ]
+        [ renderCamera player
+        , renderSky
+        , renderFloor
+        , renderPlayers game
+        , renderEnemies game.enemies
+        , playBackgroundMusic
         ]
 
 
@@ -35,6 +33,7 @@ renderCamera player =
         [ camera
             [ position pos.x 3 pos.z
             , attribute "move-player" ""
+            , attribute "user-height" "0"
             ]
             [ renderCursor player.color 1000
             , renderPoints player.points
