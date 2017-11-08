@@ -1,2 +1,2 @@
 web: npm run watch
-api: crystal src/server.cr
+api: crystal server/server.cr

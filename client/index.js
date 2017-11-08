@@ -1,8 +1,8 @@
 'use strict';
 
-require('./aframe-components/enemyHoverListener.js');
-require('./aframe-components/playerPositionListener.js');
-require('./aframe-components/startGameListener.js');
+require('./action-listeners/shoot-enemy.js');
+require('./action-listeners/move-player.js');
+require('./action-listeners/start-game.js');
 
 var Elm = require('./Main.elm');
 var mountNode = document.getElementById('main');

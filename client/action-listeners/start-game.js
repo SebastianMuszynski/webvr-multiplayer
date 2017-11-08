@@ -1,4 +1,4 @@
-AFRAME.registerComponent('start-game-listener', {
+AFRAME.registerComponent('start-game', {
   schema: {
     playersNumber: {type: 'int', default: 1}
   },
