@@ -1,6 +1,5 @@
 module View.Main exposing (..)
 
-import AFrame exposing (entity)
 import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (src, style)
 import Models exposing (Model)
@@ -9,29 +8,27 @@ import View.Scene exposing (renderScene)
 
 view : Model -> Html msg
 view model =
-    entity []
-        [ case model.error of
-            Just errorMsg ->
-                renderErrorMsg errorMsg
+    case model.error of
+        Just errorMsg ->
+            renderErrorMsg errorMsg
 
-            Nothing ->
-                let
-                    game =
-                        model.game
+        Nothing ->
+            let
+                game =
+                    model.game
 
-                    playerId =
-                        game.currentPlayerId
+                playerId =
+                    game.currentPlayerId
 
-                    currentPlayer =
-                        List.head <| List.filter (\a -> a.id == playerId) game.players
-                in
-                case currentPlayer of
-                    Just player ->
-                        renderScene game player
+                currentPlayer =
+                    List.head <| List.filter (\a -> a.id == playerId) game.players
+            in
+            case currentPlayer of
+                Just player ->
+                    renderScene game player
 
-                    Nothing ->
-                        div [] [ text "Loading..." ]
-        ]
+                Nothing ->
+                    div [] [ text "Loading..." ]
 
 
 renderErrorMsg : String -> Html msg
