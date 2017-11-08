@@ -29,53 +29,58 @@ view model =
                 in
                 case currentPlayer of
                     Just player ->
-                        scene
-                            [ attribute "embedded" "true"
-                            , attribute "stats" "false"
-                            , attribute "data-player-id" player.id
-                            , attribute "data-player-color" player.color
-                            ]
-                            [ assets []
-                                [ assetItem
-                                    [ attribute "id" "sky"
-                                    , attribute "src" "img/aframe-sky.jpg"
-                                    ]
-                                    []
-                                , node "a-audio"
-                                    [ id "soundClick"
-                                    , attribute "src" "music/click.mp3"
-                                    , attribute "preload" "auto"
-                                    ]
-                                    []
-                                , node "a-audio"
-                                    [ id "soundShoot"
-                                    , attribute "src" "music/shoot.mp3"
-                                    , attribute "preload" "auto"
-                                    ]
-                                    []
-                                , node "a-audio"
-                                    [ id "soundBackground"
-                                    , attribute "src" "music/fantasyGame.wav"
-                                    , attribute "preload" "auto"
-                                    ]
-                                    []
-                                ]
-                            , case model.game.status of
-                                "WAIT_FOR_PLAYERS" ->
-                                    renderAwaitingText
-
-                                "START_GAME" ->
-                                    renderGame model.game player
-
-                                "GAME_OVER" ->
-                                    renderGameOverText
-
-                                _ ->
-                                    renderStartGameBtns
-                            ]
+                        renderScene model.game player
 
                     Nothing ->
                         renderLoadingText
+        ]
+
+
+renderScene : Game -> Player -> Html msg
+renderScene game player =
+    scene
+        [ attribute "embedded" "true"
+        , attribute "stats" "false"
+        , attribute "data-player-id" player.id
+        , attribute "data-player-color" player.color
+        ]
+        [ assets []
+            [ assetItem
+                [ attribute "id" "sky"
+                , attribute "src" "img/aframe-sky.jpg"
+                ]
+                []
+            , node "a-audio"
+                [ id "soundClick"
+                , attribute "src" "music/click.mp3"
+                , attribute "preload" "auto"
+                ]
+                []
+            , node "a-audio"
+                [ id "soundShoot"
+                , attribute "src" "music/shoot.mp3"
+                , attribute "preload" "auto"
+                ]
+                []
+            , node "a-audio"
+                [ id "soundBackground"
+                , attribute "src" "music/fantasyGame.wav"
+                , attribute "preload" "auto"
+                ]
+                []
+            ]
+        , case game.status of
+            "WAIT_FOR_PLAYERS" ->
+                renderAwaitingText
+
+            "START_GAME" ->
+                renderGame game player
+
+            "GAME_OVER" ->
+                renderGameOverText
+
+            _ ->
+                renderStartGameBtns
         ]
 
 
