@@ -24,7 +24,7 @@ renderGame game player =
             , renderFloor
             , renderPlayers game
             , renderEnemies game.enemies
-            , playMusic
+            , playBackgroundMusic
             ]
         ]
 
@@ -34,7 +34,7 @@ renderCamera cameraPos player =
     entity []
         [ camera
             [ position cameraPos.x 3 cameraPos.z
-            , attribute "move-player" "true"
+            , attribute "move-player" ""
             ]
             [ renderCursor player.color 1000
             , renderPoints player.points
@@ -256,7 +256,7 @@ renderEnemy enemy =
             , attribute "data-id" enemy.id
             , attribute "data-color" enemy.color
             , position enemy.position.x enemy.position.y enemy.position.z
-            , attribute "shoot-enemy" "true"
+            , attribute "shoot-enemy" ""
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
             , attribute "animation" (enemyAnimation newPosition)
             , attribute "sound" "src: #soundShoot"
@@ -275,8 +275,8 @@ enemyAnimation position =
         ++ ("to: " ++ position)
 
 
-playMusic : Html msg
-playMusic =
+playBackgroundMusic : Html msg
+playBackgroundMusic =
     entity
         [ attribute "sound" "src: #soundBackground; autoplay: true; loop: true"
         ]
