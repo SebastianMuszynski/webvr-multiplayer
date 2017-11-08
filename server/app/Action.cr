@@ -31,11 +31,7 @@ class Action
   end
 
   private def self.without_payload(action_type)
-    new(action_type, empty_action_payload)
-  end
-
-  private def self.empty_action_payload
-    ActionPayload.new("", "")
+    new(action_type, ActionPayload.new)
   end
 
   JSON.mapping(
