@@ -1,7 +1,7 @@
-class UpdatePlayersPositionService
+class UpdatePlayerRotation
   def self.call(action : Action, player : Player, game : Game)
-    settings = ActionHelper.new(action).get_player_settings
-    player.player_settings = settings
+    rotation = ActionHelper.new(action).get_player_rotation
+    player.rotation = rotation
 
     players = game.scene.players
 

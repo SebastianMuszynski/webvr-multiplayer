@@ -1,4 +1,4 @@
-class RemoveEnemyService
+class RemoveEnemy
   def self.call(action : Action, player : Player, game : Game)
     enemy_id = ActionHelper.new(action).get_enemy_id
     game.scene.remove_enemy_by_id(enemy_id)

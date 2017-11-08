@@ -6,27 +6,14 @@ AFRAME.registerComponent('move-player', {
 
     player.addEventListener('componentchanged', function (evt) {
       var propChanged = evt.detail.name;
-      
       var hasPositionChanged = propChanged == 'position';
-      var hasRotationChanged = propChanged == 'rotation';
-      
-      if (hasPositionChanged || hasRotationChanged) {
+      if (hasPositionChanged) {
         var playerPosition = player.getAttribute('position');
-        var playerRotation = player.getAttribute('rotation');
-
-        playerRotation.x = Math.floor(playerRotation.x);
-        playerRotation.y = Math.floor(playerRotation.y);
-        playerRotation.z = Math.floor(playerRotation.z);
-
-        var playerSettings = {
-          position: playerPosition,
-          rotation: playerRotation,
-        };
 
         var action = {
           type_: "UPDATE_POSITION",
           payload: {
-            data: JSON.stringify(playerSettings),
+            data: JSON.stringify(playerPosition),
             player_id: playerId || ""
           }
         };

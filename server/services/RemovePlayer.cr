@@ -1,4 +1,4 @@
-class RemovePlayerService
+class RemovePlayer
   def self.call(player : Player, game : Game)
     game.scene.remove_player_with_enemies(player)
     players = game.scene.players

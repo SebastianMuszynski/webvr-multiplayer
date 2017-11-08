@@ -24,8 +24,8 @@ class Enemy
 
   JSON.mapping(
     id: String,
-    position: Position,
     isVisible: Bool,
-    color: String
+    color: String,
+    position: Position,
   )
 end

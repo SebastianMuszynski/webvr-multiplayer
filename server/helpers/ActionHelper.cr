@@ -22,7 +22,11 @@ class ActionHelper
     (@action.payload.data).to_i
   end
 
-  def get_player_settings
-    PlayerSettings.from_json(self.get_data)
+  def get_player_position
+    Position.from_json(self.get_data)
+  end
+  
+  def get_player_rotation
+    Rotation.from_json(self.get_data)
   end
 end

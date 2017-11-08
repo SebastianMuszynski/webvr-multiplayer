@@ -3,24 +3,24 @@ module Models exposing (..)
 
 initialModel : Model
 initialModel =
-    { game = Game "NEW_GAME" "" [] []
-    , config = Config Nothing
+    { config = Config Nothing
     , error = Nothing
+    , game = Game "" [] [] "NEW_GAME"
     }
 
 
 type alias Model =
-    { game : Game
-    , config : Config
+    { config : Config
     , error : Maybe String
+    , game : Game
     }
 
 
 type alias Game =
     { currentPlayerId : PlayerId
-    , status : GameStatus
-    , players : List Player
     , enemies : List Enemy
+    , players : List Player
+    , status : GameStatus
     }
 
 
@@ -40,22 +40,17 @@ type alias Flags =
 
 type alias Player =
     { id : PlayerId
-    , player_settings : PlayerSettings
-    , points : Int
     , color : String
-    , status : String
+    , points : Int
+    , position : Position
+    , rotation : Rotation
     , socket : String
+    , status : String
     }
 
 
 type alias PlayerId =
     String
-
-
-type alias PlayerSettings =
-    { position : Position
-    , rotation : Rotation
-    }
 
 
 type alias Position =
@@ -74,9 +69,9 @@ type alias Rotation =
 
 type alias Enemy =
     { id : EnemyId
-    , position : Position
-    , isVisible : Bool
     , color : String
+    , isVisible : Bool
+    , position : Position
     }
 
 

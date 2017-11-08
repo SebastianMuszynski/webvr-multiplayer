@@ -1,7 +1,8 @@
 'use strict';
 
-require('./action-listeners/shoot-enemy.js');
 require('./action-listeners/move-player.js');
+require('./action-listeners/rotate-player.js');
+require('./action-listeners/shoot-enemy.js');
 require('./action-listeners/start-game.js');
 
 var Elm = require('./Main.elm');

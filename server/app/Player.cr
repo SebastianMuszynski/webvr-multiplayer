@@ -1,5 +1,6 @@
 class Player
-  property player_settings = PlayerSettings.new
+  property position = Position.new
+  property rotation = Rotation.new
   @id = SecureRandom.uuid
   @color = PLAYER[:DEFAULT_COLOR]
   @points = PLAYER[:DEFAULT_POINTS]
@@ -23,10 +24,11 @@ class Player
   JSON.mapping(
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
-    player_settings: PlayerSettings,
     status: String,
     points: Int32,
-    color: String
+    color: String,
+    position: Position,
+    rotation: Rotation,
   )
 end
 

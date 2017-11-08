@@ -1,7 +1,7 @@
-class AddPlayerService
+class AddPlayer
   def self.call(player : Player, game : Game)
     player.color = game.scene.get_new_player_color
-    player.player_settings.position = game.scene.get_new_player_position
+    player.position = game.scene.get_new_player_position
     game.add_player_with_enemies(player)
 
     players = game.scene.players

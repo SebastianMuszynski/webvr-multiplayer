@@ -13,13 +13,9 @@ import Models exposing (Enemy, Game, Player, Position)
 
 renderGame : Game -> Player -> Html msg
 renderGame game player =
-    let
-        position =
-            player.player_settings.position
-    in
     entity []
         [ entity []
-            [ renderCamera position player
+            [ renderCamera player
             , renderSky
             , renderFloor
             , renderPlayers game
@@ -29,11 +25,15 @@ renderGame game player =
         ]
 
 
-renderCamera : Position -> Player -> Html msg
-renderCamera cameraPos player =
+renderCamera : Player -> Html msg
+renderCamera player =
+    let
+        pos =
+            player.position
+    in
     entity []
         [ camera
-            [ position cameraPos.x 3 cameraPos.z
+            [ position pos.x 3 pos.z
             , attribute "move-player" ""
             ]
             [ renderCursor player.color 1000
@@ -117,14 +117,11 @@ renderPlayers game =
 renderPlayer : Player -> Html msg
 renderPlayer player =
     let
-        settings =
-            player.player_settings
-
         pos =
-            settings.position
+            player.position
 
         rot =
-            settings.rotation
+            player.rotation
     in
     entity []
         [ -- HEAD

@@ -1,4 +1,4 @@
-class StartGameService
+class StartGame
   def self.call(action : Action, player : Player, game : Game)
     playersNumber = ActionHelper.new(action).get_players_number
     game.set_players_number(playersNumber)
