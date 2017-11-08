@@ -7,11 +7,11 @@
   "author": "Sebastian Muszynski <muszynski.sebastian@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "nf start",
     "build": "webpack",
     "watch": "webpack --watch",
     "cross_compile": "crystal build --no-debug server/server.cr --cross-compile --target \"x86_64-pc-linux-gnu\"",
     "compile_on_ubuntu": "cc server.o -o server  -rdynamic  -lz `command -v pkg-config > /dev/null && pkg-config --libs libssl || printf %s '-lssl -lcrypto'` `command -v pkg-config > /dev/null && pkg-config --libs libcrypto || printf %s '-lcrypto'` -lpcre -lm -lgc -lpthread /opt/crystal/src/ext/libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib",
-    "start": "nf start",
     "format_crystal": "crystal tool format server/"
   },
   "dependencies": {
