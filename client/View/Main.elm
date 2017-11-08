@@ -1,15 +1,9 @@
 module View.Main exposing (..)
 
-import AFrame exposing (entity, scene)
-import AFrame.Primitives exposing (assetItem, assets, box, cone, cylinder, plane, sky, sphere, text)
-import AFrame.Primitives.Attributes exposing (..)
-import AFrame.Primitives.Camera exposing (camera)
-import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
-import Color exposing (rgb)
-import Html exposing (Html, div, h2, node)
-import Html.Attributes exposing (align, attribute, id, style, value)
-import Models exposing (Enemy, Game, GameStatus, Model, Player, Position)
-import String exposing (isEmpty)
+import AFrame exposing (entity)
+import Html exposing (Html, div, text)
+import Html.Attributes exposing (style)
+import Models exposing (Model)
 import View.Scene exposing (renderScene, renderText)
 
 
@@ -55,4 +49,4 @@ renderErrorMsg error =
             , ( "color", "#FFF" )
             ]
         ]
-        [ Html.text error ]
+        [ text error ]

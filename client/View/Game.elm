@@ -1,43 +1,72 @@
 module View.Game exposing (..)
 
-import AFrame exposing (entity, scene)
-import AFrame.Primitives exposing (assetItem, assets, box, cone, cylinder, plane, sky, sphere, text)
-import AFrame.Primitives.Attributes exposing (..)
+import AFrame exposing (entity)
+import AFrame.Primitives exposing (cone, cylinder, sky, sphere, text)
+import AFrame.Primitives.Attributes exposing (color, height, position, radius, rotation, scale)
 import AFrame.Primitives.Camera exposing (camera)
 import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
 import Color exposing (rgb)
-import Html exposing (Html, div, h2, node)
-import Html.Attributes exposing (align, attribute, id, style, value)
-import Models exposing (Enemy, Game, GameStatus, Model, Player, Position)
-import String exposing (isEmpty)
+import Html exposing (Html)
+import Html.Attributes exposing (attribute)
+import Models exposing (Enemy, Game, Player, Position)
 
 
 renderGame : Game -> Player -> Html msg
 renderGame game player =
+    let
+        position =
+            player.player_settings.position
+    in
     entity []
         [ entity []
-            [ renderCamera player.player_settings.position player.points player.color
+            [ renderCamera position player
+            , renderSky
             , renderFloor
             , renderPlayers game
             , renderEnemies game.enemies
-            , renderSky
             , playMusic
             ]
         ]
 
 
-renderCamera : Position -> Int -> String -> Html msg
-renderCamera cameraPos points playerColor =
-    entity
-        []
+renderCamera : Position -> Player -> Html msg
+renderCamera cameraPos player =
+    entity []
         [ camera
             [ position cameraPos.x 3 cameraPos.z
             , attribute "move-player" "true"
             ]
-            [ renderCursor playerColor 1000
-            , renderPoints points
+            [ renderCursor player.color 1000
+            , renderPoints player.points
             ]
         ]
+
+
+renderCursor : String -> Int -> Html msg
+renderCursor playerColor fuseTimeout =
+    cursor
+        [ timeout fuseTimeout
+        , fuse True
+        , attribute "color" playerColor
+        ]
+        []
+
+
+renderPoints : Int -> Html msg
+renderPoints points =
+    text
+        [ attribute "value" (toString points ++ "/10")
+        , color (rgb 0 0 0)
+        , position 0 -1 -2
+        , attribute "align" "center"
+        , attribute "font" "exo2bold"
+        ]
+        []
+
+
+renderSky : Html msg
+renderSky =
+    sky [ attribute "src" "#sky" ] []
 
 
 renderFloor : Html msg
@@ -87,13 +116,23 @@ renderPlayers game =
 
 renderPlayer : Player -> Html msg
 renderPlayer player =
+    let
+        settings =
+            player.player_settings
+
+        pos =
+            settings.position
+
+        rot =
+            settings.rotation
+    in
     entity []
         [ -- HEAD
           sphere
             [ radius 0.5
             , attribute "color" player.color
-            , position player.player_settings.position.x 3 player.player_settings.position.z
-            , rotation player.player_settings.rotation.x player.player_settings.rotation.y player.player_settings.rotation.z
+            , position pos.x 3 pos.z
+            , rotation rot.x rot.y rot.z
             ]
             [ -- EYES
               sphere
@@ -129,15 +168,15 @@ renderPlayer player =
             [ radius 0.18
             , height 1.7
             , attribute "color" player.color
-            , position player.player_settings.position.x 2 player.player_settings.position.z
-            , rotation 0 player.player_settings.rotation.y 0
+            , position pos.x 2 pos.z
+            , rotation 0 rot.y 0
             ]
             []
 
         -- ARMS
         , entity
-            [ rotation 0 player.player_settings.rotation.y 0
-            , position player.player_settings.position.x 0 player.player_settings.position.z
+            [ rotation 0 rot.y 0
+            , position pos.x 0 pos.z
             ]
             [ cylinder
                 [ radius 0.2
@@ -145,7 +184,7 @@ renderPlayer player =
                 , scale 0.25 1 0.25
                 , attribute "color" player.color
                 , position -0.3 1.8 0
-                , rotation 0 player.player_settings.rotation.y 0
+                , rotation 0 rot.y 0
                 ]
                 []
             , cylinder
@@ -154,15 +193,15 @@ renderPlayer player =
                 , scale 0.25 1 0.25
                 , attribute "color" player.color
                 , position 0.3 1.8 0
-                , rotation 0 player.player_settings.rotation.y 0
+                , rotation 0 rot.y 0
                 ]
                 []
             ]
 
         -- LEGS
         , entity
-            [ rotation 0 player.player_settings.rotation.y 0
-            , position player.player_settings.position.x 0 player.player_settings.position.z
+            [ rotation 0 rot.y 0
+            , position pos.x 0 pos.z
             ]
             [ cylinder
                 [ radius 0.2
@@ -188,9 +227,17 @@ renderEnemies : List Enemy -> Html msg
 renderEnemies enemies =
     entity
         [ position 0 -15 0
-        , attribute "animation" "property: position; dur: 1000; easing: easeInOutSine; to: 0 0 0"
+        , attribute "animation" enemiesAnimation
         ]
         (List.map renderEnemy enemies)
+
+
+enemiesAnimation : String
+enemiesAnimation =
+    "property: position;"
+        ++ "dur: 1000;"
+        ++ "easing: easeInOutSine;"
+        ++ "to: 0 0 0"
 
 
 renderEnemy : Enemy -> Html msg
@@ -211,43 +258,26 @@ renderEnemy enemy =
             , position enemy.position.x enemy.position.y enemy.position.z
             , attribute "shoot-enemy" "true"
             , attribute "visible" (String.toLower <| toString enemy.isVisible)
-            , attribute "animation" ("property: position; dir: alternate; dur: 2000; easing: easeInOutSine; loop: true; to: " ++ newPosition)
+            , attribute "animation" (enemyAnimation newPosition)
             , attribute "sound" "src: #soundShoot"
             ]
             []
         ]
 
 
-renderPoints : Int -> Html msg
-renderPoints points =
-    AFrame.Primitives.text
-        [ attribute "value" (toString points ++ "/10")
-        , color (rgb 0 0 0)
-        , position 0 -1 -2
-        , attribute "align" "center"
-        , attribute "font" "exo2bold"
-        ]
-        []
-
-
-renderSky : Html msg
-renderSky =
-    sky [ attribute "src" "#sky" ] []
+enemyAnimation : String -> String
+enemyAnimation position =
+    "property: position;"
+        ++ "dir: alternate;"
+        ++ "dur: 2000;"
+        ++ "easing: easeInOutSine;"
+        ++ "loop: true;"
+        ++ ("to: " ++ position)
 
 
 playMusic : Html msg
 playMusic =
     entity
         [ attribute "sound" "src: #soundBackground; autoplay: true; loop: true"
-        ]
-        []
-
-
-renderCursor : String -> Int -> Html msg
-renderCursor playerColor fuseTimeout =
-    cursor
-        [ timeout fuseTimeout
-        , fuse True
-        , attribute "color" playerColor
         ]
         []

@@ -3,7 +3,7 @@ module Commands exposing (..)
 import Actions exposing (newPlayerAction)
 import Config exposing (websocketUrl)
 import Encoders exposing (encodeAction)
-import Models exposing (Model, Action)
+import Models exposing (Action, Model)
 import Msgs exposing (Msg(..))
 import WebSocket
 

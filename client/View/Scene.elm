@@ -1,15 +1,13 @@
 module View.Scene exposing (..)
 
 import AFrame exposing (entity, scene)
-import AFrame.Primitives exposing (assetItem, assets, box, cone, cylinder, plane, sky, sphere, text)
-import AFrame.Primitives.Attributes exposing (..)
+import AFrame.Primitives exposing (assetItem, assets, box, sky, text)
+import AFrame.Primitives.Attributes exposing (color, depth, height, position, scale, width)
 import AFrame.Primitives.Camera exposing (camera)
-import AFrame.Primitives.Cursor exposing (cursor, fuse, timeout)
 import Color exposing (rgb)
-import Html exposing (Html, div, h2, node)
-import Html.Attributes exposing (align, attribute, id, style, value)
-import Models exposing (Enemy, Game, GameStatus, Model, Player, Position)
-import String exposing (isEmpty)
+import Html exposing (Html, node)
+import Html.Attributes exposing (attribute, id)
+import Models exposing (Game, Player)
 import View.Game exposing (renderCursor, renderGame)
 
 
@@ -102,7 +100,7 @@ renderChoosePlayerBtn posX posY rgbColor playersNumber displayTxt =
             , position 0 0 -0.25
             , color rgbColor
             , attribute "start-game" ("playersNumber: " ++ playersNumber)
-            , attribute "animation" "property: scale; dur: 250; dir: alternate; easing: easeInSine; to: 1 1 0; startEvents: mouseenter"
+            , attribute "animation" btnAnimation
             , attribute "sound" "src: #soundClick; on: mouseenter"
             ]
             []
@@ -114,3 +112,13 @@ renderChoosePlayerBtn posX posY rgbColor playersNumber displayTxt =
             ]
             []
         ]
+
+
+btnAnimation : String
+btnAnimation =
+    "property: scale;"
+        ++ "dur: 250;"
+        ++ "dir: alternate;"
+        ++ "easing: easeInSine;"
+        ++ "to: 1 1 0;"
+        ++ "startEvents: mouseenter"
