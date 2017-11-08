@@ -1,10 +1,10 @@
 module View.Main exposing (..)
 
 import AFrame exposing (entity)
-import Html exposing (Html, div, text)
-import Html.Attributes exposing (style)
+import Html exposing (Html, div, img, text)
+import Html.Attributes exposing (src, style)
 import Models exposing (Model)
-import View.Scene exposing (renderScene, renderText)
+import View.Scene exposing (renderScene)
 
 
 view : Model -> Html msg
@@ -30,7 +30,7 @@ view model =
                         renderScene game player
 
                     Nothing ->
-                        renderText "Loading..."
+                        div [] [ text "Loading..." ]
         ]
 
 
