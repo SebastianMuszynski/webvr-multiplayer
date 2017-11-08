@@ -3,7 +3,7 @@ class Action
   end
 
   def self.new_player(player_id : String)
-    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.new(player_id))
+    new(ACTION_TYPE[:NEW_PLAYER], ActionPayload.with_id("", player_id))
   end
   
   def self.player(player : Player)
@@ -52,7 +52,7 @@ class ActionPayload
   def self.with_id(payload, id)
     new(payload, id)
   end
-
+  
   JSON.mapping(
     data: String,
     player_id: String

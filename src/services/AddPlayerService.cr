@@ -11,12 +11,15 @@ class AddPlayerService
     SocketsHelper.broadcast(players, Action.players(players))
     SocketsHelper.broadcast(players, Action.enemies(enemies))
     
-    if game.can_start
-      SocketsHelper.broadcast(players, Action.start_game)
-    else 
-      if game.is_waiting_for_players
-        SocketsHelper.broadcast(players, Action.wait_for_players)
-      end
-    end
+    
+    SocketsHelper.broadcast(players, Action.start_game)
+    
+    # if game.can_start
+    #   SocketsHelper.broadcast(players, Action.start_game)
+    # else 
+    #   if game.is_waiting_for_players
+    #     SocketsHelper.broadcast(players, Action.wait_for_players)
+    #   end
+    # end
   end
 end

@@ -46,7 +46,7 @@ handleAction action model =
     if action.type_ == "NEW_PLAYER" then
         let
             playerId =
-                action.payload.data
+                action.payload.player_id
 
             currentGame =
                 model.game

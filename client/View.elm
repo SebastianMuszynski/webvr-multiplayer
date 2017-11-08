@@ -14,67 +14,69 @@ import String exposing (isEmpty)
 
 view : Model -> Html msg
 view model =
-    case model.error of
-        Nothing ->
-            let
-                currentPlayerId =
-                    model.game.currentPlayerId
+    entity []
+        [ case model.error of
+            Just errorMsg ->
+                renderErrorMsg errorMsg
 
-                currentPlayer =
-                    List.head <| List.filter (\a -> a.id == currentPlayerId) model.game.players
-            in
-            case currentPlayer of
-                Just player ->
-                    scene
-                        [ attribute "embedded" "true"
-                        , attribute "stats" "false"
-                        , attribute "data-player-id" player.id
-                        , attribute "data-player-color" player.color
-                        ]
-                        [ assets []
-                            [ assetItem
-                                [ attribute "id" "sky"
-                                , attribute "src" "img/aframe-sky.jpg"
-                                ]
-                                []
-                            , node "a-audio"
-                                [ id "soundClick"
-                                , attribute "src" "music/click.mp3"
-                                , attribute "preload" "auto"
-                                ]
-                                []
-                            , node "a-audio"
-                                [ id "soundShoot"
-                                , attribute "src" "music/shoot.mp3"
-                                , attribute "preload" "auto"
-                                ]
-                                []
-                            , node "a-audio"
-                                [ id "soundBackground"
-                                , attribute "src" "music/fantasyGame.wav"
-                                , attribute "preload" "auto"
-                                ]
-                                []
+            Nothing ->
+                let
+                    currentPlayerId =
+                        model.game.currentPlayerId
+
+                    currentPlayer =
+                        List.head <| List.filter (\a -> a.id == currentPlayerId) model.game.players
+                in
+                case currentPlayer of
+                    Just player ->
+                        scene
+                            [ attribute "embedded" "true"
+                            , attribute "stats" "false"
+                            , attribute "data-player-id" player.id
+                            , attribute "data-player-color" player.color
                             ]
-                        , case model.game.status of
-                            "WAIT_FOR_PLAYERS" ->
-                                renderAwaitingText
+                            [ assets []
+                                [ assetItem
+                                    [ attribute "id" "sky"
+                                    , attribute "src" "img/aframe-sky.jpg"
+                                    ]
+                                    []
+                                , node "a-audio"
+                                    [ id "soundClick"
+                                    , attribute "src" "music/click.mp3"
+                                    , attribute "preload" "auto"
+                                    ]
+                                    []
+                                , node "a-audio"
+                                    [ id "soundShoot"
+                                    , attribute "src" "music/shoot.mp3"
+                                    , attribute "preload" "auto"
+                                    ]
+                                    []
+                                , node "a-audio"
+                                    [ id "soundBackground"
+                                    , attribute "src" "music/fantasyGame.wav"
+                                    , attribute "preload" "auto"
+                                    ]
+                                    []
+                                ]
+                            , case model.game.status of
+                                "WAIT_FOR_PLAYERS" ->
+                                    renderAwaitingText
 
-                            "START_GAME" ->
-                                renderGame model.game player
+                                "START_GAME" ->
+                                    renderGame model.game player
 
-                            "GAME_OVER" ->
-                                renderGameOverText
+                                "GAME_OVER" ->
+                                    renderGameOverText
 
-                            _ ->
-                                renderStartGameBtns
-                        ]
+                                _ ->
+                                    renderStartGameBtns
+                            ]
 
-                Nothing ->
-                    div [] []
-
-        Just errorMsg ->
-            renderErrorMsg errorMsg
+                    Nothing ->
+                        renderLoadingText
+        ]
 
 
 renderGame : Game -> Player -> Html msg
@@ -210,6 +212,21 @@ renderAwaitingText =
         [ sky [ color (rgb 82 97 106) ] []
         , text
             [ attribute "value" "Waiting for other players..."
+            , color (rgb 254 200 201)
+            , position 0 0 -5
+            , attribute "align" "center"
+            , attribute "anchor" "center"
+            ]
+            []
+        ]
+
+
+renderLoadingText : Html msg
+renderLoadingText =
+    entity []
+        [ sky [ color (rgb 82 97 106) ] []
+        , text
+            [ attribute "value" "Loading..."
             , color (rgb 254 200 201)
             , position 0 0 -5
             , attribute "align" "center"
