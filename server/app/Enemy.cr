@@ -1,7 +1,7 @@
 class Enemy
   getter id = SecureRandom.uuid
   @color = PLAYER[:DEFAULT_COLOR]
-  @isVisible = true
+  @is_alive = true
 
   def initialize(x : Float64, y : Float64, z : Float64)
     @position = Position.new(x, y, z)
@@ -15,16 +15,16 @@ class Enemy
   end
 
   def hide
-    @isVisible = false
+    @is_alive = false
   end
 
   def is_dead
-    !@isVisible
+    !@is_alive
   end
 
   JSON.mapping(
     id: String,
-    isVisible: Bool,
+    is_alive: Bool,
     color: String,
     position: Position,
   )

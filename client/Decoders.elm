@@ -77,7 +77,7 @@ enemyDecoder =
     decode Enemy
         |> required "id" Decode.string
         |> required "color" Decode.string
-        |> required "isVisible" Decode.bool
+        |> required "is_alive" Decode.bool
         |> requiredAt [ "position" ] positionDecoder
 
 

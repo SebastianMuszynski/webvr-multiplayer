@@ -254,7 +254,7 @@ renderEnemy enemy =
             , attribute "data-color" enemy.color
             , position enemy.position.x enemy.position.y enemy.position.z
             , attribute "shoot-enemy" ""
-            , attribute "visible" (String.toLower <| toString enemy.isVisible)
+            , attribute "visible" (String.toLower <| toString enemy.isAlive)
             , attribute "animation" (enemyAnimation newPosition)
             , attribute "sound" "src: #soundShoot"
             ]

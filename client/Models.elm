@@ -70,7 +70,7 @@ type alias Rotation =
 type alias Enemy =
     { id : EnemyId
     , color : String
-    , isVisible : Bool
+    , isAlive : Bool
     , position : Position
     }
 

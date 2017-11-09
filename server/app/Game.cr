@@ -38,7 +38,7 @@ class Game
   def set_players_number(players_number : Int32)
     @players_number = players_number
 
-    if players_number > 1
+    if players_number > 1 && (@players.size < players_number)
       @status = GAME_STATUS[:WAITING_FOR_PLAYERS]
     else
       @status = GAME_STATUS[:PLAYING]
