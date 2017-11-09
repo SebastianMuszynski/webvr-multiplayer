@@ -4,12 +4,10 @@ class StartGame
     game.set_players_number(playersNumber)
     player.start_game
 
-    players = game.scene.players
-
     if game.can_start
-      SocketsHelper.broadcast(players, Action.start_game)
+      SocketsHelper.broadcast(game.players, Action.start_game)
     else
-      SocketsHelper.broadcast(players, Action.wait_for_players)
+      SocketsHelper.broadcast(game.players, Action.wait_for_players)
     end
   end
 end

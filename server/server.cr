@@ -7,7 +7,6 @@ require "./app/Game"
 require "./app/Player"
 require "./app/Position"
 require "./app/Rotation"
-require "./app/Scene"
 
 require "./helpers/ActionHelper"
 require "./helpers/SocketsHelper"

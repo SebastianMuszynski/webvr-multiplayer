@@ -3,12 +3,10 @@ class UpdatePlayerPosition
     position = ActionHelper.new(action).get_player_position
     player.position = position
 
-    players = game.scene.players
-
     SocketsHelper.broadcast_to_others(
-      players: players,
+      players: game.players,
       excluded_player: player,
-      action: Action.players(players)
+      action: Action.players(game.players)
     )
   end
 end

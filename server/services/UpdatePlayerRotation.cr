@@ -3,12 +3,10 @@ class UpdatePlayerRotation
     rotation = ActionHelper.new(action).get_player_rotation
     player.rotation = rotation
 
-    players = game.scene.players
-
     SocketsHelper.broadcast_to_others(
-      players: players,
+      players: game.players,
       excluded_player: player,
-      action: Action.players(players)
+      action: Action.players(game.players)
     )
   end
 end
