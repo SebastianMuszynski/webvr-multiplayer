@@ -45,6 +45,15 @@ class Game
     end
   end
   
+  def get_new_player_color
+    colors = PLAYER[:COLORS]
+    colors[@players.size % colors.size]
+  end
+
+  def get_new_player_position
+    player_positions[@players.size % player_positions.size]
+  end
+  
   private def player_positions
     dist = PLAYER[:DISTANCE_FROM_CENTER]
     center = SETTINGS[:SCENE_CENTER]
@@ -56,20 +65,11 @@ class Game
     ]
   end
 
-  def get_new_player_color
-    colors = PLAYER[:COLORS]
-    colors[@players.size % colors.size]
-  end
-
-  def get_new_player_position
-    player_positions[@players.size % player_positions.size]
-  end
-
   def add_player_with_enemies(player : Player, enemies_number : Int32)
     player.color = get_new_player_color()
     player.position = get_new_player_position()
     
-    add_player_enemies(player, enemies_number)
+    add_enemies_to_player(player, enemies_number)
     @players << player
     
     if @players.size >= @players_number
@@ -77,7 +77,7 @@ class Game
     end
   end
 
-  def add_player_enemies(player : Player, enemies_number : Int32)
+  def add_enemies_to_player(player : Player, enemies_number : Int32)
     while enemies_number > 0
       enemy = Enemy.random
       enemy.color = player.color
