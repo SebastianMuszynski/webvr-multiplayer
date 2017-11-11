@@ -69,7 +69,7 @@ class Game
     player.color = get_new_player_color()
     player.position = get_new_player_position()
     
-    add_enemies_to_player(player, enemies_number)
+    add_enemies_for_player(player, enemies_number)
     @players << player
     
     if @players.size >= @players_number
@@ -77,7 +77,7 @@ class Game
     end
   end
 
-  def add_enemies_to_player(player : Player, enemies_number : Int32)
+  def add_enemies_for_player(player : Player, enemies_number : Int32)
     while enemies_number > 0
       enemy = Enemy.random
       enemy.color = player.color
