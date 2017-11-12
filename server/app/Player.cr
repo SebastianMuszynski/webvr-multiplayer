@@ -3,7 +3,7 @@ class Player
   property rotation = Rotation.new
   @id = SecureRandom.uuid
   @color = PLAYER[:DEFAULT_COLOR]
-  @points = PLAYER[:DEFAULT_POINTS]
+  @points = PLAYER[:DEFAULT_POINTS].to_u16
   @status = PLAYER[:STATUS][:NEW_PLAYER]
 
   def initialize(@socket : HTTP::WebSocket)
@@ -25,7 +25,7 @@ class Player
     socket: {type: HTTP::WebSocket, converter: WebSocketConverter},
     id: String,
     status: String,
-    points: Int32,
+    points: UInt16,
     color: String,
     position: Position,
     rotation: Rotation,

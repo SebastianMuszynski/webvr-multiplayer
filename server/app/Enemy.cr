@@ -3,15 +3,15 @@ class Enemy
   @color = PLAYER[:DEFAULT_COLOR]
   @is_alive = true
 
-  def initialize(x : Float64, y : Float64, z : Float64)
+  def initialize(x : Float32, y : Float32, z : Float32)
     @position = Position.new(x, y, z)
   end
 
   def self.random
     random = Random.new
-    new(random.rand(-20.00..20.00),
-      random.rand(3.00..8.00),
-      random.rand(-20.00..20.00))
+    new(random.rand(-20.00..20.00).to_f32,
+      random.rand(3.00..8.00).to_f32,
+      random.rand(-20.00..20.00).to_f32)
   end
 
   def hide

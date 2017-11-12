@@ -55,8 +55,8 @@ class Game
   end
   
   private def player_positions
-    dist = PLAYER[:DISTANCE_FROM_CENTER]
-    center = SETTINGS[:SCENE_CENTER]
+    dist = PLAYER[:DISTANCE_FROM_CENTER].to_f32
+    center = SETTINGS[:SCENE_CENTER].to_f32
     [
       Position.new(center, center, dist),
       Position.new(center, center, -dist),

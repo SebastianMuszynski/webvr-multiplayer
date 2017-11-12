@@ -3,12 +3,12 @@ class Position
   property :y
   property :z
 
-  def initialize(@x = 0.0, @y = 0.0, @z = 0.0)
+  def initialize(@x = 0.0_f32, @y = 0.0_f32, @z = 0.0_f32)
   end
 
   JSON.mapping(
-    x: Float64,
-    y: Float64,
-    z: Float64,
+    x: Float32,
+    y: Float32,
+    z: Float32,
   )
 end
