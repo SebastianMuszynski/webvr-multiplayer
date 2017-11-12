@@ -1,6 +1,6 @@
 class AddPlayer
   def self.call(player : Player, game : Game)
-    game.add_player_with_enemies(player, SETTINGS[:ENEMIES_NUMBER])
+    game.add_player_with_enemies(player, SETTINGS[:ENEMIES_NUMBER].to_u8)
 
     SocketsHelper.unicast(player, Action.new_player(player.id))
     SocketsHelper.broadcast(game.players, Action.players(game.players))

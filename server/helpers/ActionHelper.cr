@@ -19,7 +19,7 @@ class ActionHelper
   end
 
   def get_players_number
-    (@action.payload.data).to_i
+    (@action.payload.data).to_u8
   end
 
   def get_player_position
