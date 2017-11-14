@@ -18,7 +18,7 @@ PLAYER = {
     # Player has not clicked Start Game button yet
     NEW_PLAYER: "NEW_PLAYER",
     # Player has clicked Start Game button and is waiting for others
-    STARTING_GAME: "STARTING_GAME",
+    WAITING_FOR_OTHERS: "WAITING_FOR_OTHERS",
     # Player is playing the game with others
     PLAYING: "PLAYING",
   },

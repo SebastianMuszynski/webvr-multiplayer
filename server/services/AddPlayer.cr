@@ -8,10 +8,8 @@ class AddPlayer
 
     if game.can_start
       SocketsHelper.broadcast(game.players, Action.start_game)
-    else
-      if game.is_waiting_for_players
-        SocketsHelper.broadcast(game.players, Action.wait_for_players)
-      end
+    elsif game.is_waiting_for_players
+      SocketsHelper.unicast(player, Action.wait_for_players)
     end
   end
 end

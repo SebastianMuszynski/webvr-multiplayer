@@ -11,7 +11,7 @@ class Player
 
   def start_game
     if @status == PLAYER[:STATUS][:NEW_PLAYER]
-      @status = PLAYER[:STATUS][:STARTING_GAME]
+      @status = PLAYER[:STATUS][:WAITING_FOR_OTHERS]
     else
       @status = PLAYER[:STATUS][:PLAYING]
     end

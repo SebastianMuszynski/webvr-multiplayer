@@ -5,8 +5,10 @@ class RemoveEnemy
     game.add_enemies_for_player(player, 1.to_u8)
     player.add_point
 
-    SocketsHelper.broadcast(game.players, Action.players(game.players))
-    SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
-    SocketsHelper.broadcast(game.players, Action.game_over) if game.is_over
+    if game.is_over
+      SocketsHelper.broadcast(game.players, Action.game_over) 
+    else
+      SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
+    end
   end
 end

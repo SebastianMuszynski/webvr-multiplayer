@@ -8,21 +8,10 @@ class Game
   end
 
   def can_start
-    if is_waiting_for_players
-      ready_players = @players.count do |player|
-        player.status == PLAYER[:STATUS][:STARTING_GAME]
-      end
-
-      waiting_players = @players.count do |player|
-        player.status == PLAYER[:STATUS][:NEW_PLAYER]
-      end
-
-      if ready_players + waiting_players >= @players_number
-        return @status == GAME_STATUS[:PLAYING]
-      end
-    end
-
-    false
+    is_game_playing = (@status == GAME_STATUS[:PLAYING])
+    is_players_number_set = (@players_number > 0)
+    has_enough_players_joined = (@players.size >= @players_number)
+    is_game_playing || (is_players_number_set && has_enough_players_joined)
   end
 
   def is_waiting_for_players
@@ -72,7 +61,7 @@ class Game
     add_enemies_for_player(player, enemies_number)
     @players << player
     
-    if @players.size >= @players_number
+    if @players_number > 0 && (@players.size >= @players_number)
       @status = GAME_STATUS[:PLAYING]
     end
   end
