@@ -9,6 +9,7 @@ class RemoveEnemy
       SocketsHelper.broadcast(game.players, Action.game_over) 
     else
       SocketsHelper.broadcast(game.players, Action.enemies(game.enemies))
+      SocketsHelper.broadcast(game.players, Action.players(game.players))
     end
   end
 end
